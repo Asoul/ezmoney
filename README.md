@@ -5,3 +5,4 @@
 - 根據不同 screen 調大小
 - 登入
 - screenNumber 更動時的 CSS
+- 做成 Android App
