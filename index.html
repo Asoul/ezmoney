@@ -31,6 +31,14 @@ td {
   text-align: center;
   margin: 200px;
   border-radius: 3px;
+  -moz-transition: all .2s ease-in;
+  -o-transition: all .2s ease-in;
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+}
+
+td:hover {
+  background-color: red;
 }
 
 #screenNumber {
@@ -109,8 +117,6 @@ function eraseNumber() {
 }
 
 window.onload = function() {
-  var number = 0
-  
   // set table size
   table = document.getElementsByTagName('table')[0]
   ;(function(height, width){
