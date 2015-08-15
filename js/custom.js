@@ -1,8 +1,9 @@
 
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
-var typeTable = document.getElementById('typeTable')
 var display = new Display(document.getElementById("display"))
+
+var loginState = false
 
 /* Error Message */
 
@@ -14,7 +15,7 @@ function showErrorMessage(error) {
 }
 
 function closeMsgDiv() {
-  setScreen('0')
+  display.erase()
   document.getElementById('msgDiv').style.display = 'none'
 }
 
@@ -65,26 +66,33 @@ function afterLogin() {
 
 function Display (dom) {
   this.dom = dom
-  this.set = function (string) {
-    this.dom.innerHTML = string  
+  
+  this.is = function (string) {
+    return this.dom.innerHTML === string
   }
   this.startsWith = function (string) {
     return String(this.dom.innerHTML).startsWith(string)
   }
-  this.append = function (string) {
-    this.dom.innerHTML += string
+
+  this.toInt = function() {
+    return parseInt(this.dom.innerHTML)
   }
   this.getLength = function () {
     return this.dom.innerHTML.length
   }
-  this.toInt = function() {
-    return parseInt(this.dom.innerHTML)
+  
+  
+  this.set = function (string) {
+    this.dom.innerHTML = string  
   }
-  this.is = function (string) {
-    return this.dom.innerHTML === string
+  this.append = function (string) {
+    this.dom.innerHTML += string
   }
   this.setSuccess = function (type, price) {
     this.dom.innerHTML = '✓ ' + type + ' ' + price
+  }
+  this.erase = function () {
+    this.dom.innerHTML = '0'
   }
 }
 
@@ -113,8 +121,8 @@ function clickType(t) {
   record.set("price", display.toInt())
   record.set('type', t)
   record.set('date', new Date())
-  // record.setACL(new Parse.ACL(Parse.User.current()))
   record.set('createdBy', Parse.User.current())
+  record.setACL(new Parse.ACL(Parse.User.current()))
 
   record.save(null, {
     success:function (record) {
@@ -125,27 +133,28 @@ function clickType(t) {
     }
   })
 
-  setScreen("Sending...")
-  typeTable.style.display = 'none'
+  display.set("Sending...")
+  document.getElementById('typeTable').style.display = 'none'
 }
 
 function clickSend() {
-  typeTable.style.display = 'block'
+  document.getElementById('typeTable').style.display = 'block'
+}
+
+function eraseDisplay() {
+  display.erase()
 }
 
 function clickCancel() {
-  typeTable.style.display = 'none'
-  setScreen('0')
+  document.getElementById('typeTable').style.display = 'none'
+  display.erase()
 }
 
 window.onload = function() {
   // check parse login status
   var currentUser = Parse.User.current()
   if (currentUser) {
-    console.log('user logged in')
-    Parse.User.logOut()
-  } else {
-    console.log('user not log in yet')
+    afterLogin()
   }
 
   // set table size
