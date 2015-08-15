@@ -5,15 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EZMoney</title>
 <style>
-  td {
-    background-color: #eeeeee;
-    height: 100px;
-    width: 100px;
-    vertical-align: middle;
-    text-align: center;
-    margin: 200px;
-    border: solid 10px transparent;
-  }
+body {
+  font-family: sans;
+  opacity: 0;
+}
+table {
+  border-spacing: 20px;
+}
+td {
+  background-color: #eeeeee;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  margin: 200px;
+}
 </style>
 
 </head>
@@ -21,6 +27,7 @@
 <body>
 
 <table>
+  <h1></h1>
   <tr>
     <td colspan="2">1234567</td>
     <td>←</td>
@@ -47,9 +54,18 @@
   </tr>
 </table>
 
-<!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> -->
 <script>
-  
+window.onload = function() {
+
+  // set table size
+  ;(function(height, width){
+    document.getElementsByTagName('h1')[0].innerHTML = width + ', ' + height
+  })(window.innerHeight, window.innerWidth);
+
+  // show body after loaded
+  document.body.style.opacity = 1
+}
+
 </script>
 
 </body>
