@@ -6,3 +6,7 @@
 - 登入
 - screenNumber 更動時的 CSS
 - 做成 Android App
+
+- verified email on cloud code
+
+- where to logout
