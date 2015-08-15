@@ -1,0 +1,114 @@
+@import url(http://fonts.googleapis.com/earlyaccess/cwtexhei.css);
+
+body {
+  font-family: "Microsoft JhengHei", 'cwTeXHei', sans, sans-serif;
+}
+
+#loadingDiv {
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  position: absolute;
+  text-align: center;
+  font-family: sans;
+}
+
+#loadingDiv img {
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  top: -4em;
+  z-index: -1;
+}
+
+#content {
+  opacity: 0;
+}
+
+#element::-webkit-scrollbar { 
+    display: none; 
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.carousel-indicators {
+  display: none;
+}
+
+.carousel-caption {
+  padding: 0;
+  padding-left: 3%;
+  right: 10%;
+  left: 40%;
+  text-align: left;
+  top: 0;
+  bottom: 5%;
+  text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  color: black;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  overflow: scroll;
+}
+
+.carousel-caption h1 {
+  font-weight: 900;
+  font-size: 3vmax;
+}
+
+.carousel-caption h2 {
+  font-weight: 900;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 2.8vmax;
+}
+
+.carousel-caption h4 {
+  font-weight: 400;
+  font-size: 1.5vmax;
+}
+
+.modal {
+  top: 20%;
+}
+
+.modal-footer {
+  text-align: center;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.label {
+  margin-right: 3px;
+}
+
+img{
+  margin-left: 5vw;
+  min-height: 90vh;
+  max-height: 90vh;
+}
+
+@media (max-width: 768px) {
+  img {
+    max-height: 70vh;
+  }
+  .carousel-caption {
+    left: 0%;
+    right: 0%;
+    background-color: transparent;
+  }
+  .carousel-caption h1 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  .modal {
+    top: 5%;
+  }
+}
