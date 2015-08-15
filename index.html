@@ -10,9 +10,10 @@
 
 <body>
 <div id="msgDiv">
-  <h3>Title</h3>
-  <p>content</p>
-  <button>Yo</button>
+  <h2>Error Q_Q</h2>
+  <h5>錯誤代碼： <span id="msgDivCode"></span></h5>
+  <p id="msgDivContent">content</p>
+  <button onclick="closeMsgDiv()">OK</button>
 </div>
 <div id="loginDiv">
   <h1>EZMoney</h1>
@@ -28,7 +29,7 @@
 
 <table id="priceTable">
   <tr>
-    <td id="screenNumber" colspan="3">0</td>
+    <td id="display" colspan="3">0</td>
   </tr>
   <tr>
     <td onclick="clickNumber(1)">1</td>
@@ -46,7 +47,7 @@
     <td onclick="clickNumber(9)">9</td>
   </tr>
   <tr>
-    <td onclick="eraseNumber()">C</td>
+    <td onclick="setScreen('0')">C</td>
     <td onclick="clickNumber(0)">0</td>
     <td onclick="clickSend()">✈</td>
   </tr>

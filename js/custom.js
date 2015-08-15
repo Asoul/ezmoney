@@ -2,13 +2,23 @@
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 var typeTable = document.getElementById('typeTable')
-var screenNumber = document.getElementById("screenNumber")
+var display = new Display(document.getElementById("display"))
 
-/* Login */
+/* Error Message */
 
 function showErrorMessage(error) {
-  console.log("Error: " + error.code + " " + error.message)
+  document.getElementById('msgDivCode').innerHTML = error.code
+  document.getElementById('msgDivContent').innerHTML = error.message
+  document.getElementById('msgDiv').style.display = 'block'
+  console.log('[' + error.code + '], ' + error.message)
 }
+
+function closeMsgDiv() {
+  setScreen('0')
+  document.getElementById('msgDiv').style.display = 'none'
+}
+
+/* Login */
 
 document.getElementById('password').onkeydown = function(event) {
   if (event.keyCode == 13) {
@@ -33,12 +43,11 @@ function logIn() {
 function signUpAndLogIn(username, password) {
   
   var user = new Parse.User()
+  user.set('username', username)
+  user.set('password', password)
+  user.set('email', username)
 
-  user.signUp({
-    username: username,
-    password: password,
-    email: username
-  }, {
+  user.signUp(null, {
     success: function(user) {
       afterLogin()
     },
@@ -49,23 +58,50 @@ function signUpAndLogIn(username, password) {
 }
 
 function afterLogin() {
+  document.getElementById('loginDiv').style.display = 'none'
+}
 
+/* Display Handle */
+
+function Display (dom) {
+  this.dom = dom
+  this.set = function (string) {
+    this.dom.innerHTML = string  
+  }
+  this.startsWith = function (string) {
+    return String(this.dom.innerHTML).startsWith(string)
+  }
+  this.append = function (string) {
+    this.dom.innerHTML += string
+  }
+  this.getLength = function () {
+    return this.dom.innerHTML.length
+  }
+  this.toInt = function() {
+    return parseInt(this.dom.innerHTML)
+  }
+  this.is = function (string) {
+    return this.dom.innerHTML === string
+  }
+  this.setSuccess = function (type, price) {
+    this.dom.innerHTML = '✓ ' + type + ' ' + price
+  }
 }
 
 /* Main Activity */
 
 function clickNumber(n) {
-  if (String(screenNumber.innerHTML).startsWith('✓') || String(screenNumber.innerHTML).startsWith('✗')) {
-    screenNumber.innerHTML = n
-  } else if (String(screenNumber.innerHTML).startsWith('Send')) {
+  if (display.startsWith('✓') || display.startsWith('✗')) {
+    display.set(n)
+  } else if (display.startsWith('Send')) {
     // do nothing
-  } else if (screenNumber.innerHTML.length < 10) {
-    if (screenNumber.innerHTML === '0') {
+  } else if (display.getLength() < 10) {
+    if (display.is('0')) {
       if (n !== 0) {
-        screenNumber.innerHTML = n
+        display.set(n)
       }
     } else {
-      screenNumber.innerHTML += n
+      display.append(n)
     }
   }
 }
@@ -73,20 +109,23 @@ function clickNumber(n) {
 function clickType(t) {
   var Record = Parse.Object.extend("Record")
   var record = new Record()
-  record.save({
-    price: parseInt(screenNumber.innerHTML),
-    type: t,
-    date: new Date()
-  }, {
+  
+  record.set("price", display.toInt())
+  record.set('type', t)
+  record.set('date', new Date())
+  // record.setACL(new Parse.ACL(Parse.User.current()))
+  record.set('createdBy', Parse.User.current())
+
+  record.save(null, {
     success:function (record) {
-      screenNumber.innerHTML = '✓ ' + record.get("type") + ' ' + record.get("price")
+      display.setSuccess(record.get("type"), record.get("price"))
     },
     error:function (record, error) {
-      screenNumber.innerHTML = '✗ Error Q_Q'
+      showErrorMessage(error)
     }
   })
 
-  screenNumber.innerHTML = "Sending..."
+  setScreen("Sending...")
   typeTable.style.display = 'none'
 }
 
@@ -96,11 +135,7 @@ function clickSend() {
 
 function clickCancel() {
   typeTable.style.display = 'none'
-  screenNumber.innerHTML = '0'
-}
-
-function eraseNumber() {
-  screenNumber.innerHTML = '0'
+  setScreen('0')
 }
 
 window.onload = function() {
