@@ -22,6 +22,7 @@ table {
   top: 0;
   left: 0;
   border-spacing: 12px;
+  background-color: white;
 }
 #priceTable {
   z-index: 0;
@@ -98,7 +99,7 @@ td:hover {
   </tr>
   <tr>
     <td onclick="clickType('雜')">雜</td>
-    <td onclick="clickType('日用品')" colspan="2">日用品</td>
+    <td onclick="clickType('日用')" colspan="2">日用</td>
   </tr>
   <tr>
     <td onclick="clickCancel()" colspan="3">Cancel</td>
@@ -118,7 +119,7 @@ var typeTable = document.getElementById('typeTable')
 var screenNumber = document.getElementsByTagName("td")[0]
 
 function clickNumber(n) {
-  if (String(screenNumber.innerHTML).startsWith('✓')) {
+  if (String(screenNumber.innerHTML).startsWith('✓') || String(screenNumber.innerHTML).startsWith('✗')) {
     screenNumber.innerHTML = n
   } else if (String(screenNumber.innerHTML).startsWith('Send')) {
     // do nothing
@@ -140,9 +141,15 @@ function clickType(t) {
     price: parseInt(screenNumber.innerHTML),
     type: t,
     date: new Date()
-  }).then(function(object) {
-    screenNumber.innerHTML = '✓ [' + object.attributes.type + '] ' + object.attributes.price
+  }, {
+    success:function (record) {
+      screenNumber.innerHTML = '✓ ' + record.get("type") + ' ' + record.get("price")
+    },
+    error:function (record, error) {
+      screenNumber.innerHTML = '✗ Error Q_Q'
+    }
   })
+
   screenNumber.innerHTML = "Sending..."
   typeTable.style.display = 'none'
 }
