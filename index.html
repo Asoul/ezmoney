@@ -120,6 +120,8 @@ var screenNumber = document.getElementsByTagName("td")[0]
 function clickNumber(n) {
   if (String(screenNumber.innerHTML).startsWith('✓')) {
     screenNumber.innerHTML = n
+  } else if (String(screenNumber.innerHTML).startsWith('Send')) {
+    // do nothing
   } else if (screenNumber.innerHTML.length < 10) {
     if (screenNumber.innerHTML === '0') {
       if (n !== 0) {
@@ -141,15 +143,16 @@ function clickType(t) {
   }).then(function(object) {
     screenNumber.innerHTML = '✓ [' + object.attributes.type + '] ' + object.attributes.price
   })
-  typeTable.style.display = 'none';
+  screenNumber.innerHTML = "Sending..."
+  typeTable.style.display = 'none'
 }
 
 function clickSend() {
-  typeTable.style.display = 'block'; 
+  typeTable.style.display = 'block'
 }
 
 function clickCancel() {
-  typeTable.style.display = 'none';
+  typeTable.style.display = 'none'
   screenNumber.innerHTML = '0'
 }
 
@@ -162,7 +165,7 @@ window.onload = function() {
   table = document.getElementsByTagName('table')[0]
   ;(function(height, width){
     // document.getElementsByTagName('td')[0].innerHTML = width + ', ' + height
-  })(table.clientHeight, table.clientWidth);
+  })(table.clientHeight, table.clientWidth)
 
   // show body after loaded
   document.body.style.opacity = 1
