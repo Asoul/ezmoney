@@ -3,8 +3,6 @@ Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttx
 
 var display = new Display(document.getElementById("display"))
 
-var loginState = false
-
 /* Error Message */
 
 function showErrorMessage(error) {
@@ -81,7 +79,6 @@ function Display (dom) {
     return this.dom.innerHTML.length
   }
   
-  
   this.set = function (string) {
     this.dom.innerHTML = string  
   }
@@ -150,6 +147,58 @@ function clickCancel() {
   display.erase()
 }
 
+function resizeCSS() {
+  var height = window.innerHeight
+  var width = window.innerWidth
+
+  if (height / width > 1) {
+    // Cell phone
+    var tableSpacing = parseInt(width / 25)
+    var tdWidth = parseInt((width - 4 * tableSpacing)/3)
+    var tdHeight = parseInt((width - 6 * tableSpacing)/5)
+
+  } else {
+    // PC
+    // ajust
+    var tableSpacing = parseInt(height / 20)
+    var tdWidth = parseInt((width - 4 * tableSpacing)/3)
+    var tdHeight = parseInt((width - 6 * tableSpacing)/5)
+    console.log(tableSpacing)
+    console.log(tdWidth)
+    console.log(tdHeight)
+  }
+
+  var tables = document.getElementsByTagName('table')
+  
+  numOfTable = tables.length
+  for (var i = 0; i < numOfTable; i++) {
+    tables[i].setAttribute('style', 'border-spacing: ' + tableSpacing + 'px')
+  }
+
+  var tds = document.getElementsByTagName('td')
+
+  numOfTd = tds.length
+  for (var i = 0; i < numOfTd; i++) {
+    tds[i].style.width = tdWidth
+    tds[i].style.height = tdHeight
+  }
+
+  var fullDivs = document.getElementsByClassName('fullDiv')
+
+  numOfFullDiv = fullDivs.length
+  for (var i = 0; i < numOfFullDiv; i++) {
+    fullDivs[i].style.height = tdHeight * 5 + tableSpacing * 6
+    fullDivs[i].style.width = tdWidth * 3 + tableSpacing * 4
+  }
+
+  console.log(tdHeight * 5 + tableSpacing * 6)
+    console.log(tdWidth * 3 + tableSpacing * 4)
+}
+
+window.onresize = function() {
+  resizeCSS()
+}
+
 window.onload = function() {
   // check parse login status
   var currentUser = Parse.User.current()
@@ -157,11 +206,8 @@ window.onload = function() {
     afterLogin()
   }
 
-  // set table size
-  table = document.getElementsByTagName('table')[0]
-  ;(function(height, width){
-    console.log(width + ', ' + height)
-  })(table.clientHeight, table.clientWidth)
+  // resize everything
+  resizeCSS()
 
   // show body after loaded
   document.body.style.opacity = 1

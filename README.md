@@ -10,3 +10,8 @@
 - verified email on cloud code
 
 - where to logout
+
+- RESIZE THE SCREEN
+- NOT ALLOW TO SCROLL
+
+- version 號碼在打仗覓食會偏掉，因為現在是 absolute

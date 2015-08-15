@@ -1,3 +1,7 @@
+body, html {
+  height: 100%;
+  width: 100%;
+}
 body {
   font-family: arial;
   opacity: 0;
@@ -9,12 +13,23 @@ body {
   -o-user-select: none;
   user-select: none;
 
-  background-color: #cccccc;
-}
-table, #loginDiv, #msgDiv {
+  /* Disable Scroll */
   position: fixed;
-  top: 0;
+  overflow-y: scroll;
+
+  text-align: center;
+  vertical-align: middle;
+
+  margin: 0;
+
+  background-color: white;
+}
+
+table, #loginDiv, #msgDiv {
+  /*background-color: white;*/
+  position: absolute;
   left: 0;
+  top: 0;
   background-color: white;
 }
 
@@ -29,7 +44,7 @@ table {
 td {
   
   height: 74px;
-  width: 88px;
+  width: 90px;
   border-radius: 3px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
@@ -52,7 +67,7 @@ td:hover {
   background-color: white;
 }
 
-#loginDiv, #msgDiv {
+.fullDiv {
   width: 318px;
   height: 452px;
 
@@ -105,18 +120,13 @@ input:focus, button:focus {
   outline: none;
 }
 
-
 #version {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  
   margin: 1em;
 }
 
 #msgDiv {
   z-index: 2;
-  width: 318px;
-  height: 452px;
   font-size: 24px;
   display: none;
 }
