@@ -1,6 +1,6 @@
 # TODO list
 
-- verified email on cloud code
+- use angularjs to rebuild
 
 - where to logout
 
@@ -18,6 +18,8 @@
 - 要怎麼測試 cloud code before deploy
 
 - 先 check user email 再登入，還是直接登入失敗再 signup
+
+- verified email on cloud code
 
 ## Global Function
 
