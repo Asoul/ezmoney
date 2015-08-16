@@ -46,7 +46,7 @@ function UserController() {
         this.status = 1
       },
       error: function(user, error) {
-        signUpAndLogIn(username, password)
+        this.signUpAndLogIn(username, password)
         this.status = 0
       }
     })
