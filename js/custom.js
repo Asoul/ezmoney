@@ -242,7 +242,7 @@ function loadRecordList() {
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
   query.ascending('date')
-  document.getElementById("recordTable").innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;Searching...'
+  document.getElementById("recordTable").innerHTML = 'Searching...'
   query.find({
     success: function(records) {
       console.log(records)

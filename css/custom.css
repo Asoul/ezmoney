@@ -24,8 +24,14 @@ body {
   font-size: 10vh;
 }
 
+#wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+
 table, #loginDiv, #msgDiv {
-  position: absolute;
+  /*position: absolute;*/
+  width: 100%;
   background-color: white;
 }
 
@@ -42,14 +48,11 @@ table, #loginDiv, #msgDiv {
 /* Price Table, Type Table */
 
 table {
-  border-spacing: 4vw;
-  top: 0;
-  left: 0;
+  border-spacing: 2.5vmin;
 }
 
 td {
-  height: 16vh; 
-  width: 28vw;
+  height: 16vh;
   border-radius: 1vw;
   -moz-border-radius: 1vw;
   -webkit-border-radius: 1vw;
@@ -160,3 +163,59 @@ input:focus, button:focus {
   font-size: 11vh;
   cursor: pointer;
 }
+
+@media (min-width:320px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+  td {
+    width: 100px;
+  }
+  #wrapper {
+    width: 320px;
+  }
+}
+@media (min-width:481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+  td {
+    width: 150px;
+  }
+  #wrapper {
+    width: 480px;
+  }
+}
+@media (min-width:641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+  td {
+    width: 200px;
+  }
+  #wrapper {
+    width: 640px;
+  }
+}
+@media (min-width:961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+  td {
+    width: 300px;
+  }
+  #wrapper {
+    width: 960px;
+  }
+}
+@media (min-width:1025px) {
+  /* big landscape tablets, laptops, and desktops */
+  td {
+    width: 320px;
+  }
+  #wrapper {
+    width: 1024px;
+  }
+}
+@media (min-width:1281px) {
+  /* hi-res laptops and desktops */
+  td {
+    width: 400px;
+  }
+  #wrapper {
+    width: 1280px;
+  }
+}
+
