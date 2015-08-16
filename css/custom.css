@@ -7,8 +7,6 @@ body {
   text-align: center;
   margin: 0;
 
-  background-color: gray;
-
   /* Display after css resize*/
   opacity: 0;
 
@@ -60,16 +58,16 @@ td:hover {
 h3 {
   margin-top: 15vh;
   margin-bottom: 10vh;
-  font-size: 5vh;
+  font-size: 7vh;
 }
 
 #loginDiv > p {
-  font-size: 2vh;
+  font-size: 3vh;
   padding: 1.2vh;
 }
 
 form {
-  font-size: 3vh;
+  font-size: 5vh;
 }
 
 input[type=text], input[type=password] {
@@ -88,7 +86,7 @@ button {
   border:1px solid #dcdcdc;
   cursor:pointer;
   color:#666666;
-  font-size: 2.8vh;
+  font-size: 5vh;
   font-weight:bold;
   padding: 2vh 4vh;
   margin-top: 6vh;
