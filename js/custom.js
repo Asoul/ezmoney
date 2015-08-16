@@ -93,28 +93,10 @@ function PageController() {
   this.pageMsg = document.getElementById('msgDiv')
   this.pagePrice = document.getElementById('priceTable')
   this.pageType = document.getElementById('typeTable')
+  this.pageList = document.getElementById('listDiv')
 
   this.getStatus = function() {
     return this.status
-  }
-
-  this.reload = function() {
-    switch (this.status) {
-      case 1:
-        this.showLogIn()
-      break
-      case 2:
-        this.showMsg()
-      break
-      case 3:
-        this.showPrice()
-      break
-      case 4:
-        this.showType()
-      break
-      default:
-        this.showLogIn()
-    }
   }
 
   this.hideAll = function() {
@@ -122,6 +104,7 @@ function PageController() {
     this.pageMsg.style.display = 'none'
     this.pagePrice.style.display = 'none'
     this.pageType.style.display = 'none'
+    this.pageList.style.display = 'none'
   }
   this.showLogIn = function() {
     this.hideAll()
@@ -146,6 +129,11 @@ function PageController() {
     this.hideAll()
     this.pageType.style.display = 'table'
     this.status = 4
+  }
+  this.showList = function() {
+    this.hideAll()
+    this.pageList.style.display = 'block'
+    this.status = 5
   }
 }
 
@@ -250,72 +238,53 @@ function resetUp() {
   clearTimeout(pressTimer)
 }
 
-function resizeCSS() {
-  var height = window.innerHeight
-  var width = window.innerWidth
-
-  if (height / width > 1) {
-    // Cell phone
-    var tableSpacing = parseInt(width / 25)
-  } else {
-    // PC
-    var tableSpacing = parseInt(height / 20)
-  }
-
-  var tdWidth = parseInt((width - 4 * tableSpacing)/3)
-  var tdHeight = parseInt((height - 6 * tableSpacing)/5)
-
-  contentWidth = tdWidth * 3 + tableSpacing * 4
-  contentHeight = tdHeight * 5 + tableSpacing * 6
-  borderRadius = Math.round(tableSpacing / 4)
-
-  var tables = document.getElementsByTagName('table')
-  
-  numOfTable = tables.length
-  for (var i = 0; i < numOfTable; i++) {
-    tables[i].setAttribute('style',
-      'border-spacing: ' + tableSpacing + 'px;' + 
-      'top: ' + Math.round((height - contentHeight)/2) + 'px;' +
-      'left: ' + Math.round((width - contentWidth)/2) + 'px;'
-    )
-  }
-
-  var tds = document.getElementsByTagName('td')
-
-  numOfTd = tds.length
-  for (var i = 0; i < numOfTd; i++) {
-    tds[i].setAttribute('style',
-      'width: ' + tdWidth + 'px;' + 
-      'height: ' + tdHeight + 'px;' +
-      'border-radius: ' + borderRadius + 'px;' +
-      '-moz-border-radius: ' + borderRadius + 'px;' +
-      '-webkit-border-radius: ' + borderRadius + 'px;'
-    )
-  }
-
-  var fullDivs = document.getElementsByClassName('fullDiv')
-
-  numOfFullDiv = fullDivs.length
-  for (var i = 0; i < numOfFullDiv; i++) {
-    fullDivs[i].setAttribute('style',
-      'width: ' + contentWidth + 'px;' + 
-      'height: ' + contentHeight + 'px;' +
-      'top: ' + Math.round((height - contentHeight)/2) + 'px;' +
-      'left: ' + Math.round((width - contentWidth)/2) + 'px;'
-    )
-  }
-
-  pageController.reload()
+function loadRecordList() {
+  var Record = Parse.Object.extend('Record')
+  var query = new Parse.Query(Record)
+  query.ascending('date')
+  document.getElementById("recordTable").innerHTML = 'Searching...'
+  query.find({
+    success: function(records) {
+      document.getElementById("recordTable").innerHTML = ''
+      numOfRecord = records.length
+      for (var i = 0; i < numOfRecord; i++) {
+        appendToList(records[i].get("date"),records[i].get('type'), records[i].get('price'))
+      }
+    },
+    error: function(records, error) {
+      console.log(error.code + ', ' + error.message)
+    }
+  });
 }
 
-window.onresize = function() {
-  resizeCSS()
+function to2Digit(string) {
+  var s = String(string)
+  if (s.length < 2) 
+    return '0' + s
+  return s
+}
+
+function appendToList(date, type, price) {
+  
+  var table = document.getElementById("recordTable")
+  var row = table.insertRow(0)
+  var cell1 = row.insertCell(-1)
+  var cell2 = row.insertCell(-1)
+  var cell3 = row.insertCell(-1)
+  var cell4 = row.insertCell(-1)
+
+  cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
+  cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+  cell3.innerHTML = type
+  cell4.innerHTML = price
+}
+
+document.getElementById('display').ondblclick = function() {
+  pageController.showList()
+  loadRecordList()
 }
 
 window.onload = function() {
-  // resize everything
-  resizeCSS()
-
   // check parse login status
   userController.checkStatus()
 

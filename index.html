@@ -26,12 +26,11 @@
   <button id="signUpBtn" onclick="transformLogInPage()">New User</button>
   <button id="logInBtn" onclick="userController.logIn()">Log in</button><br/>
   <p id="version">Version: <span>1.0.0</span></p>
-  
 </div>
 
 <table id="priceTable">
   <tr>
-    <td id="display" colspan="3">0</td>
+    <td id="display" colspan="3" ondblclick="pageController.showList()">0</td>
   </tr>
   <tr>
     <td onclick="clickNumber(1)">1</td>
@@ -76,6 +75,12 @@
     <td onclick="clickCancel()" colspan="3">Cancel</td>
   </tr>
 </table>
+<div id="listDiv" class='fullDiv'>
+  <div id="closeBtn" onclick="pageController.showPrice()">&times;</div>
+  <!-- <ul id="recordList"></ul> -->
+  <table id="recordTable"></table>
+</div>
+
 <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 

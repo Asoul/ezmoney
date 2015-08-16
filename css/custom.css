@@ -41,7 +41,18 @@ table, #loginDiv, #msgDiv {
 
 /* Price Table, Type Table */
 
+table {
+  border-spacing: 4vw;
+  top: 0;
+  left: 0;
+}
+
 td {
+  height: 16vh; 
+  width: 28vw;
+  border-radius: 1vw;
+  -moz-border-radius: 1vw;
+  -webkit-border-radius: 1vw;
   background-color: #eeeeee;
 }
 
@@ -52,7 +63,13 @@ td:hover {
 #display {
   background-color: white;
 }
-
+/* Full size div*/
+.fullDiv {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
 /* Login Div */
 
 h3 {
@@ -105,12 +122,41 @@ input:focus, button:focus {
 }
 
 /* Message Div */
-
 #msgDiv {
   font-size: 3vh;
-  display: none;
 }
 
 #msgDiv > h2 {
   margin: 70px;
+}
+
+/* List Div */
+#listDiv {
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+#recordTable {
+  margin-top: 12vh;
+  position: static;
+  z-index: 2;
+  font-size: 4vh;
+  border-spacing: 1vw;
+}
+
+#recordTable > tbody > tr > td {
+  background-color: white;
+  height: 8vh;
+  width: justify;
+}
+
+#closeBtn {
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 12vh;
+  height: 12vh;
+  font-size: 11vh;
+  cursor: pointer;
 }
