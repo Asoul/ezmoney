@@ -17,7 +17,7 @@ function showErrorMessage(error) {
 
 function closeMsgDiv() {
   display.erase()
-  pageController.showPrice()
+  userController.checkStatus()
 }
 
 /* User Controller */
@@ -46,7 +46,7 @@ function UserController() {
         this.status = 1
       },
       error: function(user, error) {
-        userController.signUpAndLogIn(username, password)
+        showErrorMessage(error)
         this.status = 0
       }
     })
@@ -58,7 +58,10 @@ function UserController() {
     pageController.showLogIn()
   }
 
-  this.signUpAndLogIn = function(username, password) {
+  this.logIn = function() {
+    username = document.getElementById('username').value
+    password = document.getElementById('password').value
+    
     var user = new Parse.User()
     user.set('username', username)
     user.set('password', password)
