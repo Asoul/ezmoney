@@ -250,10 +250,6 @@ function resizeCSS() {
   var tdWidth = parseInt((width - 4 * tableSpacing)/3)
   var tdHeight = parseInt((height - 6 * tableSpacing)/5)
 
-  tableSpacing = Math.min(15, tableSpacing)
-  tdWidth = Math.min(120, tdWidth)
-  tdHeight = Math.min(80, tdHeight)
-
   contentWidth = tdWidth * 3 + tableSpacing * 4
   contentHeight = tdHeight * 5 + tableSpacing * 6
   borderRadius = Math.round(tableSpacing / 4)
