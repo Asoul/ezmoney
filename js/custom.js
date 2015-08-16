@@ -125,6 +125,10 @@ function PageController() {
   }
   this.showLogIn = function() {
     this.hideAll()
+    document.getElementById('signUpBtn').innerHTML = 'New User'
+    document.getElementById('signUpBtn').onclick = function(){transformLogInPage()}
+    document.getElementById('logInBtn').style.display = 'inline'
+  
     this.pageLogIn.style.display = 'block'
     this.status = 1
   }
@@ -217,6 +221,14 @@ function clickType(t) {
 
   display.set("Sending...")
   pageController.showPrice()
+}
+
+function transformLogInPage() {
+  document.getElementById('signUpBtn').innerHTML = 'Sign Up'
+  document.getElementById('signUpBtn').onclick = function() {
+    userController.signUp()
+  }
+  document.getElementById('logInBtn').style.display = 'none'
 }
 
 function clickSend() {
