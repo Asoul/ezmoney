@@ -150,49 +150,69 @@ function clickCancel() {
 function resizeCSS() {
   var height = window.innerHeight
   var width = window.innerWidth
+  console.log('height = ' + height)
+  console.log('width = ' + width)
 
   if (height / width > 1) {
     // Cell phone
     var tableSpacing = parseInt(width / 25)
     var tdWidth = parseInt((width - 4 * tableSpacing)/3)
-    var tdHeight = parseInt((width - 6 * tableSpacing)/5)
+    var tdHeight = parseInt((height - 6 * tableSpacing)/5)
 
   } else {
     // PC
-    // ajust
     var tableSpacing = parseInt(height / 20)
     var tdWidth = parseInt((width - 4 * tableSpacing)/3)
-    var tdHeight = parseInt((width - 6 * tableSpacing)/5)
-    console.log(tableSpacing)
-    console.log(tdWidth)
-    console.log(tdHeight)
+    var tdHeight = parseInt((height - 6 * tableSpacing)/5)
+
+    tableSpacing = Math.min(15, tableSpacing)
+    tdWidth = Math.min(120, tdWidth)
+    tdHeight = Math.min(80, tdHeight)
   }
+
+  console.log('tableSpacing = ' + tableSpacing)
+  console.log('tdWidth = ' + tdWidth)
+  console.log('tdHeight = ' + tdHeight)
+
+  contentWidth = tdWidth * 3 + tableSpacing * 4
+  contentHeight = tdHeight * 5 + tableSpacing * 6
+  borderRadius = Math.round(tableSpacing / 4)
 
   var tables = document.getElementsByTagName('table')
   
   numOfTable = tables.length
   for (var i = 0; i < numOfTable; i++) {
-    tables[i].setAttribute('style', 'border-spacing: ' + tableSpacing + 'px')
+    tables[i].setAttribute('style',
+      'border-spacing: ' + tableSpacing + 'px;' + 
+      'top: ' + Math.round((height - contentHeight)/2) + 'px;' +
+      'left: ' + Math.round((width - contentWidth)/2) + 'px;'
+    )
   }
 
   var tds = document.getElementsByTagName('td')
 
   numOfTd = tds.length
   for (var i = 0; i < numOfTd; i++) {
-    tds[i].style.width = tdWidth
-    tds[i].style.height = tdHeight
+    tds[i].setAttribute('style',
+      'width: ' + tdWidth + 'px;' + 
+      'height: ' + tdHeight + 'px;' +
+      'border-radius: ' + borderRadius + 'px;' +
+      '-moz-border-radius: ' + borderRadius + 'px;' +
+      '-webkit-border-radius: ' + borderRadius + 'px;'
+    )
   }
 
   var fullDivs = document.getElementsByClassName('fullDiv')
 
   numOfFullDiv = fullDivs.length
   for (var i = 0; i < numOfFullDiv; i++) {
-    fullDivs[i].style.height = tdHeight * 5 + tableSpacing * 6
-    fullDivs[i].style.width = tdWidth * 3 + tableSpacing * 4
+    fullDivs[i].setAttribute('style',
+      'width: ' + contentWidth + 'px;' + 
+      'height: ' + contentHeight + 'px;' +
+      'top: ' + Math.round((height - contentHeight)/2) + 'px;' +
+      'left: ' + Math.round((width - contentWidth)/2) + 'px;'
+    )
   }
-
-  console.log(tdHeight * 5 + tableSpacing * 6)
-    console.log(tdWidth * 3 + tableSpacing * 4)
 }
 
 window.onresize = function() {
