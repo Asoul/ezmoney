@@ -58,10 +58,10 @@ function UserController() {
     pageController.showLogIn()
   }
 
-  this.logIn = function() {
+  this.signUp = function() {
     username = document.getElementById('username').value
     password = document.getElementById('password').value
-    
+
     var user = new Parse.User()
     user.set('username', username)
     user.set('password', password)
