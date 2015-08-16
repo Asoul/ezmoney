@@ -242,12 +242,14 @@ function loadRecordList() {
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
   query.ascending('date')
-  document.getElementById("recordTable").innerHTML = 'Searching...'
+  document.getElementById("recordTable").innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;Searching...'
   query.find({
     success: function(records) {
+      console.log(records)
       document.getElementById("recordTable").innerHTML = ''
       numOfRecord = records.length
       for (var i = 0; i < numOfRecord; i++) {
+
         appendToList(records[i].get("date"),records[i].get('type'), records[i].get('price'))
       }
     },
@@ -279,7 +281,7 @@ function appendToList(date, type, price) {
   cell4.innerHTML = price
 }
 
-document.getElementById('display').ondblclick = function() {
+document.getElementById('display').onclick = function() {
   pageController.showList()
   loadRecordList()
 }
