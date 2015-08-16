@@ -23,7 +23,7 @@ body {
   position: fixed;
   overflow-y: scroll;
 
-  font-size: 30px;
+  font-size: 10vh;
 }
 
 table, #loginDiv, #msgDiv {
@@ -31,10 +31,17 @@ table, #loginDiv, #msgDiv {
   background-color: white;
 }
 
-#typeTable {
-  display: none;
-  z-index: 1;
+/* Initial Page Status */
+
+#loginDiv {
+  display: block;
 }
+
+#typeTable, #priceTable, #msgDiv {
+  display: none;
+}
+
+/* Price Table, Type Table */
 
 td {
   background-color: #eeeeee;
@@ -48,29 +55,21 @@ td:hover {
   background-color: white;
 }
 
-#loginDiv {
-  /*display: none;*/
-}
+/* Login Div */
 
-.fullDiv {
-  z-index: 1;
-  text-align: center;
-  vertical-align: middle;
-}
-
-#loginDiv > h3 {
+h3 {
   margin-top: 15vh;
   margin-bottom: 10vh;
   font-size: 5vh;
 }
 
 #loginDiv > p {
-  padding: 10px;
+  font-size: 2vh;
+  padding: 1.2vh;
 }
 
 form {
-  font-size: 2.3vh;
-  line-height: 1.3em;
+  font-size: 3vh;
 }
 
 input[type=text], input[type=password] {
@@ -106,9 +105,10 @@ input:focus, button:focus {
   margin: 5vh;
 }
 
+/* Message Div */
+
 #msgDiv {
-  z-index: 2;
-  font-size: 24px;
+  font-size: 3vh;
   display: none;
 }
 

@@ -2,62 +2,144 @@
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 var display = new Display(document.getElementById("display"))
+var pageController = new PageController()
+var userController = new UserController()
+var pressTimer
 
 /* Error Message */
 
 function showErrorMessage(error) {
   document.getElementById('msgDivCode').innerHTML = error.code
   document.getElementById('msgDivContent').innerHTML = error.message
-  document.getElementById('msgDiv').style.display = 'block'
+  pageController.showMsg()
   console.log('[' + error.code + '], ' + error.message)
 }
 
 function closeMsgDiv() {
   display.erase()
-  document.getElementById('msgDiv').style.display = 'none'
+  pageController.showPrice()
 }
 
-/* Login */
+/* User Controller */
 
-document.getElementById('password').onkeydown = function(event) {
-  if (event.keyCode == 13) {
-    logIn()
+function UserController() {
+
+  this.status = 0
+
+  this.checkStatus = function() {
+    if (Parse.User.current()) {
+      this.status = 1
+      pageController.showPrice()
+    } else {
+      this.status = 0
+      pageController.showLogIn()
+    }
+  }
+
+  this.logIn = function() {
+    username = document.getElementById('username').value
+    password = document.getElementById('password').value
+
+    Parse.User.logIn(username, password, {
+      success: function(user) {
+        pageController.showPrice()
+        this.status = 1
+      },
+      error: function(user, error) {
+        signUpAndLogIn(username, password)
+        this.status = 0
+      }
+    })
+  }
+
+  this.logOut = function() {
+    Parse.User.logOut()
+    this.status = 0
+    pageController.showLogIn()
+  }
+
+  this.signUpAndLogIn = function() {
+    var user = new Parse.User()
+    user.set('username', username)
+    user.set('password', password)
+    user.set('email', username)
+
+    user.signUp(null, {
+      success: function(user) {
+        pageController.showPrice()
+        this.status = 1
+      },
+      error: function(user, error) {
+        showErrorMessage(error)
+        this.status = 0
+      }
+    })
   }
 }
 
-function logIn() {
-  username = document.getElementById('username').value
-  password = document.getElementById('password').value
-
-  Parse.User.logIn(username, password, {
-    success: function(user) {
-      afterLogin()
-    },
-    error: function(user, error) {
-      signUpAndLogIn(username, password)
-    }
-  })
+document.getElementById('password').onkeydown = function(event) {
+  if (event.keyCode == 13) {
+    userController.logIn()
+  }
 }
 
-function signUpAndLogIn(username, password) {
-  
-  var user = new Parse.User()
-  user.set('username', username)
-  user.set('password', password)
-  user.set('email', username)
+/* Page Controller */
+function PageController() {
+  this.status = 0
+  this.pageLogIn = document.getElementById('loginDiv')
+  this.pageMsg = document.getElementById('msgDiv')
+  this.pagePrice = document.getElementById('priceTable')
+  this.pageType = document.getElementById('typeTable')
 
-  user.signUp(null, {
-    success: function(user) {
-      afterLogin()
-    },
-    error: function(user, error) {
-      showErrorMessage(error)
+  this.getStatus = function() {
+    return this.status
+  }
+
+  this.reload = function() {
+    switch (this.status) {
+      case 1:
+        this.showLogIn()
+      break
+      case 2:
+        this.showMsg()
+      break
+      case 3:
+        this.showPrice()
+      break
+      case 4:
+        this.showType()
+      break
+      default:
+        this.showLogIn()
     }
-  })
-}
+  }
 
-function afterLogin() {
-  document.getElementById('loginDiv').style.display = 'none'
+  this.hideAll = function() {
+    this.pageLogIn.style.display = 'none'
+    this.pageMsg.style.display = 'none'
+    this.pagePrice.style.display = 'none'
+    this.pageType.style.display = 'none'
+  }
+  this.showLogIn = function() {
+    this.hideAll()
+    this.pageLogIn.style.display = 'block'
+    this.status = 1
+  }
+  this.showMsg = function() {
+    this.hideAll()
+    this.pageMsg.style.display = 'block'
+    this.status = 2
+  }
+  this.showPrice = function() {
+    this.hideAll()
+    this.pagePrice.style.display = 'table'
+    this.status = 3
+  }
+  this.showType = function() {
+    this.hideAll()
+    this.pageType.style.display = 'table'
+    this.status = 4
+  }
 }
 
 /* Display Handle */
@@ -131,48 +213,46 @@ function clickType(t) {
   })
 
   display.set("Sending...")
-  document.getElementById('typeTable').style.display = 'none'
+  pageController.showPrice()
 }
 
 function clickSend() {
-  document.getElementById('typeTable').style.display = 'block'
-}
-
-function eraseDisplay() {
-  display.erase()
+  pageController.showType()
 }
 
 function clickCancel() {
-  document.getElementById('typeTable').style.display = 'none'
   display.erase()
+  pageController.showPrice()
+}
+
+function resetDown() {
+  document.getElementById('logOutKey').innerHTML = '掰'
+  pressTimer = setTimeout(function(){userController.logOut()}, 1500)
+}
+
+function resetUp() {
+  document.getElementById('logOutKey').innerHTML = 'C'
+  clearTimeout(pressTimer)
 }
 
 function resizeCSS() {
   var height = window.innerHeight
   var width = window.innerWidth
-  console.log('height = ' + height)
-  console.log('width = ' + width)
 
   if (height / width > 1) {
     // Cell phone
     var tableSpacing = parseInt(width / 25)
-    var tdWidth = parseInt((width - 4 * tableSpacing)/3)
-    var tdHeight = parseInt((height - 6 * tableSpacing)/5)
-
   } else {
     // PC
     var tableSpacing = parseInt(height / 20)
-    var tdWidth = parseInt((width - 4 * tableSpacing)/3)
-    var tdHeight = parseInt((height - 6 * tableSpacing)/5)
-
-    tableSpacing = Math.min(15, tableSpacing)
-    tdWidth = Math.min(120, tdWidth)
-    tdHeight = Math.min(80, tdHeight)
   }
 
-  console.log('tableSpacing = ' + tableSpacing)
-  console.log('tdWidth = ' + tdWidth)
-  console.log('tdHeight = ' + tdHeight)
+  var tdWidth = parseInt((width - 4 * tableSpacing)/3)
+  var tdHeight = parseInt((height - 6 * tableSpacing)/5)
+
+  tableSpacing = Math.min(15, tableSpacing)
+  tdWidth = Math.min(120, tdWidth)
+  tdHeight = Math.min(80, tdHeight)
 
   contentWidth = tdWidth * 3 + tableSpacing * 4
   contentHeight = tdHeight * 5 + tableSpacing * 6
@@ -213,6 +293,8 @@ function resizeCSS() {
       'left: ' + Math.round((width - contentWidth)/2) + 'px;'
     )
   }
+
+  pageController.reload()
 }
 
 window.onresize = function() {
@@ -220,14 +302,11 @@ window.onresize = function() {
 }
 
 window.onload = function() {
-  // check parse login status
-  var currentUser = Parse.User.current()
-  if (currentUser) {
-    afterLogin()
-  }
-
   // resize everything
   resizeCSS()
+
+  // check parse login status
+  userController.checkStatus()
 
   // show body after loaded
   document.body.style.opacity = 1

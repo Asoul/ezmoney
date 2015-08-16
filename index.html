@@ -10,9 +10,9 @@
 
 <body>
 <div id="msgDiv" class='fullDiv'>
-  <h2>Error Q_Q</h2>
-  <h5>錯誤代碼： <span id="msgDivCode"></span></h5>
-  <p id="msgDivContent">content</p>
+  <h3>Error Q_Q</h3>
+  <p>錯誤代碼： <span id="msgDivCode">?___?</span></p>
+  <p id="msgDivContent">你好奇怪喔</p>
   <button onclick="closeMsgDiv()">OK</button>
 </div>
 <div id="loginDiv" class='fullDiv'>
@@ -22,10 +22,9 @@
     <input type="text" id="username"><br />
     Password<br />
     <input type="password" id="password"><br />
-    <button onclick="logIn()">Sign Up / Log in</button><br/>
-    <p id="version">Version: <span>1.0.0</span></p>
   </form>
-  
+  <button onclick="userController.logIn()">Sign Up / Log in</button><br/>
+  <p id="version">Version: <span>1.0.0</span></p>
   
 </div>
 
@@ -49,7 +48,7 @@
     <td onclick="clickNumber(9)">9</td>
   </tr>
   <tr>
-    <td onclick="eraseDisplay()">C</td>
+    <td id="logOutKey" onmousedown="resetDown()" onmouseup="resetUp()" onclick="display.erase()">C</td>
     <td onclick="clickNumber(0)">0</td>
     <td onclick="clickSend()">✈</td>
   </tr>
