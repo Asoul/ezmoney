@@ -66,15 +66,8 @@ td:hover {
 #display {
   background-color: white;
 }
-/* Full size div*/
-.fullDiv {
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
 }
 /* Login Div */
-
 h3 {
   margin-top: 10vh;
   margin-bottom: 10vh;
@@ -136,21 +129,17 @@ input:focus, button:focus {
 /* List Div */
 #listDiv {
   overflow-y: scroll;
-  height: 100vh;
 }
 
 #recordTable {
   margin-top: 12vh;
-  position: static;
   z-index: 2;
   font-size: 4vh;
-  border-spacing: 1vw;
 }
 
 #recordTable > tbody > tr > td {
   background-color: white;
   height: 8vh;
-  width: justify;
 }
 
 #closeBtn {
@@ -208,6 +197,9 @@ input:focus, button:focus {
   #wrapper {
     width: 1024px;
   }
+  #recordTable td {
+    width: 160px;
+  }
 }
 @media (min-width:1281px) {
   /* hi-res laptops and desktops */
@@ -216,6 +208,9 @@ input:focus, button:focus {
   }
   #wrapper {
     width: 1280px;
+  }
+  #recordTable td {
+    width: 200px;
   }
 }
 
