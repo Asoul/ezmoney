@@ -66,8 +66,12 @@ td:hover {
 #display {
   background-color: white;
 }
+/* Full size div*/
+.fullDiv {
+  height: 100vh;
 }
 /* Login Div */
+
 h3 {
   margin-top: 10vh;
   margin-bottom: 10vh;
