@@ -87,7 +87,7 @@ h3 {
 }
 
 form {
-  font-size: 5vh;
+  font-size: 4vh;
 }
 
 input[type=text], input[type=password] {
@@ -96,7 +96,7 @@ input[type=text], input[type=password] {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   margin-bottom: 1em;
-  font-size: 5vh;
+  font-size: 4vh;
 }
 
 button {
@@ -107,9 +107,9 @@ button {
   border:1px solid #dcdcdc;
   cursor:pointer;
   color:#666666;
-  font-size: 5vh;
+  font-size: 4vh;
   font-weight:bold;
-  padding: 2vh 4vh;
+  padding: 2vh 4vw;
   margin-top: 6vh;
 }
 button:hover {
