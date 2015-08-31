@@ -4,6 +4,8 @@
 - Facebook Login
 - Use Promise to reconstruct
 - resize 完typetable會消失
+- 歷史圖表、分析
+- 客製化介面可以自己調
 
 ## Function
 

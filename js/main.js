@@ -1,4 +1,7 @@
 
+angular.module('lms', [])
+  .controller('PageController', require('./page-controller'))
+
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 var display = new Display(document.getElementById("display"))
