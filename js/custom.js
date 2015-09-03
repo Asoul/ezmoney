@@ -241,12 +241,12 @@ function resetUp() {
 function loadRecordList() {
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
-  query.ascending('date')
+  query.descending('date')
   document.getElementById("recordTable").innerHTML = 'Searching...'
   query.find({
     success: function(records) {
-      console.log(records)
       document.getElementById("recordTable").innerHTML = ''
+      records.reverse()
       numOfRecord = records.length
       for (var i = 0; i < numOfRecord; i++) {
 
