@@ -5,16 +5,20 @@ require.config({
   baseUrl:'js',
   paths:{
     'jquery': '../lib/jquery.min',
-    'angular': '../lib/angular.min',
-    'library': '../lib'
+    'angular': '../bower_components/angular/angular.min',
+    'angular-route': '../bower_components/angular-route/angular-route.min',
+    'SecondController': 'controller/SecondController'
   },
   shim:{
-    'angular':{
-      deps:['jquery'],
-      exports:'angular'
+    'angular': {
+      deps: ['jquery'],
+      exports: 'angular'
     },
-    'app':{
-      deps:['angular']
+    'angular-route': {
+      deps: ['angular']
+    },
+    'app': {
+      deps: ['angular', 'angular-route']
     }
   }
 });

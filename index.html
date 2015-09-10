@@ -17,9 +17,10 @@
 </head>
 
 <body>
-
+  <div ng-controller="SecondController"><h1>{{greeting}}</h1></div>
   <div id="wrapper" ng-controller="PageController">
-    <h1 ng-bind="greeting"></h1>
+    <div ng-view></div>
+    <h1>{{greeting}}</h1>
     <div id="msgDiv" class='fullDiv'>
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgDivCode">?___?</span></p>
