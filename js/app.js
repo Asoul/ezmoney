@@ -15,16 +15,29 @@ define(['angular', 'angular-route', 'SecondController'],
     app.config(['$routeProvider', function($routeProvider) {
       $routeProvider
         .when('/', {
-          templateUrl: 'template/template1.html'
+          templateUrl: 'template/_login.html'
         })
-        .when('/yo', {
-          templateUrl: 'template/template2.html',
+        .when('/message', {
+          templateUrl: 'template/_message.html',
+          controller: SecondController
+        })
+        .when('/list', {
+          templateUrl: 'template/_list.html',
+          controller: SecondController
+        })
+        .when('/price', {
+          templateUrl: 'template/_price_table.html',
+          controller: SecondController
+        })
+        .when('/type', {
+          templateUrl: 'template/_type_table.html',
           controller: SecondController
         })
         .otherwise({
           redirectTo: '/'
         })
     }])
+
     return app; 
   }
 );
