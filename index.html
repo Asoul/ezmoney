@@ -16,10 +16,10 @@
   
 </head>
 
-<body ng-app='ezmoney'>
+<body>
 
   <div id="wrapper" ng-controller="PageController">
-  <div ng-bind="greeting"></div>
+    <h1 ng-bind="greeting"></h1>
     <div id="msgDiv" class='fullDiv'>
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgDivCode">?___?</span></p>
@@ -88,12 +88,11 @@
     </table>
     <div id="listDiv" class='fullDiv'>
       <div id="closeBtn" onclick="pageController.showPrice()">&times;</div>
-      <!-- <ul id="recordList"></ul> -->
       <table id="recordTable"></table>
     </div>
 
   </div>
-<script data-main="app/main" src="lib/require.min.js"></script>
+<script data-main="js/main" src="lib/require.min.js"></script>
 
 </body>
 </html>

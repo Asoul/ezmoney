@@ -1,27 +1,76 @@
-requirejs.config({
-  appDir: ".",
-  baseUrl: "app",
-  paths: { 
-    /* Load jquery from google cdn. On fail, load local file. */
-    'jquery': ['//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min', 'lib/jquery.min'],
-    /* Load bootstrap from cdn. On fail, load local file. */
-    'bootstrap': ['//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.'],
-    'angular': ['//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min'],
-    'parse': ['//www.parsecdn.com/js/parse-1.5.0.min', 'lib/parse.min']
+'use strict';
+
+require.config({
+
+  baseUrl:'js',
+  paths:{
+    'jquery': '../lib/jquery.min',
+    'angular': '../lib/angular.min',
+    'library': '../lib'
   },
-  shim: {
-    /* Set bootstrap dependencies (just jQuery) */
-    'bootstrap' : ['jquery']
+  shim:{
+    'angular':{
+      deps:['jquery'],
+      exports:'angular'
+    },
+    'app':{
+      deps:['angular']
+    }
   }
 });
-require(['angular'], function(require) {
-  console.log('ya2')
-  angular.module('ezmoney',[])
-    .controller('PageController', ['$scope', function($scope) {
-      $scope.greeting = 'Hola!'
-    }])
-  console.log('ya3')
-})
+
+require([
+    'jquery',
+    'angular',
+    'app'
+  ],
+  function (jquery, angular) {
+    console.log('ya');
+    $(document).ready(function () {
+      angular.bootstrap(document, ['ezmoney']);
+    });
+    console.log('ya2');
+  }
+);
+
+
+// var ezmoney = angular.module('ezmoney',[])
+
+
+// requirejs.config({
+//   appDir: ".",
+//   baseUrl: "app",
+//   paths: { 
+//     'jquery': ['//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min', 'lib/jquery.min'],
+//     'bootstrap': ['//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min', 'lib/bootstrap.min'],
+//     'angular': ['//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min', 'lib/angular.min'],
+//     'parse': ['//www.parsecdn.com/js/parse-1.5.0.min', 'lib/parse.min'],
+//   },
+//   shim: {
+//     /* Set bootstrap dependencies (just jQuery) */
+//     'bootstrap' : ['jquery']
+//   }
+// });
+// require([
+//     'jquery',
+//     'parse',
+//     'angular'
+//   ],
+//   function(require) {
+//     var ezmoney = angular.module('ezmoney',[])
+//     ezmoney.config(function($routeProvider) {
+//       $routeProvider.when('/', {
+//         templateUrl: 'index.html',
+//         controller: 'PageController',
+//       })
+//     })
+    
+
+//       // .controller('PageController', require('page-controller'))
+//       // .controller('PageController', ['$scope', function($scope){
+//       //   $scope.greeting = 'fuck'
+//       // }])
+//   })
 // var PageCtrl = require('./page-controller')
 
 // angular.module('ezmoney', [])
