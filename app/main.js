@@ -1,16 +1,39 @@
+requirejs.config({
+  appDir: ".",
+  baseUrl: "app",
+  paths: { 
+    /* Load jquery from google cdn. On fail, load local file. */
+    'jquery': ['//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min', 'lib/jquery.min'],
+    /* Load bootstrap from cdn. On fail, load local file. */
+    'bootstrap': ['//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.'],
+    'angular': ['//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min'],
+    'parse': ['//www.parsecdn.com/js/parse-1.5.0.min', 'lib/parse.min']
+  },
+  shim: {
+    /* Set bootstrap dependencies (just jQuery) */
+    'bootstrap' : ['jquery']
+  }
+});
+require(['angular'], function(require) {
+  console.log('ya2')
+  angular.module('ezmoney',[])
+    .controller('PageController', ['$scope', function($scope) {
+      $scope.greeting = 'Hola!'
+    }])
+  console.log('ya3')
+})
+// var PageCtrl = require('./page-controller')
 
-angular.module('lms', [])
-  .controller('PageCtrl', require('./page-controller'))
-  .config(function($routeProvider, $locationProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: "templates/index.html",
-        controller:'PageCtrl'
-      })
-      .otherwise({
-        template: 'does not exists'
-      });
-  })
+// angular.module('ezmoney', [])
+//   .config(function($routeProvider, $locationProvider) {
+//     $routeProvider
+//       .when('/', {
+//         templateUrl: "templates/index.html"
+//       })
+//       .otherwise({
+//         templateUrl: "templates/index.html"
+//       });
+//   })
 
 // Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 

@@ -8,7 +8,7 @@ body {
   margin: 0;
 
   /* Display after css resize*/
-  opacity: 0;
+  opacity: 1;
 
   /* unseletable for everthing */
   -moz-user-select: -moz-none;

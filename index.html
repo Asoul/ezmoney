@@ -13,15 +13,13 @@
   <meta property="og:description" content="簡單記帳小網頁" />
 
   <link rel="icon" type="image/ico" href="favicon.ico">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
   
-
 </head>
 
-<body ng-app>
+<body ng-app='ezmoney'>
+
   <div id="wrapper" ng-controller="PageController">
+  <div ng-bind="greeting"></div>
     <div id="msgDiv" class='fullDiv'>
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgDivCode">?___?</span></p>
@@ -95,8 +93,7 @@
     </div>
 
   </div>
-<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+<script data-main="app/main" src="lib/require.min.js"></script>
 
 </body>
 </html>
