@@ -41,10 +41,6 @@ table, #loginDiv, #msgDiv {
   display: block;
 }
 
-#typeTable, #priceTable, #msgDiv {
-  display: none;
-}
-
 /* Price Table, Type Table */
 
 table {

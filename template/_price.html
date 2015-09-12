@@ -1,0 +1,25 @@
+<table id="priceTable" ng-controller="PriceController">
+  <tr>
+    <td id="display" ng-bind="displayBar" colspan="3">0</td>
+  </tr>
+  <tr>
+    <td ng-click="clickNumber(1)">1</td>
+    <td ng-click="clickNumber(2)">2</td>
+    <td ng-click="clickNumber(3)">3</td>
+  </tr>
+  <tr>
+    <td ng-click="clickNumber(4)">4</td>
+    <td ng-click="clickNumber(5)">5</td>
+    <td ng-click="clickNumber(6)">6</td>
+  </tr>
+  <tr>
+    <td ng-click="clickNumber(7)">7</td>
+    <td ng-click="clickNumber(8)">8</td>
+    <td ng-click="clickNumber(9)">9</td>
+  </tr>
+  <tr>
+    <td ng-mousedown="resetDown()" ng-mouseup="resetUp()">C</td>
+    <td ng-click="clickNumber(0)">0</td>
+    <td ng-click="clickSend()">✈</td>
+  </tr>
+</table>

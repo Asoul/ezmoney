@@ -6,6 +6,8 @@
 - resize 完typetable會消失
 - 歷史圖表、分析
 - 客製化介面可以自己調
+- js to coffeejs
+- nested controller usage
 
 ## Function
 

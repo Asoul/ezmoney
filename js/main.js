@@ -4,10 +4,13 @@ require.config({
 
   baseUrl:'js',
   paths:{
-    'jquery': '../lib/jquery.min',
+    'jquery': '../bower_components/jquery/dist/jquery.min',
     'angular': '../bower_components/angular/angular.min',
     'angular-route': '../bower_components/angular-route/angular-route.min',
-    'SecondController': 'controller/SecondController'
+    'parse': '../bower_components/parse/parse.min',
+    'SecondController': 'controller/SecondController',
+    'StatusController': 'controller/StatusController',
+    'PriceController': 'controller/PriceController'
   },
   shim:{
     'angular': {
@@ -26,7 +29,8 @@ require.config({
 require([
     'jquery',
     'angular',
-    'app'
+    'app',
+    'parse'
   ],
   function (jquery, angular) {
     console.log('ya');
@@ -36,59 +40,6 @@ require([
     console.log('ya2');
   }
 );
-
-
-// var ezmoney = angular.module('ezmoney',[])
-
-
-// requirejs.config({
-//   appDir: ".",
-//   baseUrl: "app",
-//   paths: { 
-//     'jquery': ['//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min', 'lib/jquery.min'],
-//     'bootstrap': ['//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min', 'lib/bootstrap.min'],
-//     'angular': ['//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min', 'lib/angular.min'],
-//     'parse': ['//www.parsecdn.com/js/parse-1.5.0.min', 'lib/parse.min'],
-//   },
-//   shim: {
-//     /* Set bootstrap dependencies (just jQuery) */
-//     'bootstrap' : ['jquery']
-//   }
-// });
-// require([
-//     'jquery',
-//     'parse',
-//     'angular'
-//   ],
-//   function(require) {
-//     var ezmoney = angular.module('ezmoney',[])
-//     ezmoney.config(function($routeProvider) {
-//       $routeProvider.when('/', {
-//         templateUrl: 'index.html',
-//         controller: 'PageController',
-//       })
-//     })
-    
-
-//       // .controller('PageController', require('page-controller'))
-//       // .controller('PageController', ['$scope', function($scope){
-//       //   $scope.greeting = 'fuck'
-//       // }])
-//   })
-// var PageCtrl = require('./page-controller')
-
-// angular.module('ezmoney', [])
-//   .config(function($routeProvider, $locationProvider) {
-//     $routeProvider
-//       .when('/', {
-//         templateUrl: "templates/index.html"
-//       })
-//       .otherwise({
-//         templateUrl: "templates/index.html"
-//       });
-//   })
-
-// Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 // var display = new Display(document.getElementById("display"))
 // var pageController = new PageController()
@@ -109,173 +60,13 @@ require([
 //   userController.checkStatus()
 // }
 
-// /* User Controller */
-
-// function UserController() {
-
-//   this.status = 0
-
-//   this.checkStatus = function() {
-//     if (Parse.User.current()) {
-//       this.status = 1
-//       pageController.showPrice()
-//     } else {
-//       this.status = 0
-//       pageController.showLogIn()
-//     }
-//   }
-
-//   this.logIn = function() {
-//     username = document.getElementById('username').value
-//     password = document.getElementById('password').value
-
-//     Parse.User.logIn(username, password, {
-//       success: function(user) {
-//         pageController.showPrice()
-//         this.status = 1
-//       },
-//       error: function(user, error) {
-//         showErrorMessage(error)
-//         this.status = 0
-//       }
-//     })
-//   }
-
-//   this.logOut = function() {
-//     Parse.User.logOut()
-//     this.status = 0
-//     pageController.showLogIn()
-//   }
-
-//   this.signUp = function() {
-//     username = document.getElementById('username').value
-//     password = document.getElementById('password').value
-
-//     var user = new Parse.User()
-//     user.set('username', username)
-//     user.set('password', password)
-//     user.set('email', username)
-
-//     user.signUp(null, {
-//       success: function(user) {
-//         pageController.showPrice()
-//         this.status = 1
-//       },
-//       error: function(user, error) {
-//         showErrorMessage(error)
-//         this.status = 0
-//       }
-//     })
-//   }
-// }
-
 // document.getElementById('password').onkeydown = function(event) {
 //   if (event.keyCode == 13) {
 //     userController.logIn()
 //   }
 // }
 
-// /* Page Controller */
-// function PageController() {
-//   this.status = 0
-//   this.pageLogIn = document.getElementById('loginDiv')
-//   this.pageMsg = document.getElementById('msgDiv')
-//   this.pagePrice = document.getElementById('priceTable')
-//   this.pageType = document.getElementById('typeTable')
-//   this.pageList = document.getElementById('listDiv')
-
-//   this.getStatus = function() {
-//     return this.status
-//   }
-
-//   this.hideAll = function() {
-//     this.pageLogIn.style.display = 'none'
-//     this.pageMsg.style.display = 'none'
-//     this.pagePrice.style.display = 'none'
-//     this.pageType.style.display = 'none'
-//     this.pageList.style.display = 'none'
-//   }
-//   this.showLogIn = function() {
-//     this.hideAll()
-//     document.getElementById('signUpBtn').innerHTML = 'New User'
-//     document.getElementById('signUpBtn').onclick = function(){transformLogInPage()}
-//     document.getElementById('logInBtn').style.display = 'inline'
-  
-//     this.pageLogIn.style.display = 'block'
-//     this.status = 1
-//   }
-//   this.showMsg = function() {
-//     this.hideAll()
-//     this.pageMsg.style.display = 'block'
-//     this.status = 2
-//   }
-//   this.showPrice = function() {
-//     this.hideAll()
-//     this.pagePrice.style.display = 'table'
-//     this.status = 3
-//   }
-//   this.showType = function() {
-//     this.hideAll()
-//     this.pageType.style.display = 'table'
-//     this.status = 4
-//   }
-//   this.showList = function() {
-//     this.hideAll()
-//     this.pageList.style.display = 'block'
-//     this.status = 5
-//   }
-// }
-
-// /* Display Handle */
-
-// function Display (dom) {
-//   this.dom = dom
-  
-//   this.is = function (string) {
-//     return this.dom.innerHTML === string
-//   }
-//   this.startsWith = function (string) {
-//     return String(this.dom.innerHTML).startsWith(string)
-//   }
-
-//   this.toInt = function() {
-//     return parseInt(this.dom.innerHTML)
-//   }
-//   this.getLength = function () {
-//     return this.dom.innerHTML.length
-//   }
-  
-//   this.set = function (string) {
-//     this.dom.innerHTML = string  
-//   }
-//   this.append = function (string) {
-//     this.dom.innerHTML += string
-//   }
-//   this.setSuccess = function (type, price) {
-//     this.dom.innerHTML = '✓ ' + type + ' ' + price
-//   }
-//   this.erase = function () {
-//     this.dom.innerHTML = '0'
-//   }
-// }
-
 // /* Main Activity */
-
-// function clickNumber(n) {
-//   if (display.startsWith('✓') || display.startsWith('✗')) {
-//     display.set(n)
-//   } else if (display.startsWith('Send')) {
-//     // do nothing
-//   } else if (display.getLength() < 10) {
-//     if (display.is('0')) {
-//       if (n !== 0) {
-//         display.set(n)
-//       }
-//     } else {
-//       display.append(n)
-//     }
-//   }
-// }
 
 // function clickType(t) {
 //   var Record = Parse.Object.extend("Record")
@@ -315,16 +106,6 @@ require([
 // function clickCancel() {
 //   display.erase()
 //   pageController.showPrice()
-// }
-
-// function resetDown() {
-//   document.getElementById('logOutKey').innerHTML = '掰'
-//   pressTimer = setTimeout(function(){userController.logOut()}, 1500)
-// }
-
-// function resetUp() {
-//   document.getElementById('logOutKey').innerHTML = 'C'
-//   clearTimeout(pressTimer)
 // }
 
 // function loadRecordList() {

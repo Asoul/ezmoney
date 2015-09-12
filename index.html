@@ -8,18 +8,16 @@
 
   <meta property="og:title" content="EZMoney" />
   <meta property="og:type" content="article" />
-  <!-- <meta property="og:image" content="http://asoul.github.io/ezmoney/img/ogimage.jpg" /> -->
+  <meta property="og:image" content="http://asoul.github.io/ezmoney/img/ogimage.jpg" />
   <meta property="og:url" content="http://asoul.github.io/ezmoney/" />
   <meta property="og:description" content="簡單記帳小網頁" />
 
-  <link rel="icon" type="image/ico" href="favicon.ico">
-  
+  <link rel="icon" type="image/ico" href="img/ogimage.jpg">
 </head>
-
 <body>
-  <div id="wrapper" ng-controller="PageController">
+  <div id="wrapper" ng-controller="StatusController">
     <div ng-view></div>
   </div>
-<script data-main="js/main" src="lib/require.min.js"></script>
+<script data-main="js/main" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>
