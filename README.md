@@ -3,6 +3,8 @@
 - Facebook Login
 - Use Promise to reconstruct
 - 統計圖
+- 加可以新增回饋的東西
+- error code translation
 
 ## Parse
 
@@ -12,10 +14,6 @@
 ## Android App
 
 - 做成 Android App 才可以背景同步 (React on Android 了!)
-
-## PC
-
-- keyboard input
 
 ## Art
 
