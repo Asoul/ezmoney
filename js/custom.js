@@ -2,8 +2,8 @@
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 var display = new Display(document.getElementById("display"))
-var pageController = new PageController()
-var userController = new UserController()
+var page = new PageController()
+var user = new UserController()
 var pressTimer
 
 /* Error Message */
@@ -11,28 +11,33 @@ var pressTimer
 function showErrorMessage(error) {
   document.getElementById('msgDivCode').innerHTML = error.code
   document.getElementById('msgDivContent').innerHTML = error.message
-  pageController.showMsg()
+  page.showMsg()
   console.log('[' + error.code + '], ' + error.message)
 }
 
 function closeMsgDiv() {
   display.erase()
-  userController.checkStatus()
+  user.checkStatus()
 }
 
 /* User Controller */
 
 function UserController() {
 
-  this.status = 0
+  this.statusEnum = {
+    NOT_LOGIN: 0,
+    LOGINED: 1
+  }
+
+  this.status = this.statusEnum.NOT_LOGIN
 
   this.checkStatus = function() {
     if (Parse.User.current()) {
-      this.status = 1
-      pageController.showPrice()
+      this.status = this.statusEnum.LOGINED
+      page.showPrice()
     } else {
-      this.status = 0
-      pageController.showLogIn()
+      this.status = this.statusEnum.NOT_LOGIN
+      page.showLogIn()
     }
   }
 
@@ -42,20 +47,20 @@ function UserController() {
 
     Parse.User.logIn(username, password, {
       success: function(user) {
-        pageController.showPrice()
-        this.status = 1
+        page.showPrice()
+        this.status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
         showErrorMessage(error)
-        this.status = 0
+        this.status = this.statusEnum.NOT_LOGIN
       }
     })
   }
 
   this.logOut = function() {
     Parse.User.logOut()
-    this.status = 0
-    pageController.showLogIn()
+    this.status = this.statusEnum.NOT_LOGIN
+    page.showLogIn()
   }
 
   this.signUp = function() {
@@ -69,12 +74,12 @@ function UserController() {
 
     user.signUp(null, {
       success: function(user) {
-        pageController.showPrice()
-        this.status = 1
+        page.showPrice()
+        this.status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
         showErrorMessage(error)
-        this.status = 0
+        this.status = this.statusEnum.NOT_LOGIN
       }
     })
   }
@@ -82,13 +87,23 @@ function UserController() {
 
 document.getElementById('password').onkeydown = function(event) {
   if (event.keyCode == 13) {
-    userController.logIn()
+    user.logIn()
   }
 }
 
 /* Page Controller */
 function PageController() {
-  this.status = 0
+
+  this.statusEnum = {
+    LOGIN: 0,
+    MSG: 1,
+    PRICE: 2,
+    TYPE: 3,
+    LIST: 4
+  }
+
+  this.status = this.statusEnum.LOGIN
+
   this.pageLogIn = document.getElementById('loginDiv')
   this.pageMsg = document.getElementById('msgDiv')
   this.pagePrice = document.getElementById('priceTable')
@@ -113,27 +128,27 @@ function PageController() {
     document.getElementById('logInBtn').style.display = 'inline'
   
     this.pageLogIn.style.display = 'block'
-    this.status = 1
+    this.status = this.statusEnum.LOGIN
   }
   this.showMsg = function() {
     this.hideAll()
     this.pageMsg.style.display = 'block'
-    this.status = 2
+    this.status = this.statusEnum.MSG
   }
   this.showPrice = function() {
     this.hideAll()
     this.pagePrice.style.display = 'table'
-    this.status = 3
+    this.status = this.statusEnum.PRICE
   }
   this.showType = function() {
     this.hideAll()
     this.pageType.style.display = 'table'
-    this.status = 4
+    this.status = this.statusEnum.TYPE
   }
   this.showList = function() {
     this.hideAll()
     this.pageList.style.display = 'block'
-    this.status = 5
+    this.status = this.statusEnum.LIST
   }
 }
 
@@ -149,7 +164,7 @@ function Display (dom) {
     return String(this.dom.innerHTML).startsWith(string)
   }
 
-  this.toInt = function() {
+  this.value = function() {
     return parseInt(this.dom.innerHTML)
   }
   this.getLength = function () {
@@ -166,7 +181,7 @@ function Display (dom) {
     this.dom.innerHTML = '✓ ' + type + ' ' + price
   }
   this.erase = function () {
-    this.dom.innerHTML = '0'
+    this.set("0")
   }
 }
 
@@ -192,7 +207,7 @@ function clickType(t) {
   var Record = Parse.Object.extend("Record")
   var record = new Record()
   
-  record.set("price", display.toInt())
+  record.set("price", display.value())
   record.set('type', t)
   record.set('date', new Date())
   record.set('createdBy', Parse.User.current())
@@ -208,29 +223,52 @@ function clickType(t) {
   })
 
   display.set("Sending...")
-  pageController.showPrice()
+  page.showPrice()
+}
+
+function pressKey(event) {
+  key = event.keyCode
+  if (page.status == page.statusEnum.PRICE) {
+    if (key >= 48 && key <= 57) {// number 0 ~ 9
+      clickNumber(key-48)
+    } else if (key == 27 || key == 67) {// ESC or c
+      display.erase()
+    } else if (key == 13) {// enter
+      clickSend()
+    } else if (key == 76) {// L
+      showList()
+    }
+  } else if (page.status == page.statusEnum.TYPE) {
+    if (key == 27 || key == 67) {// ESC or c
+      clickCancel()
+    }
+  } else if (page.status == page.statusEnum.LIST) {
+    if (key == 27 || key == 67) {// ESC or c
+      page.showPrice()
+    }
+  }
 }
 
 function transformLogInPage() {
   document.getElementById('signUpBtn').innerHTML = 'Sign Up'
   document.getElementById('signUpBtn').onclick = function() {
-    userController.signUp()
+    user.signUp()
   }
   document.getElementById('logInBtn').style.display = 'none'
 }
 
 function clickSend() {
-  pageController.showType()
+  page.showType()
 }
 
 function clickCancel() {
   display.erase()
-  pageController.showPrice()
+  page.showPrice()
 }
 
 function resetDown() {
   document.getElementById('logOutKey').innerHTML = '掰'
-  pressTimer = setTimeout(function(){userController.logOut()}, 1500)
+  pressTimer = setTimeout(function(){user.logOut()}, 1500)
 }
 
 function resetUp() {
@@ -259,15 +297,16 @@ function loadRecordList() {
   });
 }
 
-function to2Digit(string) {
-  var s = String(string)
-  if (s.length < 2) 
-    return '0' + s
-  return s
-}
-
 function appendToList(date, type, price) {
   
+  function to2Digit(string) {
+    var s = String(string)
+    if (s.length < 2) {
+      return '0' + s
+    }
+    return s
+  }
+
   var table = document.getElementById("recordTable")
   var row = table.insertRow(0)
   var cell1 = row.insertCell(-1)
@@ -281,14 +320,14 @@ function appendToList(date, type, price) {
   cell4.innerHTML = price
 }
 
-document.getElementById('display').onclick = function() {
-  pageController.showList()
+function showList() {
+  page.showList()
   loadRecordList()
 }
 
 window.onload = function() {
   // check parse login status
-  userController.checkStatus()
+  user.checkStatus()
 
   // show body after loaded
   document.body.style.opacity = 1
