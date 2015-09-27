@@ -172,18 +172,29 @@ input:focus, button:focus {
   height: 8vh;
 }
 
-#setting {
-  background-image: url("../img/setting.png");
-  background-size: 50px;
+.small-icon, .large-icon {
   background-repeat: no-repeat;
   background-position: center;
 }
 
+.small-icon {
+  height: 50px;
+  width: 50px;
+  background-size: 50px;
+}
+
+.large-icon {
+  height: 125px;
+  width: 125px;
+  background-size: 125px;
+}
+
+#setting {
+  background-image: url("../img/setting.png");
+}
+
 #lineChart {
   background-image: url("../img/line-chart.svg");
-  background-size: 50px;
-  background-repeat: no-repeat;
-  background-position: center; 
 }
 
 #pieChart {
@@ -195,23 +206,14 @@ input:focus, button:focus {
 
 #logout {
   background-image: url("../img/logout.png");
-  background-size: 50px;
-  background-repeat: no-repeat;
-  background-position: center;  
 }
 
 #feedback {
   background-image: url("../img/feedback.svg");
-  background-size: 50px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 #showList {
   background-image: url("../img/list.png");
-  background-size: 50px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* Setting Div */
@@ -227,6 +229,24 @@ Responsive Settings
 */
 
 @media (max-width: 319px), (max-height: 479px) {
+  /* Why your device is so small */
+  body {
+    font-size: 30px;
+  }
+  table {
+    border-spacing: 10px;
+  }
+  td {
+    height: 40px;
+    width: 60px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+  }
+  #wrapper {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 @media (min-width: 320px) and (min-height: 480px) {
