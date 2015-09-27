@@ -2,7 +2,8 @@
 
 - Facebook Login
 - Use Promise to reconstruct
-- 統計圖
+- 統計圖 pie chart
+- 變化圖 line chart
 - 加可以新增回饋的東西
 - error code translation
 - option table
@@ -18,4 +19,6 @@
 
 ## Art
 
-- list 增加標題欄
+- td 手機點下去應該要可以自動褪色，鍵盤輸入也要有顏色然後褪色
+- 自己做插圖
+- add a google font
