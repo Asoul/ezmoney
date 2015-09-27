@@ -344,6 +344,8 @@ function loadRecordList() {
 function loadSetting() {
   document.getElementById("screenWidth").innerHTML = window.screen.width
   document.getElementById("screenHeight").innerHTML = window.screen.height
+  document.getElementById("innerWidth").innerHTML = window.innerWidth
+  document.getElementById("innerHeight").innerHTML = window.innerHeight
 }
 
 function appendToList(date, type, price) {
