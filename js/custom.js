@@ -52,14 +52,14 @@ function UserController() {
     LOGINED: 1
   }
 
-  this.status = this.statusEnum.NOT_LOGIN
+  var status = this.statusEnum.NOT_LOGIN
 
   this.checkStatus = function() {
     if (Parse.User.current()) {
-      this.status = this.statusEnum.LOGINED
+      status = this.statusEnum.LOGINED
       page.showPrice()
     } else {
-      this.status = this.statusEnum.NOT_LOGIN
+      status = this.statusEnum.NOT_LOGIN
       page.showLogIn()
     }
   }
@@ -71,18 +71,18 @@ function UserController() {
     Parse.User.logIn(username, password, {
       success: function(user) {
         page.showPrice()
-        this.status = this.statusEnum.LOGINED
+        status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
         showErrorMessage(error)
-        this.status = this.statusEnum.NOT_LOGIN
+        status = this.statusEnum.NOT_LOGIN
       }
     })
   }
 
   this.logOut = function() {
     Parse.User.logOut()
-    this.status = this.statusEnum.NOT_LOGIN
+    status = this.statusEnum.NOT_LOGIN
     page.showLogIn()
   }
 
@@ -98,11 +98,11 @@ function UserController() {
     user.signUp(null, {
       success: function(user) {
         page.showPrice()
-        this.status = this.statusEnum.LOGINED
+        status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
         showErrorMessage(error)
-        this.status = this.statusEnum.NOT_LOGIN
+        status = this.statusEnum.NOT_LOGIN
       }
     })
   }
@@ -122,56 +122,87 @@ function PageController() {
     MSG: 1,
     PRICE: 2,
     TYPE: 3,
-    LIST: 4
+    OPTION: 4,
+    LIST: 5,
+    SETTING: 6
   }
 
-  this.status = this.statusEnum.LOGIN
+  var status = this.statusEnum.LOGIN
 
-  this.pageLogIn = document.getElementById('loginDiv')
-  this.pageMsg = document.getElementById('msgDiv')
-  this.pagePrice = document.getElementById('priceTable')
-  this.pageType = document.getElementById('typeTable')
-  this.pageList = document.getElementById('listDiv')
+  var title = document.getElementById('title')
+  var titleBar = document.getElementById('titleBar')
+  var pageLogIn = document.getElementById('loginDiv')
+  var pageMsg = document.getElementById('msgDiv')
+  var pagePrice = document.getElementById('priceTable')
+  var pageType = document.getElementById('typeTable')
+  var pageList = document.getElementById('listDiv')
+  var pageOption = document.getElementById('optionTable')
+  var pageSetting = document.getElementById('settingDiv')
+
+  var setTitle = function(string) {
+    title.innerHTML = string
+  }
 
   this.getStatus = function() {
-    return this.status
+    return status
   }
 
-  this.hideAll = function() {
-    this.pageLogIn.style.display = 'none'
-    this.pageMsg.style.display = 'none'
-    this.pagePrice.style.display = 'none'
-    this.pageType.style.display = 'none'
-    this.pageList.style.display = 'none'
+  var hideAll = function() {
+    titleBar.classList.remove('show')
+    pageLogIn.style.display = 'none'
+    pageMsg.style.display = 'none'
+    pagePrice.style.display = 'none'
+    pageType.style.display = 'none'
+    pageList.style.display = 'none'
+    pageOption.style.display = 'none'
+    pageSetting.style.display = 'none'
   }
   this.showLogIn = function() {
-    this.hideAll()
+    hideAll()
     document.getElementById('signUpBtn').innerHTML = 'New User'
     document.getElementById('signUpBtn').onclick = function(){transformLogInPage()}
     document.getElementById('logInBtn').style.display = 'inline'
   
-    this.pageLogIn.style.display = 'block'
-    this.status = this.statusEnum.LOGIN
+    pageLogIn.style.display = 'block'
+    status = this.statusEnum.LOGIN
   }
   this.showMsg = function() {
-    this.hideAll()
-    this.pageMsg.style.display = 'block'
-    this.status = this.statusEnum.MSG
+    hideAll()
+    pageMsg.style.display = 'block'
+    status = this.statusEnum.MSG
   }
   this.showPrice = function() {
-    this.hideAll()
-    this.pagePrice.style.display = 'table'
-    this.status = this.statusEnum.PRICE
+    hideAll()
+    pagePrice.style.display = 'table'
+    status = this.statusEnum.PRICE
   }
   this.showType = function() {
-    this.hideAll()
-    this.pageType.style.display = 'table'
-    this.status = this.statusEnum.TYPE
+    hideAll()
+    pageType.style.display = 'table'
+    status = this.statusEnum.TYPE
   }
   this.showList = function() {
-    this.hideAll()
-    this.pageList.style.display = 'block'
-    this.status = this.statusEnum.LIST
+    hideAll()
+    pageList.style.display = 'block'
+    setTitle("歷史清單")
+    titleBar.classList.add('show')
+    status = this.statusEnum.LIST
+    loadRecordList()
+  }
+  this.showOption = function() {
+    hideAll()
+    pageOption.style.display = 'table'
+    setTitle("功能列")
+    titleBar.classList.add('show')
+    status = this.statusEnum.OPTION
+  }
+  this.showSetting = function() {
+    hideAll()
+    pageSetting.style.display = 'block'
+    setTitle("設定")
+    titleBar.classList.add('show')
+    status = this.statusEnum.OPTION 
+    loadSetting()
   }
 }
 
@@ -259,7 +290,7 @@ function pressKey(event) {
     } else if (key == 13) {// enter
       clickSend()
     } else if (key == 76) {// L
-      showList()
+      page.showList()
     }
   } else if (page.status == page.statusEnum.TYPE) {
     if (key == 27 || key == 67) {// ESC or c
@@ -272,7 +303,7 @@ function pressKey(event) {
   }
 }
 
-function transformLogInPage() {
+function transformLogInPage() {// need to code better
   document.getElementById('signUpBtn').innerHTML = 'Sign Up'
   document.getElementById('signUpBtn').onclick = function() {
     user.signUp()
@@ -287,16 +318,6 @@ function clickSend() {
 function clickCancel() {
   display.erase()
   page.showPrice()
-}
-
-function resetDown() {
-  document.getElementById('logOutKey').innerHTML = '掰'
-  pressTimer = setTimeout(function(){user.logOut()}, 1500)
-}
-
-function resetUp() {
-  document.getElementById('logOutKey').innerHTML = 'C'
-  clearTimeout(pressTimer)
 }
 
 function loadRecordList() {
@@ -318,6 +339,11 @@ function loadRecordList() {
       console.log(error.code + ', ' + error.message)
     }
   });
+}
+
+function loadSetting() {
+  document.getElementById("screenWidth").innerHTML = window.screen.width
+  document.getElementById("screenHeight").innerHTML = window.screen.height
 }
 
 function appendToList(date, type, price) {

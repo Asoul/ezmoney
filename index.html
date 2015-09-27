@@ -14,13 +14,21 @@
 </head>
 
 <body onkeydown="pressKey(event)">
+
+  <div id="titleBar">
+    <p id="left-arrow" onclick="page.showPrice()">⬅</p>
+    <p id="title"></p>
+  </div>
+
   <div id="wrapper">
+
     <div id="msgDiv" class='fullDiv'>
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgDivCode">?___?</span></p>
       <p id="msgDivContent">你好奇怪喔</p>
       <button onclick="closeMsgDiv()">OK</button>
     </div>
+
     <div id="loginDiv" class='fullDiv'>
       <h3>EZMoney</h3>
       <form>
@@ -36,7 +44,7 @@
 
     <table id="priceTable">
       <tr>
-        <td id="display" colspan="3" onclick="showList()">0</td>
+        <td id="display" colspan="3" onclick="page.showOption()">0</td>
       </tr>
       <tr>
         <td onclick="clickNumber(1)">1</td>
@@ -54,7 +62,7 @@
         <td onclick="clickNumber(9)">9</td>
       </tr>
       <tr>
-        <td id="logOutKey" onmousedown="resetDown()" onmouseup="resetUp()" onclick="display.erase()">C</td>
+        <td id="logOutKey" onclick="display.erase()">C</td>
         <td onclick="clickNumber(0)">0</td>
         <td onclick="clickSend()">✈</td>
       </tr>
@@ -81,9 +89,31 @@
         <td onclick="clickCancel()" colspan="3">Cancel</td>
       </tr>
     </table>
+
+    <table id="optionTable">
+      <tr>
+        <td id="setting" onclick="page.showSetting()"></td>
+        <td id="lineChart" colspan="2"></td>
+      </tr>
+      <tr>
+        <td id="showList" onclick="page.showList()"></td>
+        <td colspan="2" rowspan="2" id="pieChart"></td>
+      </tr>
+      <tr>
+        <td id="feedback"></td>
+      </tr>
+      <tr>
+        <td colspan="3" id="logout" onclick="user.logOut()"></td>
+      </tr>
+    </table>
+
     <div id="listDiv" class='fullDiv'>
-      <div id="closeBtn" onclick="page.showPrice()">&times;</div>
       <table id="recordTable"></table>
+    </div>
+    
+    <div id="settingDiv" class="fullDiv">
+      <p>Width: <span id="screenWidth"></span>px</p>
+      <p>Height: <span id="screenHeight"></span>px</p>
     </div>
 
   </div>

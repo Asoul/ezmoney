@@ -7,10 +7,10 @@ body {
   text-align: center;
   margin: 0;
 
-  /* Display after css resize*/
+  /* Display after css resize */
   opacity: 0;
 
-  /* unseletable for everthing */
+  /* Unseletable for everthing */
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
@@ -20,19 +20,53 @@ body {
   /* Disable Scroll */
   position: fixed;
   overflow-y: scroll;
-
-  font-size: 10vh;
 }
 
 #wrapper {
-  width: 800px;
   margin: 0 auto;
 }
 
-table, #loginDiv, #msgDiv {
-  /*position: absolute;*/
+table, .fullDiv {
   width: 100%;
   background-color: white;
+}
+
+/* Title Bar */
+
+#titleBar {
+  height: 4rem;
+  width: 100%;
+  background-color: #24d3d9;
+  color: white;
+  text-align: left;
+  display: none;
+}
+
+#titleBar.show {
+  display: block;
+  animation-name: titleBarShow;
+  animation-duration: 0.5s;
+}
+
+@keyframes titleBarShow {
+  from {background-color: white;}
+  to {background-color: #24d3d9;}
+}
+
+#titleBar > p {
+  font-size: 2rem;
+  line-height: 4rem;
+  padding-left: 1rem;
+  margin: 0;
+  display: inline;
+}
+
+#left-arrow {
+  font-size: 1.5rem;
+}
+
+#left-arrow:hover {
+  cursor: pointer;
 }
 
 /* Initial Page Status */
@@ -47,31 +81,25 @@ table, #loginDiv, #msgDiv {
 
 /* Price Table, Type Table */
 
-table {
-  border-spacing: 2.5vmin;
-}
-
 td {
-  height: 16vh;
-  border-radius: 1vw;
-  -moz-border-radius: 1vw;
-  -webkit-border-radius: 1vw;
   background-color: #eeeeee;
+  transition: background-color 0.6s ease;
 }
 
 td:hover {
-  background-color: #ff8080;
+  background-color: #FFCCCC;
 }
 
 #display {
   background-color: white;
 }
+
 /* Full size div*/
 .fullDiv {
-  height: 100vh;
+  height: 100%;
 }
-/* Login Div */
 
+/* Login Div */
 h3 {
   margin-top: 10vh;
   margin-bottom: 10vh;
@@ -110,7 +138,7 @@ button {
   margin-top: 6vh;
 }
 button:hover {
-  background-color: #f6f6f6;
+  background-color: #24d3d9;
 }
 
 input:focus, button:focus {
@@ -136,8 +164,6 @@ input:focus, button:focus {
 }
 
 #recordTable {
-  margin-top: 12vh;
-  z-index: 2;
   font-size: 4vh;
 }
 
@@ -146,28 +172,86 @@ input:focus, button:focus {
   height: 8vh;
 }
 
-#closeBtn {
-  z-index: 3;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 12vh;
-  height: 12vh;
-  font-size: 11vh;
-  cursor: pointer;
+#setting {
+  background-image: url("../img/setting.png");
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-@media (min-width:320px) {
-  /* smartphones, iPhone, portrait 480x320 phones */
+#lineChart {
+  background-image: url("../img/line-chart.svg");
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+
+#pieChart {
+  background-image: url("../img/pie-chart.png");
+  background-size: 125px;
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+
+#logout {
+  background-image: url("../img/logout.png");
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;  
+}
+
+#feedback {
+  background-image: url("../img/feedback.svg");
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#showList {
+  background-image: url("../img/list.png");
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Setting Div */
+
+#settingDiv {
+  font-size: 20px;
+}
+
+/*
+
+Responsive Settings
+
+*/
+
+@media (max-width: 319px), (max-height: 479px) {
+}
+
+@media (min-width: 320px) and (min-height: 480px) {
+  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+  body {
+    font-size: 45px;
+  }
+  table {
+    border-spacing: 10px;
+  }
   td {
+    height: 65px;
     width: 100px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
   }
   #wrapper {
+    height: 480px;
     width: 320px;
   }
 }
-@media (min-width:481px) {
-  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+
+@media (min-width:480px) {
+  /* smartphones, Android phones, landscape iPhone */
   td {
     width: 150px;
   }
