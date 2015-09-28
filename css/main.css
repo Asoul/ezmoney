@@ -28,11 +28,13 @@ body {
   width: 320px;
   height: 450px;
   margin: 0 auto;
+
   border-radius: 1px;
   border-style: solid;
   border-width: 1px;
   border-top-width: 0;
   border-color: #888888;
+
   box-shadow: 0px 5px 30px #666666;
   background-color: #ffffff;
 }
@@ -40,13 +42,15 @@ body {
 /* Title Bar */
 
 #titleBar {
-  height: 48px;
+  position: relative;
+  height: 60px;
   width: 100%;
   background-color: #24d3d9;
   color: white;
   text-align: left;
   display: none;
   width: 320px;
+  text-align: center;
 }
 
 #titleBar.show {
@@ -61,18 +65,24 @@ body {
 }
 
 #titleBar > p {
-  line-height: 48px;
-  padding-left: 14px;
+  font-size: 30px;
+  line-height: 60px;
+  padding-left: 10px;
   margin: 0;
   display: inline;
 }
 
-#left-arrow:hover {
+#titleBar > p#left-arrow {
+  position: absolute;
+  left: 10px;
+  font-size: 40px;
+}
+
+#titleBar > p#left-arrow:hover {
   cursor: pointer;
 }
 
 /* Initial Page Status */
-
 #loginDiv {
   display: block;
 }
@@ -82,16 +92,12 @@ body {
 }
 
 /* Price Table, Type Table */
-
 table {
   margin: 0 auto;
   border-spacing: 9px;
 }
 
 td {
-  border-width: 1px;
-  border-style: solid;
-  border-color: #eeeeee;
   font-size: 45px;
   height: 75px;
   width: 90px;
@@ -102,17 +108,21 @@ td {
 
 td:hover {
   cursor: default;
-  background-color: #f8f8f8;
-  box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 1px 0px;;
+  background-color: #fcacac;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.33);
 }
 
 #display {
   background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f0f0f0;
 }
 
 #display:hover {
   background-image: none;
-  box-shadow: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.13);
+  /*box-shadow: none;*/
 }
 
 /* Login Div */
@@ -177,10 +187,14 @@ input:focus, button:focus {
 
 /* List Div */
 #listDiv {
-  height: 402px;/* 450 - 48px */
+  height: 390px;/* 450 - 60px */
 }
 #listDiv {
   overflow-y: scroll;
+}
+
+#recordTableLoadingMessage {
+  display: none;
 }
 
 #recordTable {

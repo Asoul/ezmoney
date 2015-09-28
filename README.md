@@ -9,6 +9,7 @@
 - 可以插入註解
 - 可以刪除打錯的
 - sign up page
+- should responsice
 
 ## Parse
 

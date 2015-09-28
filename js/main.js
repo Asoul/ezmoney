@@ -27,23 +27,9 @@ Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttx
 var display = new Display(document.getElementById("display"))
 var page = new PageController()
 var user = new UserController()
-
-/* Error Message */
-
-function showErrorMessage(error) {
-  document.getElementById('msgDivCode').innerHTML = error.code
-  document.getElementById('msgDivContent').innerHTML = error.message
-  page.showMsg()
-  console.log('[' + error.code + '], ' + error.message)
-}
-
-function closeMsgDiv() {
-  display.erase()
-  user.checkStatus()
-}
+var act = new ActivityController()
 
 /* User Controller */
-
 function UserController() {
 
   this.statusEnum = {
@@ -56,7 +42,16 @@ function UserController() {
   this.checkStatus = function() {
     if (Parse.User.current()) {
       status = this.statusEnum.LOGINED
-      page.showPrice()
+      
+      var hash = window.location.hash.slice(1)
+      
+      if (hash == 'price') page.showPrice()
+      else if (hash == 'type') page.showType()
+      else if (hash == 'option') page.showOption()
+      else if (hash == 'setting') page.showSetting()
+      else if (hash == 'list') page.showList()
+      else page.showPrice()
+
     } else {
       status = this.statusEnum.NOT_LOGIN
       page.showLogIn()
@@ -73,7 +68,7 @@ function UserController() {
         page.showPrice()
       },
       error: function(user, error) {
-        showErrorMessage(error)
+        page.showErrorMessage(error)
       }
     }).then(function(){
       parent.checkStatus()
@@ -101,16 +96,10 @@ function UserController() {
         status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
-        showErrorMessage(error)
+        page.showErrorMessage(error)
         status = this.statusEnum.NOT_LOGIN
       }
     })
-  }
-}
-
-document.getElementById('password').onkeydown = function(event) {
-  if (event.keyCode == 13) {
-    user.logIn()
   }
 }
 
@@ -119,7 +108,7 @@ function PageController() {
 
   this.statusEnum = {
     LOGIN: 0,
-    MSG: 1,
+    ERRMSG: 1,
     PRICE: 2,
     TYPE: 3,
     OPTION: 4,
@@ -131,8 +120,12 @@ function PageController() {
 
   var title = document.getElementById('title')
   var titleBar = document.getElementById('titleBar')
-  var pageLogIn = document.getElementById('loginDiv')
+
   var pageMsg = document.getElementById('msgDiv')
+  var msgCode = document.getElementById('msgCode')
+  var msgContent = document.getElementById('msgContent')
+
+  var pageLogIn = document.getElementById('loginDiv')
   var pagePrice = document.getElementById('priceTable')
   var pageType = document.getElementById('typeTable')
   var pageList = document.getElementById('listDiv')
@@ -162,28 +155,37 @@ function PageController() {
     pageLogIn.style.display = 'block'
     this.status = this.statusEnum.LOGIN
   }
-  this.showMsg = function() {
+  this.closeErrorMessage = function() {
+    display.erase()
+    user.checkStatus()
+  }
+  this.showErrorMessage = function(error) {
     hideAll()
+    msgCode.innerHTML = error.code
+    msgContent.innerHTML = error.message
     pageMsg.style.display = 'block'
-    this.status = this.statusEnum.MSG
+    this.status = this.statusEnum.ERRMSG
   }
   this.showPrice = function() {
     hideAll()
     pagePrice.style.display = 'table'
     this.status = this.statusEnum.PRICE
+    window.location = '#price'
   }
   this.showType = function() {
     hideAll()
     pageType.style.display = 'table'
     this.status = this.statusEnum.TYPE
+    window.location = '#type'
   }
   this.showList = function() {
     hideAll()
     pageList.style.display = 'block'
     setTitle("歷史清單")
     titleBar.classList.add('show')
-    this.status = this.statusEnum.LIST
     loadRecordList()
+    this.status = this.statusEnum.LIST
+    window.location = '#list'
   }
   this.showOption = function() {
     hideAll()
@@ -191,6 +193,7 @@ function PageController() {
     setTitle("功能列")
     titleBar.classList.add('show')
     this.status = this.statusEnum.OPTION
+    window.location = '#option'
   }
   this.showSetting = function() {
     hideAll()
@@ -199,6 +202,7 @@ function PageController() {
     titleBar.classList.add('show')
     this.status = this.statusEnum.SETTING
     loadSetting()
+    window.location = '#setting'
   }
 }
 
@@ -244,89 +248,90 @@ function Display (dom) {
   }
 }
 
-/* Main Activity */
+/* Activity Controller */
 
-function clickNumber(number) {
-  if (display.startsWith('✓') || display.startsWith('✗')) {
-    display.set(number)
-  } else if (display.startsWith('Send')) {
-    // do nothing
-  } else if (display.getLength() < 7) {
-    if (display.is('0')) {
-      if (number !== 0) {
-        display.set(number)
+function ActivityController() {
+
+  this.pressKey = function (event) {
+    event.preventDefault()
+    key = event.keyCode
+
+    if (page.status == page.statusEnum.PRICE) {
+      if (key >= 48 && key <= 57) {// number 0 ~ 9
+        this.clickNumber(key-48)
+      } else if (key == 27 || key == 67) {// ESC or c
+        display.erase()
+      } else if (key == 13) {// enter
+        page.showType()
+      } else if (key == 79) {// O
+        page.showOption()
+      } else if (key == 8) {// backspace
+        display.backspace()
       }
-    } else {
-      display.append(number)
+    } else if (page.status == page.statusEnum.TYPE) {
+      if (key == 27 || key == 67) {// ESC or c
+        page.showPrice()
+      } else if (key == 8) {// backspace
+        window.history.back()
+      }
+    } else if (page.status == page.statusEnum.LIST) {
+      if (key == 27 || key == 67) {// ESC or c
+        page.showPrice()
+      } else if (key == 8) {// backspace
+        window.history.back()
+      }
+    } else if (page.status == page.statusEnum.OPTION) {
+      if (key == 8) {// backspace
+        window.history.back()
+      }
+    } else if (page.status == page.statusEnum.SETTING) {
+      if (key == 8) {// backspace
+        window.history.back()
+      }
     }
   }
-}
 
-function clickType(type) {
-  var Record = Parse.Object.extend("Record")
-  var record = new Record()
-  
-  record.set("price", display.value())
-  record.set('type', type)
-  record.set('date', new Date())
-  record.set('createdBy', Parse.User.current())
-  record.setACL(new Parse.ACL(Parse.User.current()))
+  this.clickNumber = function (number) {
 
-  record.save(null, {
-    success:function (record) {
-      display.setSuccess(record.get("type"), record.get("price"))
-    },
-    error:function (record, error) {
-      showErrorMessage(error)
-    }
-  })
-
-  display.set("Sending...")
-  page.showPrice()
-}
-
-function pressKey(event) {
-  key = event.keyCode
-  if (page.status == page.statusEnum.PRICE) {
-    if (key >= 48 && key <= 57) {// number 0 ~ 9
-      clickNumber(key-48)
-    } else if (key == 27 || key == 67) {// ESC or c
-      display.erase()
-    } else if (key == 13) {// enter
-      clickSend()
-    } else if (key == 76) {// L
-      page.showList()
-    } else if (key == 8) {// backspace
-      display.backspace()
-    }
-  } else if (page.status == page.statusEnum.TYPE) {
-    if (key == 27 || key == 67) {// ESC or c
-      clickCancel()
-    }
-  } else if (page.status == page.statusEnum.LIST) {
-    if (key == 27 || key == 67) {// ESC or c
-      page.showPrice()
-    } else if (key == 8) {// backspace
-      page.showOption()
-    }
-  } else if (page.status == page.statusEnum.OPTION) {
-    if (key == 8) {// backspace
-      page.showPrice()
-    }
-  } else if (page.status == page.statusEnum.SETTING) {
-    if (key == 8) {// backspace
-      page.showOption()
+    if (display.startsWith('✓') || display.startsWith('✗')) {
+      display.set(number)
+    } else if (display.startsWith('Send')) {
+      // do nothing
+    } else if (display.getLength() < 7) {
+      if (display.is('0')) {
+        if (number !== 0) {
+          display.set(number)
+        }
+      } else {
+        display.append(number)
+      }
     }
   }
-}
 
-document.getElementById('left-arrow').onclick = function(event) {
-  if (page.status == page.statusEnum.OPTION) {
+  this.clickType = function(type) {
+    var Record = Parse.Object.extend("Record")
+    var record = new Record()
+    
+    record.set("price", display.value())
+    record.set('type', type)
+    record.set('date', new Date())
+    record.set('createdBy', Parse.User.current())
+    record.setACL(new Parse.ACL(Parse.User.current()))
+
+    record.save(null, {
+      success:function (record) {
+        display.setSuccess(record.get("type"), record.get("price"))
+      },
+      error:function (record, error) {
+        page.showErrorMessage(error)
+      }
+    })
+    display.set("Sending...")
     page.showPrice()
-  } else {
-    page.showOption()
   }
 }
+
+/* Main Activity */
 
 function transformLogInPage() {// need to code better
   document.getElementById('signUpBtn').innerHTML = 'Sign Up'
@@ -336,23 +341,14 @@ function transformLogInPage() {// need to code better
   document.getElementById('logInBtn').style.display = 'none'
 }
 
-function clickSend() {
-  page.showType()
-}
-
-function clickCancel() {
-  display.erase()
-  page.showPrice()
-}
-
 function loadRecordList() {
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
   query.descending('date')
-  document.getElementById("recordTable").innerHTML = 'Searching...'
+  document.getElementById("recordTableLoadingMessage").style.display = 'block'
   query.find({
     success: function(records) {
-      document.getElementById("recordTable").innerHTML = ''
+      document.getElementById("recordTableLoadingMessage").style.display = 'none'
       records.reverse()
       numOfRecord = records.length
       for (var i = 0; i < numOfRecord; i++) {
@@ -395,15 +391,29 @@ function appendToList(date, type, price) {
   cell4.innerHTML = price
 }
 
-function showList() {
-  page.showList()
-  loadRecordList()
-}
-
 window.onload = function() {
+
   // check parse login status
   user.checkStatus()
 
+  document.getElementById('password').onkeydown = function(event) {
+    if (event.keyCode == 13) {
+      user.logIn()
+    }
+  }
+
+  document.getElementById('left-arrow').onclick = function(event) {
+    if (page.status == page.statusEnum.OPTION) {
+      page.showPrice()
+    } else {
+      page.showOption()
+    }
+  }
+
   // show body after loaded
   document.body.style.opacity = 1
+}
+
+window.onhashchange = function() {
+  user.checkStatus()
 }
