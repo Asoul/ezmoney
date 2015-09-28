@@ -21,7 +21,7 @@ body {
 
   /* Disable scroll */
   position: fixed;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 #wrapper {
