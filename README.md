@@ -6,11 +6,12 @@
 - 變化圖 line chart
 - 加可以新增回饋的東西
 - error code translation
-- option table
+- 可以插入註解
+- 可以刪除打錯的
+- sign up page
 
 ## Parse
 
-- 先 check user email 再登入，還是直接登入失敗再 signup
 - verified email on cloud code
 
 ## Android App

@@ -1,11 +1,13 @@
 body, html {
   height: 100%;
   width: 100%;
+  margin: 0;
 }
 body {
+  background-color: #f5f5f5;
   font-family: arial;
   text-align: center;
-  margin: 0;
+  font-size: 22px;
 
   /* Display after css resize */
   opacity: 0;
@@ -16,30 +18,30 @@ body {
   -webkit-user-select: none;
   -o-user-select: none;
   user-select: none;
-
-  /* Disable Scroll */
-  position: fixed;
-  overflow-y: scroll;
 }
 
 #wrapper {
-  margin: 0 auto;
-}
-
-table, .fullDiv {
-  width: 100%;
-  background-color: white;
+  width: 320px;
+  height: 450px;
+  margin: 1px auto;
+  border-radius: 1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #888888;
+  box-shadow: 0px 5px 30px #666666;
+  background-color: #ffffff;
 }
 
 /* Title Bar */
 
 #titleBar {
-  height: 4rem;
+  height: 48px;
   width: 100%;
   background-color: #24d3d9;
   color: white;
   text-align: left;
   display: none;
+  width: 320px;
 }
 
 #titleBar.show {
@@ -54,15 +56,10 @@ table, .fullDiv {
 }
 
 #titleBar > p {
-  font-size: 2rem;
-  line-height: 4rem;
-  padding-left: 1rem;
+  line-height: 48px;
+  padding-left: 14px;
   margin: 0;
   display: inline;
-}
-
-#left-arrow {
-  font-size: 1.5rem;
 }
 
 #left-arrow:hover {
@@ -81,64 +78,80 @@ table, .fullDiv {
 
 /* Price Table, Type Table */
 
+table {
+  margin: 0 auto;
+  border-spacing: 9px;
+}
+
 td {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eeeeee;
+  font-size: 45px;
+  height: 75px;
+  width: 90px;
+  border-radius: 3px;
   background-color: #eeeeee;
-  transition: background-color 0.6s ease;
+  transition: background-color 0.4s ease;
 }
 
 td:hover {
-  background-color: #FFCCCC;
+  cursor: default;
+  background-color: #f8f8f8;
+  box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 1px 0px;;
 }
 
 #display {
   background-color: white;
 }
 
-/* Full size div*/
-.fullDiv {
-  height: 100%;
+#display:hover {
+  background-image: none;
+  box-shadow: none;
 }
 
 /* Login Div */
 h3 {
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  font-size: 7vh;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 35px;
 }
 
 #loginDiv > p {
-  font-size: 3vh;
-  padding: 1.2vh;
+  font-size: 16px;
+  padding: 12px;
 }
 
 form {
-  font-size: 4vh;
+  font-size: 18px;
 }
 
 input[type=text], input[type=password] {
   border: 1px solid #999;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 1em;
-  font-size: 4vh;
+  font-size: 18px;
 }
 
 button {
-  background-color:#ffffff;
-  -moz-border-radius: 22px;
-  -webkit-border-radius: 22px;
-  border-radius: 22px;
-  border:1px solid #dcdcdc;
+  background-color:#f2f2f2;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #f2f2f2;
   cursor:pointer;
-  color:#666666;
-  font-size: 4vh;
+  color:#757575;
+  font-size: 18px;
   font-weight:bold;
-  padding: 2vh 4vw;
-  margin-top: 6vh;
+  padding: 10px;
+  margin-top: 16px;
 }
 button:hover {
-  background-color: #24d3d9;
+  color: black;
+  border-color: #c6c6c6;
+  background-color: #f8f8f8;
+  background-image: -webkit-linear-gradient(top, rgb(248, 248, 248), rgb(241, 241, 241));
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 1px 0px;;
 }
 
 input:focus, button:focus {
@@ -146,13 +159,11 @@ input:focus, button:focus {
 }
 
 #version {
-  margin: 5vh;
+  font-size: 12px;
+  color: #333333;
 }
 
 /* Message Div */
-#msgDiv {
-  font-size: 3vh;
-}
 
 #msgDiv > h2 {
   margin: 70px;
@@ -160,17 +171,38 @@ input:focus, button:focus {
 
 /* List Div */
 #listDiv {
+  height: 402px;/* 450 - 48px */
+}
+#listDiv {
   overflow-y: scroll;
 }
 
 #recordTable {
-  font-size: 4vh;
+  border-collapse:collapse;
 }
 
-#recordTable > tbody > tr > td {
-  background-color: white;
-  height: 8vh;
+#recordTable tr:nth-child(odd) {
+  background-color: #ffffff;
 }
+
+#recordTable tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+#recordTable td {
+  border-radius: 0;
+  background-color: transparent;
+  font-size: 20px;
+  height: 35px;
+  border: none;
+}
+
+#recordTable td:hover {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+/* Option Table */
 
 .small-icon, .large-icon {
   background-repeat: no-repeat;
@@ -178,14 +210,14 @@ input:focus, button:focus {
 }
 
 .small-icon {
-  height: 50px;
-  width: 50px;
+  height: 80px;
+  width: 80px;
   background-size: 50px;
 }
 
 .large-icon {
-  height: 125px;
-  width: 125px;
+  height: 190px;
+  width: 190px;
   background-size: 125px;
 }
 
@@ -221,104 +253,3 @@ input:focus, button:focus {
 #settingDiv {
   font-size: 20px;
 }
-
-/*
-
-Responsive Settings
-
-*/
-
-@media (max-width: 319px), (max-height: 479px) {
-  /* Why your device is so small */
-  body {
-    font-size: 30px;
-  }
-  table {
-    border-spacing: 10px;
-  }
-  td {
-    height: 40px;
-    width: 60px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-  }
-  #wrapper {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-@media (min-width: 320px) and (min-height: 480px) {
-  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
-  body {
-    font-size: 45px;
-  }
-  table {
-    border-spacing: 10px;
-  }
-  td {
-    height: 65px;
-    width: 100px;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-  }
-  #wrapper {
-    height: 480px;
-    width: 320px;
-  }
-}
-
-@media (min-width:480px) {
-  /* smartphones, Android phones, landscape iPhone */
-  td {
-    width: 150px;
-  }
-  #wrapper {
-    width: 480px;
-  }
-}
-@media (min-width:641px) {
-  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-  td {
-    width: 200px;
-  }
-  #wrapper {
-    width: 640px;
-  }
-}
-@media (min-width:961px) {
-  /* tablet, landscape iPad, lo-res laptops ands desktops */
-  td {
-    width: 300px;
-  }
-  #wrapper {
-    width: 960px;
-  }
-}
-@media (min-width:1025px) {
-  /* big landscape tablets, laptops, and desktops */
-  td {
-    width: 320px;
-  }
-  #wrapper {
-    width: 1024px;
-  }
-  #recordTable td {
-    width: 160px;
-  }
-}
-@media (min-width:1281px) {
-  /* hi-res laptops and desktops */
-  td {
-    width: 400px;
-  }
-  #wrapper {
-    width: 1280px;
-  }
-  #recordTable td {
-    width: 200px;
-  }
-}
-

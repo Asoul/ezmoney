@@ -27,7 +27,6 @@ Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttx
 var display = new Display(document.getElementById("display"))
 var page = new PageController()
 var user = new UserController()
-var pressTimer
 
 /* Error Message */
 
@@ -65,18 +64,19 @@ function UserController() {
   }
 
   this.logIn = function() {
-    username = document.getElementById('username').value
-    password = document.getElementById('password').value
+    var username = document.getElementById('username').value
+    var password = document.getElementById('password').value
+    var parent = this
 
     Parse.User.logIn(username, password, {
       success: function(user) {
         page.showPrice()
-        status = this.statusEnum.LOGINED
       },
       error: function(user, error) {
         showErrorMessage(error)
-        status = this.statusEnum.NOT_LOGIN
       }
+    }).then(function(){
+      parent.checkStatus()
     })
   }
 
@@ -143,10 +143,6 @@ function PageController() {
     title.innerHTML = string
   }
 
-  this.getStatus = function() {
-    return status
-  }
-
   var hideAll = function() {
     titleBar.classList.remove('show')
     pageLogIn.style.display = 'none'
@@ -164,29 +160,29 @@ function PageController() {
     document.getElementById('logInBtn').style.display = 'inline'
   
     pageLogIn.style.display = 'block'
-    status = this.statusEnum.LOGIN
+    this.status = this.statusEnum.LOGIN
   }
   this.showMsg = function() {
     hideAll()
     pageMsg.style.display = 'block'
-    status = this.statusEnum.MSG
+    this.status = this.statusEnum.MSG
   }
   this.showPrice = function() {
     hideAll()
     pagePrice.style.display = 'table'
-    status = this.statusEnum.PRICE
+    this.status = this.statusEnum.PRICE
   }
   this.showType = function() {
     hideAll()
     pageType.style.display = 'table'
-    status = this.statusEnum.TYPE
+    this.status = this.statusEnum.TYPE
   }
   this.showList = function() {
     hideAll()
     pageList.style.display = 'block'
     setTitle("歷史清單")
     titleBar.classList.add('show')
-    status = this.statusEnum.LIST
+    this.status = this.statusEnum.LIST
     loadRecordList()
   }
   this.showOption = function() {
@@ -194,14 +190,14 @@ function PageController() {
     pageOption.style.display = 'table'
     setTitle("功能列")
     titleBar.classList.add('show')
-    status = this.statusEnum.OPTION
+    this.status = this.statusEnum.OPTION
   }
   this.showSetting = function() {
     hideAll()
     pageSetting.style.display = 'block'
     setTitle("設定")
     titleBar.classList.add('show')
-    status = this.statusEnum.OPTION 
+    this.status = this.statusEnum.SETTING
     loadSetting()
   }
 }
@@ -231,6 +227,15 @@ function Display (dom) {
   this.append = function (string) {
     this.dom.innerHTML += string
   }
+  this.backspace = function() {
+    if (this.is("0")) {
+      // do nothing
+    } else if (this.getLength() == 1) {
+      this.set('0')
+    } else {
+      this.set(this.dom.innerHTML.slice(0, -1))
+    }
+  }
   this.setSuccess = function (type, price) {
     this.dom.innerHTML = '✓ ' + type + ' ' + price
   }
@@ -241,28 +246,28 @@ function Display (dom) {
 
 /* Main Activity */
 
-function clickNumber(n) {
+function clickNumber(number) {
   if (display.startsWith('✓') || display.startsWith('✗')) {
-    display.set(n)
+    display.set(number)
   } else if (display.startsWith('Send')) {
     // do nothing
-  } else if (display.getLength() < 10) {
+  } else if (display.getLength() < 7) {
     if (display.is('0')) {
-      if (n !== 0) {
-        display.set(n)
+      if (number !== 0) {
+        display.set(number)
       }
     } else {
-      display.append(n)
+      display.append(number)
     }
   }
 }
 
-function clickType(t) {
+function clickType(type) {
   var Record = Parse.Object.extend("Record")
   var record = new Record()
   
   record.set("price", display.value())
-  record.set('type', t)
+  record.set('type', type)
   record.set('date', new Date())
   record.set('createdBy', Parse.User.current())
   record.setACL(new Parse.ACL(Parse.User.current()))
@@ -291,6 +296,8 @@ function pressKey(event) {
       clickSend()
     } else if (key == 76) {// L
       page.showList()
+    } else if (key == 8) {// backspace
+      display.backspace()
     }
   } else if (page.status == page.statusEnum.TYPE) {
     if (key == 27 || key == 67) {// ESC or c
@@ -299,7 +306,25 @@ function pressKey(event) {
   } else if (page.status == page.statusEnum.LIST) {
     if (key == 27 || key == 67) {// ESC or c
       page.showPrice()
+    } else if (key == 8) {// backspace
+      page.showOption()
     }
+  } else if (page.status == page.statusEnum.OPTION) {
+    if (key == 8) {// backspace
+      page.showPrice()
+    }
+  } else if (page.status == page.statusEnum.SETTING) {
+    if (key == 8) {// backspace
+      page.showOption()
+    }
+  }
+}
+
+document.getElementById('left-arrow').onclick = function(event) {
+  if (page.status == page.statusEnum.OPTION) {
+    page.showPrice()
+  } else {
+    page.showOption()
   }
 }
 
@@ -331,7 +356,6 @@ function loadRecordList() {
       records.reverse()
       numOfRecord = records.length
       for (var i = 0; i < numOfRecord; i++) {
-
         appendToList(records[i].get("date"),records[i].get('type'), records[i].get('price'))
       }
     },
