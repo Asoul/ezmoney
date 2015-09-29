@@ -196,6 +196,7 @@ function PageController() {
       var query = new Parse.Query(Record)
 
       query.descending('date')
+      query.limit(20)
 
       document.getElementById("recordTable").innerHTML = ""
       document.getElementById("recordTableLoadingMessage").style.display = 'block'
@@ -230,7 +231,7 @@ function PageController() {
     loadSetting()
   }
   this.showPieChart = function() {
-    changePage(statusMap.PIECHART, "支出統計")
+    changePage(statusMap.PIECHART, "支出圓餅圖")
     drawer.loadPieChart()
   }
 }
@@ -424,8 +425,6 @@ function Drawer() {
     /* High Resolution Setting */
     canvas.width = 2 * radius
     canvas.height = 2 * radius
-    canvas.style.width = radius + "px"
-    canvas.style.height = radius + "px"
 
     /* Draw Sectors */
 

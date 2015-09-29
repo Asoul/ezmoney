@@ -148,25 +148,25 @@ input:focus, button:focus {
   display: none;
 }
 
-#recordTable {
+.list-table {
   border-collapse:collapse;
 }
 
-#recordTable tr:nth-child(odd) {
+.list-table tr:nth-child(odd) {
   background-color: #ffffff;
 }
 
-#recordTable tr:nth-child(even) {
+.list-table tr:nth-child(even) {
   background-color: #f5f5f5;
 }
 
-#recordTable td {
+.list-table td {
   border-radius: 0;
   background-color: transparent;
   border: none;
 }
 
-#recordTable td:hover {
+.list-table td:hover {
   box-shadow: none;
   background-color: transparent;
 }
@@ -326,7 +326,7 @@ input:focus, button:focus {
   }
 
   #wrapper > div.no-head {
-    height: calc(100% - 60px);
+    height: calc(100% - 61px);
   }
 
   #titleBar {
@@ -414,5 +414,40 @@ input:focus, button:focus {
 
   .large-icon {
     background-size: 140px;
+  }
+  #wrapper > #pieChartDiv {
+    overflow-y: scroll;
+  }
+  #pieChartDiv h4 {
+    margin: 15px 0;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  #pieChartDiv p {
+    margin: 5px 0;
+    font-size: 20px;
+  }
+  #pieChartDiv hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 5px 0;
+    padding: 0; 
+  }
+  #pieChartDiv table {
+    border-spacing: 5px;
+  }
+  #pieChartDiv table td {
+    font-size: 22px;
+    height: 40px;
+  }
+  #pieChartDiv canvas {
+    height: 250px;
+    width: 250px;
+    margin: 15px 0;
+  }
+  #pieChartDiv table#pieChartList {
+    border-spacing: 5px;
   }
 }
