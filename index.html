@@ -26,33 +26,35 @@
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgCode">?___?</span></p>
       <p id="msgContent">你好奇怪喔</p>
-      <button onclick="page.closeErrorMessage()">OK</button>
+      <button onclick="url.toHome()">OK</button>
     </div>
 
     <div id="logInDiv" class="full">
       <img src="img/logo.png" alt="EZMoney">
-      <form>
+      <form onsubmit="user.logIn(event)">
         Username<br />
         <input type="text"><br />
         Password<br />
         <input type="password"><br />
+        <input type="submit" style="display: none;">
       </form>
       <button onclick="url.toSignUp()">New User</button>
-      <button onclick="user.logIn()">Log in</button><br/>
+      <button onclick="user.logIn(event)">Log in</button><br/>
       <p id="version">Version: <span>1.0.1</span></p>
     </div>
 
     <div id="signUpDiv" class="no-head">
       <h4>只要簡單註冊，即可開始使用。</h4>
-      <form>
+      <form onsubmit="user.signUp(event)">
         Username<br />
         <input type="text"><br />
         Password<br />
         <input type="password"><br />
         Email<br />
         <input type="email"><br />
+        <input type="submit" style="display: none;">
       </form>
-      <button onclick="user.signUp()">Sign Up</button>
+      <button onclick="user.signUp(event)">Sign Up</button>
     </div>
     
     <div id="priceDiv" class="full">

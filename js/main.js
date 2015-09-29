@@ -39,6 +39,7 @@ function UserController() {
     if (Parse.User.current()) {
       if (hash == 'price') page.showPrice()
       else if (hash == 'signup') page.showSignUp()
+      else if (hash == 'error') page.showError()
       else if (hash == 'type') page.showType()
       else if (hash == 'option') page.showOption()
       else if (hash == 'setting') page.showSetting()
@@ -48,11 +49,13 @@ function UserController() {
     } else {
 
       if (hash == 'signup') page.showSignUp()
+      else if (hash == 'error') page.showError()
       else page.showLogIn()
     }
   }
 
-  this.logIn = function() {
+  this.logIn = function(event) {
+    event.preventDefault()
     var loginDiv = document.getElementById('logInDiv')
     var username = loginDiv.querySelector('input[type=text]').value
     var password = loginDiv.querySelector('input[type=password]').value
@@ -62,17 +65,19 @@ function UserController() {
         url.toPrice()
       },
       error: function(user, error) {
-        page.showErrorMessage(error)
+        page.setError(error)
+        url.toError()
       }
     })
   }
 
   this.logOut = function() {
     Parse.User.logOut()
-    url.toLogIn()
+    url.toHome()
   }
 
-  this.signUp = function() {
+  this.signUp = function(event) {
+    event.preventDefault()
     var signUpDiv = document.getElementById('signUpDiv')
     var username = signUpDiv.querySelector('input[type=text]').value
     var password = signUpDiv.querySelector('input[type=password]').value
@@ -88,7 +93,8 @@ function UserController() {
         url.toPrice()
       },
       error: function(user, error) {
-        page.showErrorMessage(error)
+        page.setError(error)
+        url.toError()
       }
     })
   }
@@ -153,14 +159,12 @@ function PageController() {
     pageSignUp.style.display = 'block'
     this.status = this.statusEnum.SIGNUP
   }
-  this.closeErrorMessage = function() {
-    display.erase()
-    user.checkStatus()
-  }
-  this.showErrorMessage = function(error) {
-    hideAll()
+  this.setError = function(error) {
     msgCode.innerHTML = error.code
     msgContent.innerHTML = error.message
+  }
+  this.showError = function() {
+    hideAll()
     pageMsg.style.display = 'block'
     this.status = this.statusEnum.ERRMSG
   }
@@ -175,6 +179,49 @@ function PageController() {
     this.status = this.statusEnum.TYPE
   }
   this.showList = function() {
+
+    function loadRecordList() {
+
+      function appendToList(date, type, price) {
+        
+        function to2Digit(string) {
+          var s = String(string)
+          if (s.length < 2) {
+            return '0' + s
+          }
+          return s
+        }
+
+        var table = document.getElementById("recordTable")
+        var row = table.insertRow(0)
+        var cell1 = row.insertCell(-1)
+        var cell2 = row.insertCell(-1)
+        var cell3 = row.insertCell(-1)
+        var cell4 = row.insertCell(-1)
+
+        cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
+        cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+        cell3.innerHTML = type
+        cell4.innerHTML = price
+      }
+      var Record = Parse.Object.extend('Record')
+      var query = new Parse.Query(Record)
+      query.descending('date')
+      document.getElementById("recordTable").innerHTML = ""
+      document.getElementById("recordTableLoadingMessage").style.display = 'block'
+      query.find({
+        success: function(records) {
+          document.getElementById("recordTableLoadingMessage").style.display = 'none'
+          records.reverse().forEach(function (record) {
+            appendToList(record.get("date"),record.get('type'), record.get('price'))
+          })
+        },
+        error: function(records, error) {
+          page.setError(error)
+          url.toError()
+        }
+      })
+    }
     hideAll()
     pageList.style.display = 'block'
     setTitle("歷史清單")
@@ -190,6 +237,12 @@ function PageController() {
     this.status = this.statusEnum.OPTION
   }
   this.showSetting = function() {
+    function loadSetting() {
+      document.getElementById("screenWidth").innerHTML = window.screen.width
+      document.getElementById("screenHeight").innerHTML = window.screen.height
+      document.getElementById("innerWidth").innerHTML = window.innerWidth
+      document.getElementById("innerHeight").innerHTML = window.innerHeight
+    }
     hideAll()
     pageSetting.style.display = 'block'
     setTitle("設定")
@@ -201,11 +254,14 @@ function PageController() {
 
 /* Router */
 function Router () {
-  this.toLogIn = function() {
+  this.toHome = function() {
     window.location = ''
   }
   this.toSignUp = function() {
     window.location = '#signup'
+  }
+  this.toError = function() {
+    window.location = '#error'
   }
   this.toPrice = function() {
     window.location = '#price'
@@ -273,6 +329,8 @@ function ActivityController() {
   this.pressKey = function (event) {
     key = event.keyCode
 
+    if (key == 8) event.preventDefault()
+
     if (page.status == page.statusEnum.PRICE) {
       if (key >= 48 && key <= 57) {// number 0 ~ 9
         this.clickNumber(key-48)
@@ -289,24 +347,20 @@ function ActivityController() {
       if (key == 27 || key == 67) {// ESC or c
         url.toPrice()
       } else if (key == 8) {// backspace
-        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.LIST) {
       if (key == 27 || key == 67) {// ESC or c
         url.toOption()
       } else if (key == 8) {// backspace
-        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.OPTION) {
       if (key == 8) {// backspace
-        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.SETTING) {
       if (key == 8) {// backspace
-        event.preventDefault()
         window.history.back()
       }
     }
@@ -344,7 +398,8 @@ function ActivityController() {
         display.setSuccess(record.get("type"), record.get("price"))
       },
       error:function (record, error) {
-        page.showErrorMessage(error)
+        page.setError(error)
+        url.toError()
       }
     })
     display.set("Sending...")
@@ -352,68 +407,10 @@ function ActivityController() {
   }
 }
 
-/* Main Activity */
-
-function loadRecordList() {
-  function appendToList(date, type, price) {
-    
-    function to2Digit(string) {
-      var s = String(string)
-      if (s.length < 2) {
-        return '0' + s
-      }
-      return s
-    }
-
-    var table = document.getElementById("recordTable")
-    var row = table.insertRow(0)
-    var cell1 = row.insertCell(-1)
-    var cell2 = row.insertCell(-1)
-    var cell3 = row.insertCell(-1)
-    var cell4 = row.insertCell(-1)
-
-    cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
-    cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
-    cell3.innerHTML = type
-    cell4.innerHTML = price
-  }
-  var Record = Parse.Object.extend('Record')
-  var query = new Parse.Query(Record)
-  query.descending('date')
-  document.getElementById("recordTable").innerHTML = ""
-  document.getElementById("recordTableLoadingMessage").style.display = 'block'
-  query.find({
-    success: function(records) {
-      document.getElementById("recordTableLoadingMessage").style.display = 'none'
-      records.reverse()
-      numOfRecord = records.length
-      for (var i = 0; i < numOfRecord; i++) {
-        appendToList(records[i].get("date"),records[i].get('type'), records[i].get('price'))
-      }
-    },
-    error: function(records, error) {
-      console.log(error.code + ', ' + error.message)
-    }
-  });
-}
-
-function loadSetting() {
-  document.getElementById("screenWidth").innerHTML = window.screen.width
-  document.getElementById("screenHeight").innerHTML = window.screen.height
-  document.getElementById("innerWidth").innerHTML = window.innerWidth
-  document.getElementById("innerHeight").innerHTML = window.innerHeight
-}
-
 window.onload = function() {
 
   // check parse login status
   user.checkStatus()
-
-  // document.getElementById('password').onkeydown = function(event) {
-  //   if (event.keyCode == 13) {
-  //     user.logIn()
-  //   }
-  // }
 
   // show body after loaded
   document.body.style.display = 'block'

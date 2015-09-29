@@ -242,10 +242,6 @@ input:focus, button:focus {
     height: calc(100% - 10vh);
   }
 
-  #msgDiv {
-    padding: 0 10px;
-  }
-
   table {
     border-spacing: 2vh;
   }
@@ -358,10 +354,6 @@ input:focus, button:focus {
     height: 499px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-  }
-
-  #msgDiv {
-    padding: 0 20px;
   }
 
   table {
