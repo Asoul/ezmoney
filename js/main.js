@@ -27,6 +27,7 @@ Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttx
 var display = new Display(document.getElementById("display"))
 var page = new PageController()
 var user = new UserController()
+var url = new Router()
 var act = new ActivityController()
 
 /* User Controller */
@@ -65,20 +66,18 @@ function UserController() {
 
     Parse.User.logIn(username, password, {
       success: function(user) {
-        page.showPrice()
+        url.toPrice()
       },
       error: function(user, error) {
         page.showErrorMessage(error)
       }
-    }).then(function(){
-      parent.checkStatus()
     })
   }
 
   this.logOut = function() {
     Parse.User.logOut()
     status = this.statusEnum.NOT_LOGIN
-    page.showLogIn()
+    url.toLogIn()
   }
 
   this.signUp = function() {
@@ -92,12 +91,10 @@ function UserController() {
 
     user.signUp(null, {
       success: function(user) {
-        page.showPrice()
-        status = this.statusEnum.LOGINED
+        url.toPrice()
       },
       error: function(user, error) {
         page.showErrorMessage(error)
-        status = this.statusEnum.NOT_LOGIN
       }
     })
   }
@@ -178,13 +175,11 @@ function PageController() {
     hideAll()
     pagePrice.style.display = 'table'
     this.status = this.statusEnum.PRICE
-    window.location = '#price'
   }
   this.showType = function() {
     hideAll()
     pageType.style.display = 'table'
     this.status = this.statusEnum.TYPE
-    window.location = '#type'
   }
   this.showList = function() {
     hideAll()
@@ -193,7 +188,6 @@ function PageController() {
     titleBar.classList.add('show')
     loadRecordList()
     this.status = this.statusEnum.LIST
-    window.location = '#list'
   }
   this.showOption = function() {
     hideAll()
@@ -201,7 +195,6 @@ function PageController() {
     setTitle("功能列")
     titleBar.classList.add('show')
     this.status = this.statusEnum.OPTION
-    window.location = '#option'
   }
   this.showSetting = function() {
     hideAll()
@@ -210,6 +203,30 @@ function PageController() {
     titleBar.classList.add('show')
     this.status = this.statusEnum.SETTING
     loadSetting()
+  }
+}
+
+/* Router */
+function Router () {
+  this.toLogIn = function() {
+    window.location = ''
+  }
+  this.toError = function(error) {
+    window.location = '#error'
+  }
+  this.toPrice = function() {
+    window.location = '#price'
+  }
+  this.toType = function() {
+    window.location = '#type' 
+  }
+  this.toList = function() {
+    window.location = '#list'
+  }
+  this.toOption = function() {
+    window.location = '#option'
+  }
+  this.toSetting = function() {
     window.location = '#setting'
   }
 }
@@ -269,22 +286,22 @@ function ActivityController() {
       } else if (key == 27 || key == 67) {// ESC or c
         display.erase()
       } else if (key == 13) {// enter
-        page.showType()
+        url.toType()
       } else if (key == 79) {// O
-        page.showOption()
+        url.toOption()
       } else if (key == 8) {// backspace
         display.backspace()
       }
     } else if (page.status == page.statusEnum.TYPE) {
       if (key == 27 || key == 67) {// ESC or c
-        page.showPrice()
+        url.toPrice()
       } else if (key == 8) {// backspace
         event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.LIST) {
       if (key == 27 || key == 67) {// ESC or c
-        page.showOption()
+        url.toOption()
       } else if (key == 8) {// backspace
         event.preventDefault()
         window.history.back()
@@ -338,7 +355,7 @@ function ActivityController() {
       }
     })
     display.set("Sending...")
-    page.showPrice()
+    window.history.back()
   }
 }
 

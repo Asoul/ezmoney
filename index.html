@@ -49,7 +49,7 @@
     <div id="priceDiv" class="full">
       <table>
         <tr>
-          <td id="display" colspan="3" onclick="page.showOption()">0</td>
+          <td id="display" colspan="3" onclick="url.toOption()">0</td>
         </tr>
         <tr>
           <td onclick="act.clickNumber(1)">1</td>
@@ -67,9 +67,9 @@
           <td onclick="act.clickNumber(9)">9</td>
         </tr>
         <tr>
-          <td id="logOutKey" onclick="display.erase()">C</td>
+          <td onclick="display.erase()">C</td>
           <td onclick="act.clickNumber(0)">0</td>
-          <td onclick="page.showType()">✈</td>
+          <td onclick="url.toType()">✈</td>
         </tr>
       </table>  
     </div>
@@ -102,14 +102,14 @@
       <table>
         <tr>
           <td class="small-icon" id="lineChart" colspan="2"></td>
-          <td class="small-icon" id="setting" onclick="page.showSetting()"></td>
+          <td class="small-icon" id="setting" onclick="url.toSetting()"></td>
         </tr>
         <tr>
           <td class="large-icon" id="pieChart" colspan="2" rowspan="2"></td>
           <td class="small-icon" id="feedback"></td>
         </tr>
         <tr>
-          <td class="small-icon" id="showList" onclick="page.showList()"></td>
+          <td class="small-icon" id="showList" onclick="url.toList()"></td>
         </tr>
         <tr>
           <td class="small-icon" id="logout" onclick="user.logOut()"></td>
