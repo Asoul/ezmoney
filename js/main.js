@@ -392,7 +392,7 @@ function appendToList(date, type, price) {
 }
 
 window.onload = function() {
-
+  
   // check parse login status
   user.checkStatus()
 
@@ -402,16 +402,8 @@ window.onload = function() {
     }
   }
 
-  document.getElementById('left-arrow').onclick = function(event) {
-    if (page.status == page.statusEnum.OPTION) {
-      page.showPrice()
-    } else {
-      page.showOption()
-    }
-  }
-
   // show body after loaded
-  document.body.style.opacity = 1
+  document.body.style.display = 'block'
 }
 
 window.onhashchange = function() {

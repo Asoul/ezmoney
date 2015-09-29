@@ -3,14 +3,11 @@ body, html {
   width: 100%;
   margin: 0;
 }
+
 body {
   background-color: #f5f5f5;
   font-family: arial;
   text-align: center;
-  font-size: 22px;
-
-  /* Display after css resize */
-  opacity: 0;
 
   /* Unseletable for everthing */
   -moz-user-select: -moz-none;
@@ -25,31 +22,17 @@ body {
 }
 
 #wrapper {
-  width: 320px;
-  height: 450px;
-  margin: 0 auto;
-
-  border-radius: 1px;
-  border-style: solid;
-  border-width: 1px;
-  border-top-width: 0;
-  border-color: #888888;
-
-  box-shadow: 0px 5px 30px #666666;
   background-color: #ffffff;
 }
 
 /* Title Bar */
-
 #titleBar {
   position: relative;
-  height: 60px;
   width: 100%;
   background-color: #24d3d9;
   color: white;
   text-align: left;
   display: none;
-  width: 320px;
   text-align: center;
 }
 
@@ -60,48 +43,33 @@ body {
 }
 
 @keyframes titleBarShow {
-  from {background-color: white;}
-  to {background-color: #24d3d9;}
+  from {
+    background-color: white;
+  }
+  to {
+    background-color: #24d3d9;
+  }
 }
 
 #titleBar > p {
-  font-size: 30px;
-  line-height: 60px;
-  padding-left: 10px;
   margin: 0;
   display: inline;
 }
 
 #titleBar > p#left-arrow {
   position: absolute;
-  left: 10px;
-  font-size: 40px;
 }
 
 #titleBar > p#left-arrow:hover {
   cursor: pointer;
 }
 
-/* Initial Page Status */
-#loginDiv {
-  display: block;
-}
-
-#typeTable, #priceTable, #msgDiv {
-  display: none;
-}
-
-/* Price Table, Type Table */
+/* Table */
 table {
   margin: 0 auto;
-  border-spacing: 9px;
 }
 
 td {
-  font-size: 45px;
-  height: 75px;
-  width: 90px;
-  border-radius: 3px;
   background-color: #eeeeee;
   transition: background-color 0.4s ease;
 }
@@ -122,46 +90,24 @@ td:hover {
 #display:hover {
   background-image: none;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.13);
-  /*box-shadow: none;*/
 }
 
-/* Login Div */
-h3 {
-  margin: 0;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  font-size: 35px;
-}
-
-#loginDiv > p {
-  font-size: 16px;
-  padding: 12px;
-}
-
-form {
-  font-size: 18px;
-}
-
+/* Login Page */
 input[type=text], input[type=password] {
   border: 1px solid #999;
   border-radius: 3px;
-  margin-bottom: 1em;
-  font-size: 18px;
 }
 
 button {
   background-color:#f2f2f2;
-  border-radius: 3px;
   border-style: solid;
   border-width: 1px;
   border-color: #f2f2f2;
   cursor:pointer;
   color:#757575;
-  font-size: 18px;
   font-weight:bold;
-  padding: 10px;
-  margin-top: 16px;
 }
+
 button:hover {
   color: black;
   border-color: #c6c6c6;
@@ -179,16 +125,7 @@ input:focus, button:focus {
   color: #333333;
 }
 
-/* Message Div */
-
-#msgDiv > h2 {
-  margin: 70px;
-}
-
-/* List Div */
-#listDiv {
-  height: 390px;/* 450 - 60px */
-}
+/* List Page */
 #listDiv {
   overflow-y: scroll;
 }
@@ -212,8 +149,6 @@ input:focus, button:focus {
 #recordTable td {
   border-radius: 0;
   background-color: transparent;
-  font-size: 20px;
-  height: 35px;
   border: none;
 }
 
@@ -223,22 +158,9 @@ input:focus, button:focus {
 }
 
 /* Option Table */
-
 .small-icon, .large-icon {
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.small-icon {
-  height: 80px;
-  width: 80px;
-  background-size: 50px;
-}
-
-.large-icon {
-  height: 190px;
-  width: 190px;
-  background-size: 125px;
 }
 
 #setting {
@@ -251,7 +173,6 @@ input:focus, button:focus {
 
 #pieChart {
   background-image: url("../img/pie-chart.png");
-  background-size: 125px;
   background-repeat: no-repeat;
   background-position: center; 
 }
@@ -268,8 +189,183 @@ input:focus, button:focus {
   background-image: url("../img/list.png");
 }
 
-/* Setting Div */
+/* Responsive Setting */
 
-#settingDiv {
-  font-size: 20px;
+@media (min-width: 320px) and (max-width: 768px) {
+  /* Mobile View */
+  body {
+    font-size: 22px;
+  }
+  #wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+  #titleBar {
+    height: 60px;
+  }
+  #titleBar > p {
+    font-size: 30px;
+    line-height: 60px;
+    padding-left: 10px;
+  }
+  #titleBar > p#left-arrow {
+    font-size: 40px;
+    left: 10px;
+  }
+  #listDiv {
+    height: calc(100% - 60px);
+  }
+  #msgDiv {
+    padding: 0 10px;
+  }
+  table {
+    border-spacing: 9px;
+  }
+  td {
+    font-size: 45px;
+    height: 75px;
+    width: 90px;
+    border-radius: 3px;
+  }
+  h3 {
+    margin: 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-size: 35px;
+  }
+  #loginDiv > img {
+    padding: 30px 0;
+    width: 140px;
+  }
+  #loginDiv > p {
+    font-size: 16px;
+    padding: 12px;
+  }
+  form {
+    font-size: 18px;
+  }
+  input[type=text], input[type=password] {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  button {
+    font-size: 18px;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 16px;
+  }
+  #recordTable td {
+    font-size: 20px;
+    height: 35px;
+  }
+  .small-icon {
+    height: 80px;
+    width: 80px;
+    background-size: 50px;
+  }
+
+  .large-icon {
+    height: 190px;
+    width: 190px;
+    background-size: 125px;
+  }
+}
+
+
+@media (min-width: 769px) {  
+  /* PC view */
+  body {
+    font-size: 25px;
+  }
+  #wrapper {
+    width: 400px;
+    height: 560px;
+    margin: 20px auto;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-top-width: 0;
+    border-color: #888888;
+
+    box-shadow: 0px 5px 60px #999999;
+  }
+  #titleBar {
+    height: 60px;
+    border-style: solid;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-width: 0;
+    border-top-width: 1px;
+    border-color: #20BEC3;
+  }
+  #titleBar > p {
+    font-size: 30px;
+    line-height: 60px;
+    padding-left: 10px;
+  }
+  #titleBar > p#left-arrow {
+    font-size: 40px;
+    left: 10px;
+  }
+  #listDiv {
+    height: 499px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  #msgDiv {
+    padding: 0 20px;
+  }
+  table {
+    border-spacing: 15px;
+  }
+  td {
+    font-size: 55px;
+    height: 90px;
+    width: 110px;
+    border-radius: 5px;
+  }
+  h3 {
+    margin: 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-size: 40px;
+  }
+  #loginDiv > img {
+    padding: 40px 0;
+    width: 160px;
+  }
+  #loginDiv > p {
+    font-size: 18px;
+    padding: 16px;
+  }
+  form {
+    font-size: 20px;
+  }
+  input[type=text], input[type=password] {
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+  button {
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 13px;
+    margin-top: 18px;
+  }
+  #recordTable td {
+    font-size: 25px;
+    height: 50px;
+  }
+  .small-icon {
+    height: 100px;
+    width: 100px;
+    background-size: 60px;
+  }
+
+  .large-icon {
+    height: 220px;
+    width: 220px;
+    background-size: 140px;
+  }
 }
