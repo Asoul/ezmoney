@@ -64,11 +64,11 @@ body {
   display: inline;
 }
 
-#titleBar > p#left-arrow {
+#titleBar > p.left-arrow {
   position: absolute;
 }
 
-#titleBar > p#left-arrow:hover {
+#titleBar > p.left-arrow:hover {
   cursor: pointer;
 }
 
@@ -177,29 +177,29 @@ input:focus, button:focus {
   background-position: center;
 }
 
-#setting {
+.setting {
   background-image: url("../img/setting.png");
 }
 
-#lineChart {
+.line-chart {
   background-image: url("../img/line-chart.svg");
 }
 
-#pieChart {
+.pie-chart {
   background-image: url("../img/pie-chart.png");
   background-repeat: no-repeat;
   background-position: center; 
 }
 
-#logout {
+.logout {
   background-image: url("../img/logout.png");
 }
 
-#feedback {
+.feedback {
   background-image: url("../img/feedback.svg");
 }
 
-#showList {
+.show-list {
   background-image: url("../img/list.png");
 }
 
@@ -233,7 +233,7 @@ input:focus, button:focus {
     padding-left: 2.5vh;
   }
 
-  #titleBar > p#left-arrow {
+  #titleBar > p.left-arrow {
     font-size: 40px;
     left: 10px;
   }
@@ -345,7 +345,7 @@ input:focus, button:focus {
     padding-left: 10px;
   }
 
-  #titleBar > p#left-arrow {
+  #titleBar > p.left-arrow {
     font-size: 40px;
     left: 10px;
   }

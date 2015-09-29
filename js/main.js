@@ -29,8 +29,10 @@ var page = new PageController()
 var user = new UserController()
 var url = new Router()
 var act = new ActivityController()
+var drawer = new Drawer()
 
 /* User Controller */
+/* control user login, logout status */
 function UserController() {
 
   this.checkStatus = function() {
@@ -102,6 +104,7 @@ function UserController() {
 }
 
 /* Page Controller */
+/* Change the page based on state */
 function PageController() {
 
   statusMap = this.statusMap = {
@@ -191,9 +194,12 @@ function PageController() {
       }
       var Record = Parse.Object.extend('Record')
       var query = new Parse.Query(Record)
+
       query.descending('date')
+
       document.getElementById("recordTable").innerHTML = ""
       document.getElementById("recordTableLoadingMessage").style.display = 'block'
+
       query.find({
         success: function(records) {
           document.getElementById("recordTableLoadingMessage").style.display = 'none'
@@ -224,11 +230,13 @@ function PageController() {
     loadSetting()
   }
   this.showPieChart = function() {
-    changePage(statusMap.PIECHART, "功能列")
+    changePage(statusMap.PIECHART, "支出統計")
+    drawer.loadPieChart()
   }
 }
 
 /* Router */
+/* route for window location */
 function Router () {
   this.toHome = function() {
     window.location = ''
@@ -260,7 +268,6 @@ function Router () {
 }
 
 /* Display Handler */
-
 function Display (dom) {
   this.dom = dom
   
@@ -302,7 +309,7 @@ function Display (dom) {
 }
 
 /* Activity Controller */
-
+/* Control for keyboad input and mouse click */
 function ActivityController() {
 
   this.pressKey = function (event) {
@@ -368,8 +375,81 @@ function ActivityController() {
   }
 }
 
-window.onload = function() {
+/* Canvas Drawer */
+function Drawer() {
+  var toRadians = function(degree) {
+    return degree * Math.PI / 180
+  }
+  var formatter = new Intl.NumberFormat('zh-TW', {
+    style: 'currency',
+    currency: 'USD'
+  })
+  this.loadPieChart = function(data) {
 
+    function drawSector(x, y, radius, startDegree, endDegree, color) {
+      // Create Path
+      ctx.beginPath()
+      ctx.moveTo(x, y)
+      ctx.arc(x, y, radius, startDegree, endDegree)
+      ctx.lineTo(x, y)
+      ctx.closePath()
+
+      // if not given color, use random color
+      if (typeof color === 'undefined') {
+        color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+      }
+
+      // Fill Space
+      ctx.fillStyle = color
+      ctx.fill()
+    }
+    data = [100, 20, 30, 40, 50, 1000, 2000, 5000, 3000, 100000]
+    data = data.sort(function(a, b){return a - b}).reverse()
+
+    DEFAULT_COLOR = [
+      '#E34D4C',
+      '#E8EA4F',
+      '#9DCE3F',
+      '#4292CA',
+      '#BF66EA',
+      '#D44985',
+      '#9997D3',
+      '#6FC4F5',
+      '#35A8A6'
+    ]
+    var canvas = document.getElementById('pieChartDiv').getElementsByTagName('canvas')[0]
+    var ctx = canvas.getContext('2d')
+    var radius = 250
+
+    /* High Resolution Setting */
+    canvas.width = 2 * radius
+    canvas.height = 2 * radius
+    canvas.style.width = radius + "px"
+    canvas.style.height = radius + "px"
+
+    /* Draw Sectors */
+
+    var sum = data.reduce(function(__, _){return __ + _})
+    var cumulativeRatio = Math.random() * 2 * Math.PI
+    data.forEach(function(datum, index) {
+      var ratio = (datum / sum) * (2 * Math.PI)
+      drawSector(radius, radius, radius, cumulativeRatio, cumulativeRatio + ratio, DEFAULT_COLOR[index])
+      cumulativeRatio += ratio
+    })
+
+    /* Draw Center */
+    drawSector(radius, radius, radius * 0.6, 0, 2 * Math.PI, 'white')
+    
+    /* Write Word at center */
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.font = radius * 0.3 + "px arial";
+    ctx.fillStyle = "black";
+    ctx.fillText(formatter.format(sum), radius, radius);
+  }
+}
+
+window.onload = function() {
   // check parse login status
   user.checkStatus()
 
