@@ -108,12 +108,13 @@ function PageController() {
 
   this.statusEnum = {
     LOGIN: 0,
-    ERRMSG: 1,
-    PRICE: 2,
-    TYPE: 3,
-    OPTION: 4,
-    LIST: 5,
-    SETTING: 6
+    SIGNUP: 1,
+    ERRMSG: 2,
+    PRICE: 3,
+    TYPE: 4,
+    OPTION: 5,
+    LIST: 6,
+    SETTING: 7
   }
 
   var status = this.statusEnum.LOGIN
@@ -126,6 +127,7 @@ function PageController() {
   var msgContent = document.getElementById('msgContent')
 
   var pageLogIn = document.getElementById('loginDiv')
+  var pageSignUp = document.getElementById('signupDiv')
   var pagePrice = document.getElementById('priceDiv')
   var pageType = document.getElementById('typeDiv')
   var pageList = document.getElementById('listDiv')
@@ -139,6 +141,7 @@ function PageController() {
   var hideAll = function() {
     titleBar.classList.remove('show')
     pageLogIn.style.display = 'none'
+    pageSignUp.style.display = 'none'
     pageMsg.style.display = 'none'
     pagePrice.style.display = 'none'
     pageType.style.display = 'none'
@@ -154,6 +157,11 @@ function PageController() {
   
     pageLogIn.style.display = 'block'
     this.status = this.statusEnum.LOGIN
+  }
+  this.showSignUp = function() {
+    hideAll()
+    pageSignUp.style.display = 'block'
+    this.status = this.statusEnum.SIGNUP
   }
   this.closeErrorMessage = function() {
     display.erase()

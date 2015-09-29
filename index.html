@@ -22,14 +22,14 @@
       <p id="title"></p>
     </div>
 
-    <div id="msgDiv">
+    <div id="msgDiv" class="full">
       <h3>Error Q_Q</h3>
       <p>錯誤代碼： <span id="msgCode">?___?</span></p>
       <p id="msgContent">你好奇怪喔</p>
       <button onclick="page.closeErrorMessage()">OK</button>
     </div>
 
-    <div id="loginDiv">
+    <div id="loginDiv" class="full">
       <img src="img/logo.png" alt="EZMoney">
       <form>
         Email<br />
@@ -42,11 +42,11 @@
       <p id="version">Version: <span>1.0.1</span></p>
     </div>
 
-    <div id="signUpDiv">
+    <div id="signupDiv" class="full">
       
     </div>
     
-    <div id="priceDiv">
+    <div id="priceDiv" class="full">
       <table>
         <tr>
           <td id="display" colspan="3" onclick="page.showOption()">0</td>
@@ -74,7 +74,7 @@
       </table>  
     </div>
     
-    <div id="typeDiv">
+    <div id="typeDiv" class="full">
       <table>
         <tr>
           <td onclick="act.clickType('衣')">衣</td>
@@ -98,7 +98,7 @@
       </table>  
     </div>
     
-    <div id="optionDiv">
+    <div id="optionDiv" class="no-head">
       <table>
         <tr>
           <td class="small-icon" id="lineChart" colspan="2"></td>
@@ -118,12 +118,12 @@
       </table>  
     </div>
 
-    <div id="listDiv">
+    <div id="listDiv" class="no-head">
       <p id="recordTableLoadingMessage">Searching...</p>
       <table id="recordTable"></table>
     </div>
     
-    <div id="settingDiv">
+    <div id="settingDiv" class="no-head">
       <p>screen.width: <span id="screenWidth"></span>px</p>
       <p>screen.height: <span id="screenHeight"></span>px</p>
       <p>innerWidth: <span id="innerWidth"></span>px</p>
