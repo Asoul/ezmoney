@@ -44,6 +44,7 @@ function UserController() {
       else if (hash == 'option') page.showOption()
       else if (hash == 'setting') page.showSetting()
       else if (hash == 'list') page.showList()
+      else if (hash == 'piechart') page.showPieChart()
       else page.showPrice()
       
     } else {
@@ -253,6 +254,9 @@ function Router () {
   this.toSetting = function() {
     window.location = '#setting'
   }
+  this.toPieChart = function() {
+    window.location = '#piechart'
+  }
 }
 
 /* Display Handler */
@@ -318,26 +322,8 @@ function ActivityController() {
       } else if (key == 8) {// backspace
         display.backspace()
       }
-    } else if (page.status == page.statusMap.TYPE) {
-      if (key == 27 || key == 67) {// ESC or c
-        url.toPrice()
-      } else if (key == 8) {// backspace
-        window.history.back()
-      }
-    } else if (page.status == page.statusMap.LIST) {
-      if (key == 27 || key == 67) {// ESC or c
-        url.toOption()
-      } else if (key == 8) {// backspace
-        window.history.back()
-      }
-    } else if (page.status == page.statusMap.OPTION) {
-      if (key == 8) {// backspace
-        window.history.back()
-      }
-    } else if (page.status == page.statusMap.SETTING) {
-      if (key == 8) {// backspace
-        window.history.back()
-      }
+    } else if (key == 27 || key == 8) {// ESC or backspace
+      window.history.back()
     }
   }
 
