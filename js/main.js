@@ -30,6 +30,7 @@ var user = new UserController()
 var url = new Router()
 var act = new ActivityController()
 var drawer = new Drawer()
+var db = new ParseController()
 
 /* User Controller */
 /* control user login, logout status */
@@ -168,7 +169,7 @@ function PageController() {
   }
   this.showList = function() {
 
-    function loadRecordList() {
+    function loadRecordList(records) {
 
       function appendToList(date, type, price) {
         
@@ -192,30 +193,15 @@ function PageController() {
         cell3.innerHTML = type
         cell4.innerHTML = price
       }
-      var Record = Parse.Object.extend('Record')
-      var query = new Parse.Query(Record)
-
-      query.descending('date')
-      query.limit(20)
-
-      document.getElementById("recordTable").innerHTML = ""
-      document.getElementById("recordTableLoadingMessage").style.display = 'block'
-
-      query.find({
-        success: function(records) {
-          document.getElementById("recordTableLoadingMessage").style.display = 'none'
-          records.reverse().forEach(function (record) {
-            appendToList(record.get("date"),record.get('type'), record.get('price'))
-          })
-        },
-        error: function(records, error) {
-          page.setError(error)
-          url.toError()
-        }
+      document.getElementById("recordTableLoadingMessage").style.display = 'none'
+      records.reverse().forEach(function (record) {
+        appendToList(record.get("date"),record.get('type'), record.get('price'))
       })
     }
     changePage(statusMap.LIST, "歷史清單")
-    loadRecordList()
+    document.getElementById("recordTable").innerHTML = ""
+    document.getElementById("recordTableLoadingMessage").style.display = 'block'
+    db.getRecords(loadRecordList)
   }
   this.showOption = function() {
     changePage(statusMap.OPTION, "功能列")
@@ -353,24 +339,7 @@ function ActivityController() {
   }
 
   this.clickType = function(type) {
-    var Record = Parse.Object.extend("Record")
-    var record = new Record()
-    
-    record.set("price", display.value())
-    record.set('type', type)
-    record.set('date', new Date())
-    record.set('createdBy', Parse.User.current())
-    record.setACL(new Parse.ACL(Parse.User.current()))
-
-    record.save(null, {
-      success:function (record) {
-        display.setSuccess(record.get("type"), record.get("price"))
-      },
-      error:function (record, error) {
-        page.setError(error)
-        url.toError()
-      }
-    })
+    db.saveRecord(type)
     display.set("Sending...")
     window.history.back()
   }
@@ -445,6 +414,52 @@ function Drawer() {
     ctx.font = radius * 0.3 + "px arial";
     ctx.fillStyle = "black";
     ctx.fillText(formatter.format(sum), radius, radius);
+  }
+}
+
+function ParseController () {
+
+  var Record = Parse.Object.extend("Record")
+
+  this.saveRecord = function(type) {
+    
+    var record = new Record()
+    
+    record.set("price", display.value())
+    record.set('type', type)
+    record.set('date', new Date())
+    record.set('createdBy', Parse.User.current())
+    record.setACL(new Parse.ACL(Parse.User.current()))
+
+    record.save(null, {
+      success:function (record) {
+        display.setSuccess(record.get("type"), record.get("price"))
+      },
+      error:function (record, error) {
+        page.setError(error)
+        url.toError()
+      }
+    })
+  }
+  this.getRecords = function(callback) {
+
+    var query = new Parse.Query(Record)
+
+    query.descending('date')
+    query.limit(20)
+
+    return query.find({
+      success: function(records) {
+        callback(records)
+      },
+      error: function(records, error) {
+        page.setError(error)
+        url.toError()
+      }
+    })
+  }
+  this.getCategorySum = function(start, end) {
+    start = typeof start !== 'undefined' ? start : '123'
   }
 }
 
