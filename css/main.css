@@ -103,7 +103,7 @@ td:hover {
 }
 
 /* Login Page */
-input[type=text], input[type=password] {
+input {
   border: 1px solid #999;
   border-radius: 3px;
 }
@@ -124,6 +124,10 @@ button:hover {
   background-color: #f8f8f8;
   background-image: -webkit-linear-gradient(top, rgb(248, 248, 248), rgb(241, 241, 241));
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 1px 0px;;
+}
+
+input {
+  text-align: center;
 }
 
 input:focus, button:focus {
@@ -263,12 +267,12 @@ input:focus, button:focus {
     font-size: 6vh;
   }
 
-  #loginDiv > img {
+  #logInDiv > img {
     padding: 6vh 0;
     height: 25vh;
   }
 
-  #loginDiv > p {
+  #logInDiv > p {
     font-size: 4vw;
     padding: 3vw;
   }
@@ -277,7 +281,7 @@ input:focus, button:focus {
     font-size: 4vw;
   }
 
-  input[type=text], input[type=password] {
+  input {
     margin-bottom: 4vh;
     font-size: 5vw;
   }
@@ -381,12 +385,12 @@ input:focus, button:focus {
     font-size: 40px;
   }
 
-  #loginDiv > img {
+  #logInDiv > img {
     padding: 40px 0;
     height: 160px;
   }
 
-  #loginDiv > p {
+  #logInDiv > p {
     font-size: 18px;
     padding: 16px;
   }
@@ -395,7 +399,7 @@ input:focus, button:focus {
     font-size: 20px;
   }
 
-  input[type=text], input[type=password] {
+  input {
     margin-bottom: 20px;
     font-size: 22px;
   }

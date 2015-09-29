@@ -33,20 +33,12 @@ var act = new ActivityController()
 /* User Controller */
 function UserController() {
 
-  this.statusEnum = {
-    NOT_LOGIN: 0,
-    LOGINED: 1
-  }
-
-  var status = this.statusEnum.NOT_LOGIN
-
   this.checkStatus = function() {
+    var hash = window.location.hash.slice(1)
+
     if (Parse.User.current()) {
-      status = this.statusEnum.LOGINED
-      
-      var hash = window.location.hash.slice(1)
-      
       if (hash == 'price') page.showPrice()
+      else if (hash == 'signup') page.showSignUp()
       else if (hash == 'type') page.showType()
       else if (hash == 'option') page.showOption()
       else if (hash == 'setting') page.showSetting()
@@ -54,15 +46,16 @@ function UserController() {
       else page.showPrice()
       
     } else {
-      status = this.statusEnum.NOT_LOGIN
-      page.showLogIn()
+
+      if (hash == 'signup') page.showSignUp()
+      else page.showLogIn()
     }
   }
 
   this.logIn = function() {
-    var username = document.getElementById('username').value
-    var password = document.getElementById('password').value
-    var parent = this
+    var loginDiv = document.getElementById('logInDiv')
+    var username = loginDiv.querySelector('input[type=text]').value
+    var password = loginDiv.querySelector('input[type=password]').value
 
     Parse.User.logIn(username, password, {
       success: function(user) {
@@ -76,18 +69,19 @@ function UserController() {
 
   this.logOut = function() {
     Parse.User.logOut()
-    status = this.statusEnum.NOT_LOGIN
     url.toLogIn()
   }
 
   this.signUp = function() {
-    username = document.getElementById('username').value
-    password = document.getElementById('password').value
+    var signUpDiv = document.getElementById('signUpDiv')
+    var username = signUpDiv.querySelector('input[type=text]').value
+    var password = signUpDiv.querySelector('input[type=password]').value
+    var email = signUpDiv.querySelector('input[type=email]').value
 
     var user = new Parse.User()
     user.set('username', username)
     user.set('password', password)
-    user.set('email', username)
+    user.set('email', email)
 
     user.signUp(null, {
       success: function(user) {
@@ -123,8 +117,8 @@ function PageController() {
   var msgCode = document.getElementById('msgCode')
   var msgContent = document.getElementById('msgContent')
 
-  var pageLogIn = document.getElementById('loginDiv')
-  var pageSignUp = document.getElementById('signupDiv')
+  var pageLogIn = document.getElementById('logInDiv')
+  var pageSignUp = document.getElementById('signUpDiv')
   var pagePrice = document.getElementById('priceDiv')
   var pageType = document.getElementById('typeDiv')
   var pageList = document.getElementById('listDiv')
@@ -148,15 +142,14 @@ function PageController() {
   }
   this.showLogIn = function() {
     hideAll()
-    document.getElementById('signUpBtn').innerHTML = 'New User'
-    document.getElementById('signUpBtn').onclick = function(){transformLogInPage()}
-    document.getElementById('logInBtn').style.display = 'inline'
   
     pageLogIn.style.display = 'block'
     this.status = this.statusEnum.LOGIN
   }
   this.showSignUp = function() {
     hideAll()
+    setTitle("註冊新用戶")
+    titleBar.classList.add('show')
     pageSignUp.style.display = 'block'
     this.status = this.statusEnum.SIGNUP
   }
@@ -211,8 +204,8 @@ function Router () {
   this.toLogIn = function() {
     window.location = ''
   }
-  this.toError = function(error) {
-    window.location = '#error'
+  this.toSignUp = function() {
+    window.location = '#signup'
   }
   this.toPrice = function() {
     window.location = '#price'
@@ -361,14 +354,6 @@ function ActivityController() {
 
 /* Main Activity */
 
-function transformLogInPage() {// need to code better
-  document.getElementById('signUpBtn').innerHTML = 'Sign Up'
-  document.getElementById('signUpBtn').onclick = function() {
-    user.signUp()
-  }
-  document.getElementById('logInBtn').style.display = 'none'
-}
-
 function loadRecordList() {
   function appendToList(date, type, price) {
     
@@ -424,11 +409,11 @@ window.onload = function() {
   // check parse login status
   user.checkStatus()
 
-  document.getElementById('password').onkeydown = function(event) {
-    if (event.keyCode == 13) {
-      user.logIn()
-    }
-  }
+  // document.getElementById('password').onkeydown = function(event) {
+  //   if (event.keyCode == 13) {
+  //     user.logIn()
+  //   }
+  // }
 
   // show body after loaded
   document.body.style.display = 'block'
