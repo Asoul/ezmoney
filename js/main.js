@@ -103,80 +103,64 @@ function UserController() {
 /* Page Controller */
 function PageController() {
 
-  this.statusEnum = {
-    LOGIN: 0,
-    SIGNUP: 1,
-    ERRMSG: 2,
-    PRICE: 3,
-    TYPE: 4,
-    OPTION: 5,
-    LIST: 6,
-    SETTING: 7
+  statusMap = this.statusMap = {
+    LOGIN: 'logInDiv',
+    SIGNUP: 'signUpDiv',
+    MSG: 'msgDiv',
+    PRICE: 'priceDiv',
+    TYPE: 'typeDiv',
+    OPTION: 'optionDiv',
+    LIST: 'listDiv',
+    SETTING: 'settingDiv',
+    PIECHART: 'pieChartDiv'
   }
 
-  var status = this.statusEnum.LOGIN
+  this.status = statusMap.LOGIN
 
   var title = document.getElementById('title')
   var titleBar = document.getElementById('titleBar')
 
-  var pageMsg = document.getElementById('msgDiv')
   var msgCode = document.getElementById('msgCode')
   var msgContent = document.getElementById('msgContent')
 
-  var pageLogIn = document.getElementById('logInDiv')
-  var pageSignUp = document.getElementById('signUpDiv')
-  var pagePrice = document.getElementById('priceDiv')
-  var pageType = document.getElementById('typeDiv')
-  var pageList = document.getElementById('listDiv')
-  var pageOption = document.getElementById('optionDiv')
-  var pageSetting = document.getElementById('settingDiv')
+  var parent = this
 
-  var setTitle = function(string) {
-    title.innerHTML = string
-  }
-
-  var hideAll = function() {
+  var changePage = function(newStatus, newTitle) {
+    // Hide all Page
     titleBar.classList.remove('show')
-    pageLogIn.style.display = 'none'
-    pageSignUp.style.display = 'none'
-    pageMsg.style.display = 'none'
-    pagePrice.style.display = 'none'
-    pageType.style.display = 'none'
-    pageList.style.display = 'none'
-    pageOption.style.display = 'none'
-    pageSetting.style.display = 'none'
-  }
-  this.showLogIn = function() {
-    hideAll()
-  
-    pageLogIn.style.display = 'block'
-    this.status = this.statusEnum.LOGIN
-  }
-  this.showSignUp = function() {
-    hideAll()
-    setTitle("註冊新用戶")
-    titleBar.classList.add('show')
-    pageSignUp.style.display = 'block'
-    this.status = this.statusEnum.SIGNUP
+    for (key in statusMap) {
+      document.getElementById(statusMap[key]).style.display = 'none'
+    }
+
+    // Set title if needed
+    if (typeof newTitle !== 'undefined') {
+      title.innerHTML = newTitle
+      titleBar.classList.add('show')
+    }
+
+    // Show the page want to change
+    document.getElementById(newStatus).style.display = 'block'
+    parent.status = newStatus
   }
   this.setError = function(error) {
     msgCode.innerHTML = error.code
     msgContent.innerHTML = error.message
   }
+
+  this.showLogIn = function() {
+    changePage(statusMap.LOGIN)
+  }
+  this.showSignUp = function() {
+    changePage(statusMap.SIGNUP, "註冊新用戶")
+  }
   this.showError = function() {
-    hideAll()
-    pageMsg.style.display = 'block'
-    this.status = this.statusEnum.ERRMSG
+    changePage(statusMap.MSG)
   }
   this.showPrice = function() {
-    hideAll()
-    pagePrice.style.display = 'table'
-    this.status = this.statusEnum.PRICE
+    changePage(statusMap.PRICE)
   }
   this.showType = function() {
-    hideAll()
-    pageType.style.display = 'table'
-    this.status = this.statusEnum.TYPE
+    changePage(statusMap.TYPE)
   }
   this.showList = function() {
 
@@ -222,19 +206,11 @@ function PageController() {
         }
       })
     }
-    hideAll()
-    pageList.style.display = 'block'
-    setTitle("歷史清單")
-    titleBar.classList.add('show')
+    changePage(statusMap.LIST, "歷史清單")
     loadRecordList()
-    this.status = this.statusEnum.LIST
   }
   this.showOption = function() {
-    hideAll()
-    pageOption.style.display = 'table'
-    setTitle("功能列")
-    titleBar.classList.add('show')
-    this.status = this.statusEnum.OPTION
+    changePage(statusMap.OPTION, "功能列")
   }
   this.showSetting = function() {
     function loadSetting() {
@@ -243,12 +219,11 @@ function PageController() {
       document.getElementById("innerWidth").innerHTML = window.innerWidth
       document.getElementById("innerHeight").innerHTML = window.innerHeight
     }
-    hideAll()
-    pageSetting.style.display = 'block'
-    setTitle("設定")
-    titleBar.classList.add('show')
-    this.status = this.statusEnum.SETTING
+    changePage(statusMap.SETTING, "設定")
     loadSetting()
+  }
+  this.showPieChart = function() {
+    changePage(statusMap.PIECHART, "功能列")
   }
 }
 
@@ -280,7 +255,7 @@ function Router () {
   }
 }
 
-/* Display Handle */
+/* Display Handler */
 
 function Display (dom) {
   this.dom = dom
@@ -331,7 +306,7 @@ function ActivityController() {
 
     if (key == 8) event.preventDefault()
 
-    if (page.status == page.statusEnum.PRICE) {
+    if (page.status == page.statusMap.PRICE) {
       if (key >= 48 && key <= 57) {// number 0 ~ 9
         this.clickNumber(key-48)
       } else if (key == 27 || key == 67) {// ESC or c
@@ -343,23 +318,23 @@ function ActivityController() {
       } else if (key == 8) {// backspace
         display.backspace()
       }
-    } else if (page.status == page.statusEnum.TYPE) {
+    } else if (page.status == page.statusMap.TYPE) {
       if (key == 27 || key == 67) {// ESC or c
         url.toPrice()
       } else if (key == 8) {// backspace
         window.history.back()
       }
-    } else if (page.status == page.statusEnum.LIST) {
+    } else if (page.status == page.statusMap.LIST) {
       if (key == 27 || key == 67) {// ESC or c
         url.toOption()
       } else if (key == 8) {// backspace
         window.history.back()
       }
-    } else if (page.status == page.statusEnum.OPTION) {
+    } else if (page.status == page.statusMap.OPTION) {
       if (key == 8) {// backspace
         window.history.back()
       }
-    } else if (page.status == page.statusEnum.SETTING) {
+    } else if (page.status == page.statusMap.SETTING) {
       if (key == 8) {// backspace
         window.history.back()
       }
