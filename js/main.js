@@ -51,7 +51,7 @@ function UserController() {
       else if (hash == 'setting') page.showSetting()
       else if (hash == 'list') page.showList()
       else page.showPrice()
-
+      
     } else {
       status = this.statusEnum.NOT_LOGIN
       page.showLogIn()
@@ -261,7 +261,6 @@ function Display (dom) {
 function ActivityController() {
 
   this.pressKey = function (event) {
-    event.preventDefault()
     key = event.keyCode
 
     if (page.status == page.statusEnum.PRICE) {
@@ -280,20 +279,24 @@ function ActivityController() {
       if (key == 27 || key == 67) {// ESC or c
         page.showPrice()
       } else if (key == 8) {// backspace
+        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.LIST) {
       if (key == 27 || key == 67) {// ESC or c
-        page.showPrice()
+        page.showOption()
       } else if (key == 8) {// backspace
+        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.OPTION) {
       if (key == 8) {// backspace
+        event.preventDefault()
         window.history.back()
       }
     } else if (page.status == page.statusEnum.SETTING) {
       if (key == 8) {// backspace
+        event.preventDefault()
         window.history.back()
       }
     }
