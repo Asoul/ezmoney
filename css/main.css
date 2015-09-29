@@ -229,6 +229,9 @@ input:focus, button:focus {
     width: 30vw;
     border-radius: 1vw;
   }
+  #display {
+    font-size: 11vw;
+  }
   h3 {
     margin: 0;
     padding: 10vh 0;
@@ -319,6 +322,9 @@ input:focus, button:focus {
     height: 90px;
     width: 110px;
     border-radius: 5px;
+  }
+  #display {
+    font-size: 40px;
   }
   h3 {
     margin: 0;
