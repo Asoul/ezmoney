@@ -42,71 +42,81 @@
       <p id="version">Version: <span>1.0.1</span></p>
     </div>
 
-    <table id="priceTable">
-      <tr>
-        <td id="display" colspan="3" onclick="page.showOption()">0</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickNumber(1)">1</td>
-        <td onclick="act.clickNumber(2)">2</td>
-        <td onclick="act.clickNumber(3)">3</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickNumber(4)">4</td>
-        <td onclick="act.clickNumber(5)">5</td>
-        <td onclick="act.clickNumber(6)">6</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickNumber(7)">7</td>
-        <td onclick="act.clickNumber(8)">8</td>
-        <td onclick="act.clickNumber(9)">9</td>
-      </tr>
-      <tr>
-        <td id="logOutKey" onclick="display.erase()">C</td>
-        <td onclick="act.clickNumber(0)">0</td>
-        <td onclick="page.showType()">✈</td>
-      </tr>
-    </table>
-
-    <table id="typeTable">
-      <tr>
-        <td onclick="act.clickType('衣')">衣</td>
-        <td onclick="act.clickType('住')">住</td>
-        <td onclick="act.clickType('行')">行</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickType('育')">育</td>
-        <td onclick="act.clickType('食')" colspan="2" rowspan="2">食</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickType('樂')">樂</td>
-      </tr>
-      <tr>
-        <td onclick="act.clickType('醫')">醫</td>
-        <td onclick="act.clickType('其他')" colspan="2">其他</td>
-      </tr>
-      <tr>
-        <td colspan="3" onclick="window.history.back()">Cancel</td>
-      </tr>
-    </table>
-
-    <table id="optionTable">
-      <tr>
-        <td class="small-icon" id="lineChart" colspan="2"></td>
-        <td class="small-icon" id="setting" onclick="page.showSetting()"></td>
-      </tr>
-      <tr>
-        <td class="large-icon" id="pieChart" colspan="2" rowspan="2"></td>
-        <td class="small-icon" id="feedback"></td>
-      </tr>
-      <tr>
-        <td class="small-icon" id="showList" onclick="page.showList()"></td>
-      </tr>
-      <tr>
-        <td class="small-icon" id="logout" onclick="user.logOut()"></td>
-        <td colspan="2" onclick="window.history.back()">Cancel</td>
-      </tr>
-    </table>
+    <div id="signUpDiv">
+      
+    </div>
+    
+    <div id="priceDiv">
+      <table>
+        <tr>
+          <td id="display" colspan="3" onclick="page.showOption()">0</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickNumber(1)">1</td>
+          <td onclick="act.clickNumber(2)">2</td>
+          <td onclick="act.clickNumber(3)">3</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickNumber(4)">4</td>
+          <td onclick="act.clickNumber(5)">5</td>
+          <td onclick="act.clickNumber(6)">6</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickNumber(7)">7</td>
+          <td onclick="act.clickNumber(8)">8</td>
+          <td onclick="act.clickNumber(9)">9</td>
+        </tr>
+        <tr>
+          <td id="logOutKey" onclick="display.erase()">C</td>
+          <td onclick="act.clickNumber(0)">0</td>
+          <td onclick="page.showType()">✈</td>
+        </tr>
+      </table>  
+    </div>
+    
+    <div id="typeDiv">
+      <table>
+        <tr>
+          <td onclick="act.clickType('衣')">衣</td>
+          <td onclick="act.clickType('住')">住</td>
+          <td onclick="act.clickType('行')">行</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickType('育')">育</td>
+          <td onclick="act.clickType('食')" colspan="2" rowspan="2">食</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickType('樂')">樂</td>
+        </tr>
+        <tr>
+          <td onclick="act.clickType('醫')">醫</td>
+          <td onclick="act.clickType('其他')" colspan="2">其他</td>
+        </tr>
+        <tr>
+          <td colspan="3" onclick="window.history.back()">Cancel</td>
+        </tr>
+      </table>  
+    </div>
+    
+    <div id="optionDiv">
+      <table>
+        <tr>
+          <td class="small-icon" id="lineChart" colspan="2"></td>
+          <td class="small-icon" id="setting" onclick="page.showSetting()"></td>
+        </tr>
+        <tr>
+          <td class="large-icon" id="pieChart" colspan="2" rowspan="2"></td>
+          <td class="small-icon" id="feedback"></td>
+        </tr>
+        <tr>
+          <td class="small-icon" id="showList" onclick="page.showList()"></td>
+        </tr>
+        <tr>
+          <td class="small-icon" id="logout" onclick="user.logOut()"></td>
+          <td colspan="2" onclick="window.history.back()">Cancel</td>
+        </tr>
+      </table>  
+    </div>
 
     <div id="listDiv">
       <p id="recordTableLoadingMessage">Searching...</p>

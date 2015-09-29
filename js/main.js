@@ -126,10 +126,10 @@ function PageController() {
   var msgContent = document.getElementById('msgContent')
 
   var pageLogIn = document.getElementById('loginDiv')
-  var pagePrice = document.getElementById('priceTable')
-  var pageType = document.getElementById('typeTable')
+  var pagePrice = document.getElementById('priceDiv')
+  var pageType = document.getElementById('typeDiv')
   var pageList = document.getElementById('listDiv')
-  var pageOption = document.getElementById('optionTable')
+  var pageOption = document.getElementById('optionDiv')
   var pageSetting = document.getElementById('settingDiv')
 
   var setTitle = function(string) {
@@ -342,6 +342,28 @@ function transformLogInPage() {// need to code better
 }
 
 function loadRecordList() {
+  function appendToList(date, type, price) {
+    
+    function to2Digit(string) {
+      var s = String(string)
+      if (s.length < 2) {
+        return '0' + s
+      }
+      return s
+    }
+
+    var table = document.getElementById("recordTable")
+    var row = table.insertRow(0)
+    var cell1 = row.insertCell(-1)
+    var cell2 = row.insertCell(-1)
+    var cell3 = row.insertCell(-1)
+    var cell4 = row.insertCell(-1)
+
+    cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
+    cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+    cell3.innerHTML = type
+    cell4.innerHTML = price
+  }
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
   query.descending('date')
@@ -367,29 +389,6 @@ function loadSetting() {
   document.getElementById("screenHeight").innerHTML = window.screen.height
   document.getElementById("innerWidth").innerHTML = window.innerWidth
   document.getElementById("innerHeight").innerHTML = window.innerHeight
-}
-
-function appendToList(date, type, price) {
-  
-  function to2Digit(string) {
-    var s = String(string)
-    if (s.length < 2) {
-      return '0' + s
-    }
-    return s
-  }
-
-  var table = document.getElementById("recordTable")
-  var row = table.insertRow(0)
-  var cell1 = row.insertCell(-1)
-  var cell2 = row.insertCell(-1)
-  var cell3 = row.insertCell(-1)
-  var cell4 = row.insertCell(-1)
-
-  cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
-  cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
-  cell3.innerHTML = type
-  cell4.innerHTML = price
 }
 
 window.onload = function() {
