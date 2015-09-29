@@ -345,6 +345,7 @@ function loadRecordList() {
   var Record = Parse.Object.extend('Record')
   var query = new Parse.Query(Record)
   query.descending('date')
+  document.getElementById("recordTable").innerHTML = ""
   document.getElementById("recordTableLoadingMessage").style.display = 'block'
   query.find({
     success: function(records) {
@@ -392,7 +393,7 @@ function appendToList(date, type, price) {
 }
 
 window.onload = function() {
-  
+
   // check parse login status
   user.checkStatus()
 

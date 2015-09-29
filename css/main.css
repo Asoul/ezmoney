@@ -66,6 +66,7 @@ body {
 
 /* Table */
 table {
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -194,7 +195,7 @@ input:focus, button:focus {
 @media (min-width: 320px) and (max-width: 768px) {
   /* Mobile View */
   body {
-    font-size: 22px;
+    font-size: 3vh;
   }
   #wrapper {
     width: 100%;
@@ -202,76 +203,69 @@ input:focus, button:focus {
     margin: 0 auto;
   }
   #titleBar {
-    height: 60px;
+    height: 10vh;
   }
   #titleBar > p {
-    font-size: 30px;
-    line-height: 60px;
-    padding-left: 10px;
+    font-size: 5vh;
+    line-height: 10vh;
+    padding-left: 2.5vh;
   }
   #titleBar > p#left-arrow {
     font-size: 40px;
     left: 10px;
   }
   #listDiv {
-    height: calc(100% - 60px);
+    height: calc(100% - 10vh);
   }
   #msgDiv {
     padding: 0 10px;
   }
   table {
-    border-spacing: 9px;
+    border-spacing: 2vh;
   }
   td {
-    font-size: 45px;
-    height: 75px;
-    width: 90px;
-    border-radius: 3px;
+    font-size: 14vw;
+    height: 17vh;
+    width: 30vw;
+    border-radius: 1vw;
   }
   h3 {
     margin: 0;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    font-size: 35px;
+    padding: 10vh 0;
+    font-size: 6vh;
   }
   #loginDiv > img {
-    padding: 30px 0;
-    width: 140px;
+    padding: 6vh 0;
+    height: 25vh;
   }
   #loginDiv > p {
-    font-size: 16px;
-    padding: 12px;
+    font-size: 4vw;
+    padding: 3vw;
   }
   form {
-    font-size: 18px;
+    font-size: 4vw;
   }
   input[type=text], input[type=password] {
-    margin-bottom: 16px;
-    font-size: 18px;
+    margin-bottom: 4vh;
+    font-size: 5vw;
   }
   button {
-    font-size: 18px;
-    border-radius: 3px;
-    padding: 10px;
-    margin-top: 16px;
+    font-size: 4vh;
+    border-radius: 1vh;
+    padding: 2vh;
+    margin-top: 3vh;
   }
   #recordTable td {
-    font-size: 20px;
-    height: 35px;
+    font-size: 5vw;
+    height: 10vw;
   }
   .small-icon {
-    height: 80px;
-    width: 80px;
-    background-size: 50px;
+    background-size: 15vw;
   }
-
   .large-icon {
-    height: 190px;
-    width: 190px;
-    background-size: 125px;
+    background-size: 30vw;
   }
 }
-
 
 @media (min-width: 769px) {  
   /* PC view */
@@ -328,13 +322,12 @@ input:focus, button:focus {
   }
   h3 {
     margin: 0;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 50px 0;
     font-size: 40px;
   }
   #loginDiv > img {
     padding: 40px 0;
-    width: 160px;
+    height: 160px;
   }
   #loginDiv > p {
     font-size: 18px;
@@ -358,14 +351,10 @@ input:focus, button:focus {
     height: 50px;
   }
   .small-icon {
-    height: 100px;
-    width: 100px;
     background-size: 60px;
   }
 
   .large-icon {
-    height: 220px;
-    width: 220px;
     background-size: 140px;
   }
 }

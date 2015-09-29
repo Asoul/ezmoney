@@ -9,7 +9,7 @@
 - 可以插入註解
 - 可以刪除打錯的
 - sign up page
-- should responsice
+- table 外面應該要包 div
 
 ## Parse
 
