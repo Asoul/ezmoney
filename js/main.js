@@ -32,6 +32,7 @@ var act = new ActivityController()
 var drawer = new Drawer()
 var db = new ParseController()
 var formatter = new Formatter()
+var table = new TableGenerator()
 
 /* User Controller */
 /* control user login, logout status */
@@ -169,32 +170,8 @@ function PageController() {
     changePage(statusMap.TYPE)
   }
   this.showList = function() {
-
-    function loadRecordList(records) {
-
-      function appendToList(date, type, price) {
-
-        var table = document.getElementById("recordTable")
-        var row = table.insertRow(0)
-        var cell1 = row.insertCell(-1)
-        var cell2 = row.insertCell(-1)
-        var cell3 = row.insertCell(-1)
-        var cell4 = row.insertCell(-1)
-
-        cell1.innerHTML = formatter.formatMMDD(date)
-        cell2.innerHTML = formatter.formatHHMM(date)
-        cell3.innerHTML = type
-        cell4.innerHTML = price
-      }
-      document.getElementById("recordTableLoadingMessage").style.display = 'none'
-      records.reverse().forEach(function (record) {
-        appendToList(record.get("date"), record.get('type'), record.get('price'))
-      })
-    }
     changePage(statusMap.LIST, "歷史清單")
-    document.getElementById("recordTable").innerHTML = ""
-    document.getElementById("recordTableLoadingMessage").style.display = 'block'
-    db.getRecords(loadRecordList)
+    act.updateRecordList()
   }
   this.showOption = function() {
     changePage(statusMap.OPTION, "功能列")
@@ -344,20 +321,7 @@ function ActivityController() {
     end = typeof end !== 'undefined' ? end : new Date(2100, 1, 1)
 
     function dataLoaded (response) {
-      function appendToList(index, percent, type, price) {
-        
-        var table = document.getElementById("pieChartList")
-        var row = table.insertRow(-1)
-        var cell1 = row.insertCell(-1)
-        var cell2 = row.insertCell(-1)
-        var cell3 = row.insertCell(-1)
-        var cell4 = row.insertCell(-1)
-
-        cell1.innerHTML = index + '.'
-        cell2.innerHTML = Math.round(percent * 100) + '%'
-        cell3.innerHTML = type
-        cell4.innerHTML = formatter.formatPrice(price)
-      }
+      
       /* Sort by price */
       var sortedTypes = Object.keys(response.data).sort(function(a, b) {
         return response.data[b] - response.data[a]
@@ -373,7 +337,12 @@ function ActivityController() {
       document.getElementById("pieChartList").innerHTML = ''
 
       sortedTypes.forEach(function(type, index) {
-        appendToList(index + 1, response.data[type]/response.sum, type, response.data[type])
+        table.appendRow(document.getElementById("pieChartList"), [
+          index + 1 + '.',
+          (response.data[type]/response.sum * 100).toFixed(1) + '%',
+          type,
+          response.data[type]
+        ])
       })
 
     }
@@ -386,10 +355,10 @@ function ActivityController() {
   }
 
   this.updatePieChart = function(target, days) {
+    /* Set button active */
     if (typeof target === 'undefined') {
       target = document.querySelector('#pieChartDiv table td')
     }
-    /* Remove old active states */
     var tds = document.querySelector('#pieChartDiv table').querySelectorAll('td')
     
     ;[].forEach.call(tds, function(td){
@@ -407,6 +376,24 @@ function ActivityController() {
     /* Set td active */
 
     this.generatePieChartData(startDate, endDate)
+  }
+
+  this.updateRecordList = function() {
+    function dataLoaded(records) {
+      document.getElementById("recordTableLoadingMessage").style.display = 'none'
+
+      records.forEach(function (record) {
+        table.appendRow(document.getElementById("recordTable"), [
+          formatter.formatMMDD(record.get("date")),
+          formatter.formatHHMM(record.get("date")),
+          record.get('type'),
+          record.get('price')
+        ])
+      })
+    }
+    document.getElementById("recordTable").innerHTML = ""
+    document.getElementById("recordTableLoadingMessage").style.display = 'block'
+    db.getRecords(dataLoaded)
   }
 
   this.sendPrice = function() {
@@ -549,6 +536,16 @@ function Formatter () {
   }
   this.formatHHMM = function(date) {
     return to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+  }
+}
+
+function TableGenerator() {
+  this.appendRow = function(table, row) {
+    var tr = table.insertRow(-1)
+    row.forEach(function(data) {
+      var td = tr.insertCell(-1)
+      td.innerHTML = data
+    })
   }
 }
 
