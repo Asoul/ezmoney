@@ -31,6 +31,10 @@ var url = new Router()
 var act = new ActivityController()
 var drawer = new Drawer()
 var db = new ParseController()
+var formatter = new Intl.NumberFormat('zh-TW', {
+  style: 'currency',
+  currency: 'USD'
+})
 
 /* User Controller */
 /* control user login, logout status */
@@ -195,7 +199,7 @@ function PageController() {
       }
       document.getElementById("recordTableLoadingMessage").style.display = 'none'
       records.reverse().forEach(function (record) {
-        appendToList(record.get("date"),record.get('type'), record.get('price'))
+        appendToList(record.get("date"), record.get('type'), record.get('price'))
       })
     }
     changePage(statusMap.LIST, "歷史清單")
@@ -218,7 +222,7 @@ function PageController() {
   }
   this.showPieChart = function() {
     changePage(statusMap.PIECHART, "支出圓餅圖")
-    drawer.loadPieChart()
+    act.generatePieChartData()
   }
 }
 
@@ -302,6 +306,7 @@ function ActivityController() {
   this.pressKey = function (event) {
     key = event.keyCode
 
+    if (page.status == page.statusMap.LOGIN) return// use default action
     if (key == 8) event.preventDefault()
 
     if (page.status == page.statusMap.PRICE) {
@@ -343,6 +348,44 @@ function ActivityController() {
     display.set("Sending...")
     window.history.back()
   }
+
+  this.generatePieChartData = function(start, end) {
+    start = typeof start !== 'undefined' ? start : new Date(2000, 1, 1)
+    end = typeof end !== 'undefined' ? end : new Date(2100, 1, 1)
+
+    function dataLoaded (response) {
+      function appendToList(index, percent, type, price) {
+        
+        var table = document.getElementById("pieChartList")
+        var row = table.insertRow(-1)
+        var cell1 = row.insertCell(-1)
+        var cell2 = row.insertCell(-1)
+        var cell3 = row.insertCell(-1)
+        var cell4 = row.insertCell(-1)
+
+        cell1.innerHTML = index + '.'
+        cell2.innerHTML = Math.round(percent * 100) + '%'
+        cell3.innerHTML = type
+        cell4.innerHTML = formatter.format(price)
+      }
+      /* Sort by price */
+      var sortedTypes = Object.keys(response.data).sort(function(a, b) {
+        return response.data[b] - response.data[a]
+      })
+      var data = sortedTypes.map(function(type){
+        return response.data[type]
+      })
+
+      /* Draw PieChart and Update Table*/
+      drawer.loadPieChart(data)
+
+      sortedTypes.forEach(function(type, index) {
+        appendToList(index + 1, response.data[type]/response.sum, type, response.data[type])
+      })
+    }
+
+    db.getTypeSum(start, end, dataLoaded)
+  }
 }
 
 /* Canvas Drawer */
@@ -350,10 +393,6 @@ function Drawer() {
   var toRadians = function(degree) {
     return degree * Math.PI / 180
   }
-  var formatter = new Intl.NumberFormat('zh-TW', {
-    style: 'currency',
-    currency: 'USD'
-  })
   this.loadPieChart = function(data) {
 
     function drawSector(x, y, radius, startDegree, endDegree, color) {
@@ -373,8 +412,6 @@ function Drawer() {
       ctx.fillStyle = color
       ctx.fill()
     }
-    data = [100, 20, 30, 40, 50, 1000, 2000, 5000, 3000, 100000]
-    data = data.sort(function(a, b){return a - b}).reverse()
 
     DEFAULT_COLOR = [
       '#E34D4C',
@@ -398,7 +435,7 @@ function Drawer() {
     /* Draw Sectors */
 
     var sum = data.reduce(function(__, _){return __ + _})
-    var cumulativeRatio = Math.random() * 2 * Math.PI
+    var cumulativeRatio = -0.5 * Math.PI
     data.forEach(function(datum, index) {
       var ratio = (datum / sum) * (2 * Math.PI)
       drawSector(radius, radius, radius, cumulativeRatio, cumulativeRatio + ratio, DEFAULT_COLOR[index])
@@ -458,8 +495,13 @@ function ParseController () {
       }
     })
   }
-  this.getCategorySum = function(start, end) {
-    start = typeof start !== 'undefined' ? start : '123'
+  this.getTypeSum = function(start, end, callback) {
+    Parse.Cloud.run('getTypeSum', {
+      'start': start,
+      'end': end
+    }, function(response) {
+      callback(response)
+    })
   }
 }
 

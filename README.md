@@ -20,3 +20,12 @@
 
 - td 手機點下去應該要可以自動褪色，鍵盤輸入也要有顏色然後褪色
 - 自己做插圖
+
+## Bugs
+
+- 首頁按 backspace 會退到不知何處
+
+## Issues
+
+- Display 字太小，但是太大又會換行
+- add spining bar when loading
