@@ -211,7 +211,7 @@ function PageController() {
   }
   this.showPieChart = function() {
     changePage(statusMap.PIECHART, "支出圓餅圖")
-    act.generatePieChartData()
+    act.updatePieChart()
   }
 }
 
@@ -383,6 +383,17 @@ function ActivityController() {
 
     db.getTypeSum(start, end, dataLoaded)
   }
+
+  this.updatePieChart = function(days) {
+    days = typeof days !== 'undefined' ? days : 7
+
+    /* Get Time Span */
+    var endDate = new Date()
+    var startDate = new Date()
+    startDate.setDate(endDate.getDate() - days)
+
+    this.generatePieChartData(startDate, endDate)
+  }
 }
 
 /* Canvas Drawer */
@@ -431,7 +442,7 @@ function Drawer() {
 
     /* Draw Sectors */
 
-    var sum = data.reduce(function(__, _){return __ + _})
+    var sum = data.length > 0 ? data.reduce(function(__, _){return __ + _}) : 0
     var cumulativeRatio = -0.5 * Math.PI
     data.forEach(function(datum, index) {
       var ratio = (datum / sum) * (2 * Math.PI)
