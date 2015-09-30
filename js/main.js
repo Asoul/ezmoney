@@ -384,13 +384,24 @@ function ActivityController() {
     db.getTypeSum(start, end, dataLoaded)
   }
 
-  this.updatePieChart = function(days) {
+  this.updatePieChart = function(target, days) {
+    if (target) {
+      var tds = document.querySelector('#pieChartDiv table').querySelectorAll('td')
+      
+      ;[].forEach.call(tds, function(td){
+        td.classList.remove('active')
+      })
+      target.classList.add('active')
+    }
+    
     days = typeof days !== 'undefined' ? days : 7
 
     /* Get Time Span */
     var endDate = new Date()
     var startDate = new Date()
     startDate.setDate(endDate.getDate() - days)
+
+    /* Set td active */
 
     this.generatePieChartData(startDate, endDate)
   }
@@ -432,6 +443,7 @@ function Drawer() {
       '#6FC4F5',
       '#35A8A6'
     ]
+
     var canvas = document.querySelector('#pieChartDiv canvas')
     var ctx = canvas.getContext('2d')
     var radius = 250

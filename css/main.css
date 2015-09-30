@@ -224,6 +224,10 @@ input:focus, button:focus {
   border-spacing: 5px;
 }
 
+#pieChartDiv table td.active {
+  background-color: #4BEDF2;
+}
+
 /* Responsive Setting */
 
 @media (min-width: 320px) and (max-width: 768px) {
