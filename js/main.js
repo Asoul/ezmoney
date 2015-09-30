@@ -31,7 +31,7 @@ var url = new Router()
 var act = new ActivityController()
 var drawer = new Drawer()
 var db = new ParseController()
-var formatter = new CurrencyFormatter()
+var formatter = new Formatter()
 
 /* User Controller */
 /* control user login, logout status */
@@ -173,14 +173,6 @@ function PageController() {
     function loadRecordList(records) {
 
       function appendToList(date, type, price) {
-        
-        function to2Digit(string) {
-          var s = String(string)
-          if (s.length < 2) {
-            return '0' + s
-          }
-          return s
-        }
 
         var table = document.getElementById("recordTable")
         var row = table.insertRow(0)
@@ -189,8 +181,8 @@ function PageController() {
         var cell3 = row.insertCell(-1)
         var cell4 = row.insertCell(-1)
 
-        cell1.innerHTML = to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
-        cell2.innerHTML = to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+        cell1.innerHTML = formatter.formatMMDD(date)
+        cell2.innerHTML = formatter.formatHHMM(date)
         cell3.innerHTML = type
         cell4.innerHTML = price
       }
@@ -363,7 +355,7 @@ function ActivityController() {
         cell1.innerHTML = index + '.'
         cell2.innerHTML = Math.round(percent * 100) + '%'
         cell3.innerHTML = type
-        cell4.innerHTML = formatter.format(price)
+        cell4.innerHTML = formatter.formatPrice(price)
       }
       /* Sort by price */
       var sortedTypes = Object.keys(response.data).sort(function(a, b) {
@@ -373,13 +365,21 @@ function ActivityController() {
         return response.data[type]
       })
 
-      /* Draw PieChart and Update Table*/
+      /* Draw PieChart */
       drawer.loadPieChart(data)
+
+      /* Update Table*/
+      document.getElementById("pieChartList").innerHTML = ''
 
       sortedTypes.forEach(function(type, index) {
         appendToList(index + 1, response.data[type]/response.sum, type, response.data[type])
       })
+
     }
+    /* Set time period */
+    var timeSpans = document.querySelectorAll('#pieChartDiv h4 span')
+    timeSpans[0].innerHTML = formatter.formatYYYYMMDD(start)
+    timeSpans[1].innerHTML = formatter.formatYYYYMMDD(end)
 
     db.getTypeSum(start, end, dataLoaded)
   }
@@ -421,7 +421,7 @@ function Drawer() {
       '#6FC4F5',
       '#35A8A6'
     ]
-    var canvas = document.getElementById('pieChartDiv').getElementsByTagName('canvas')[0]
+    var canvas = document.querySelector('#pieChartDiv canvas')
     var ctx = canvas.getContext('2d')
     var radius = 250
 
@@ -447,7 +447,7 @@ function Drawer() {
     ctx.textAlign = "center";
     ctx.font = radius * 0.3 + "px arial";
     ctx.fillStyle = "black";
-    ctx.fillText(formatter.format(sum), radius, radius);
+    ctx.fillText(formatter.formatPrice(sum), radius, radius);
   }
 }
 
@@ -502,11 +502,23 @@ function ParseController () {
   }
 }
 
-function CurrencyFormatter () {
-  this.format = function(string) {
-    return "$" + string.toFixed(0).replace(/./g, function(c, i, a) {
-        return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+function Formatter () {
+  function to2Digit(number) {
+    return (number > 9) ? number : '0' + number
+  }
+  this.formatPrice = function(string) {
+    return "$" + string.toFixed(0).replace(/./g, function(character, index, string) {
+      return index > 0 && character !== "." && (string.length - index) % 3 === 0 ? "," + character : character;
     })
+  }
+  this.formatYYYYMMDD = function(date) {
+    return date.getFullYear() + '/' + to2Digit(date.getMonth()+1) + '/' + to2Digit(date.getDate())
+  }
+  this.formatMMDD = function(date) {
+    return to2Digit(date.getMonth()+1) +'/' + to2Digit(date.getDate())
+  }
+  this.formatHHMM = function(date) {
+    return to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
   }
 }
 
