@@ -31,10 +31,7 @@ var url = new Router()
 var act = new ActivityController()
 var drawer = new Drawer()
 var db = new ParseController()
-var formatter = new Intl.NumberFormat('zh-TW', {
-  style: 'currency',
-  currency: 'USD'
-})
+var formatter = new CurrencyFormatter()
 
 /* User Controller */
 /* control user login, logout status */
@@ -501,6 +498,14 @@ function ParseController () {
       'end': end
     }, function(response) {
       callback(response)
+    })
+  }
+}
+
+function CurrencyFormatter () {
+  this.format = function(string) {
+    return "$" + string.toFixed(0).replace(/./g, function(c, i, a) {
+        return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
     })
   }
 }
