@@ -250,41 +250,59 @@ function Router () {
 /* Display Handler */
 function Display (dom) {
   this.dom = dom
+  var parent = this
   
-  this.is = function (string) {
-    return this.dom.innerHTML === string
+  /* Display status */
+  var isSending = false
+  var isResult = false
+  var isZero = function() {
+    return parent.dom.innerHTML === '0'
   }
-  this.startsWith = function (string) {
-    return String(this.dom.innerHTML).startsWith(string)
+  this.canSend = function() {
+    return !isSending && !isResult && !isZero()
   }
 
+  /* Display value */
+  var length = function() {
+    return parent.dom.innerHTML.length
+  }
   this.value = function() {
     return parseInt(this.dom.innerHTML)
   }
-  this.getLength = function () {
-    return this.dom.innerHTML.length
+
+  /* Display Methods */
+  var set = function(string) {
+    parent.dom.innerHTML = string
   }
   
-  this.set = function (string) {
-    this.dom.innerHTML = string  
-  }
-  this.append = function (string) {
-    this.dom.innerHTML += string
+  this.add = function (number) {
+    if (isSending) return
+    else if (isResult || isZero()) {
+      set(number)
+      isResult = false
+    } else if (length() < 7) this.dom.innerHTML += number
   }
   this.backspace = function() {
-    if (this.is("0")) {
-      // do nothing
-    } else if (this.getLength() == 1) {
-      this.set('0')
-    } else {
-      this.set(this.dom.innerHTML.slice(0, -1))
-    }
-  }
-  this.setSuccess = function (type, price) {
-    this.dom.innerHTML = '✓ ' + type + ' ' + price
+    if (isSending || isZero()) return
+    else if (isResult || length == 1) {
+      this.erase()
+      isResult = false
+    } else set(this.dom.innerHTML.slice(0, -1))
   }
   this.erase = function () {
-    this.set("0")
+    if (isSending) return
+    set("0")
+    isResult = false
+  }
+  /* Display status methods */
+  this.setSending = function() {
+    set("Sending...")
+    isSending = true
+  }
+  this.setSuccess = function (type, price) {
+    set('✓ ' + type + ' ' + price)
+    isSending = false
+    isResult = true
   }
 }
 
@@ -300,11 +318,11 @@ function ActivityController() {
 
     if (page.status == page.statusMap.PRICE) {
       if (key >= 48 && key <= 57) {// number 0 ~ 9
-        this.clickNumber(key-48)
+        display.add(key-48)
       } else if (key == 27 || key == 67) {// ESC or c
         display.erase()
       } else if (key == 13) {// enter
-        url.toType()
+        act.sendPrice()
       } else if (key == 79) {// O
         url.toOption()
       } else if (key == 8) {// backspace
@@ -315,26 +333,9 @@ function ActivityController() {
     }
   }
 
-  this.clickNumber = function (number) {
-
-    if (display.startsWith('✓') || display.startsWith('✗')) {
-      display.set(number)
-    } else if (display.startsWith('Send')) {
-      // do nothing
-    } else if (display.getLength() < 7) {
-      if (display.is('0')) {
-        if (number !== 0) {
-          display.set(number)
-        }
-      } else {
-        display.append(number)
-      }
-    }
-  }
-
   this.clickType = function(type) {
     db.saveRecord(type)
-    display.set("Sending...")
+    display.setSending()
     window.history.back()
   }
 
@@ -404,6 +405,10 @@ function ActivityController() {
     /* Set td active */
 
     this.generatePieChartData(startDate, endDate)
+  }
+
+  this.sendPrice = function() {
+    if (display.canSend()) url.toType()
   }
 }
 
