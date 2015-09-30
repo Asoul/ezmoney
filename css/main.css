@@ -203,6 +203,27 @@ input:focus, button:focus {
   background-image: url("../img/list.png");
 }
 
+#wrapper > #pieChartDiv {
+  overflow-y: scroll;
+}
+
+#pieChartDiv h4 {
+  font-weight: 600;
+}
+
+#pieChartDiv hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  padding: 0;
+  margin: 5px 0;
+}
+
+#pieChartDiv table {
+  border-spacing: 5px;
+}
+
 /* Responsive Setting */
 
 @media (min-width: 320px) and (max-width: 768px) {
@@ -300,6 +321,27 @@ input:focus, button:focus {
 
   .large-icon {
     background-size: 30vw;
+  }
+  
+  #pieChartDiv h4 {
+    margin: 3vh 0;
+    font-size: 6vw;
+  }
+
+  #pieChartDiv p {
+    margin: 2vh 0;
+    font-size: 5vw;
+  }
+
+  #pieChartDiv table td {
+    font-size: 5vw;
+    height: 5vh;
+  }
+
+  #pieChartDiv canvas {
+    height: 60vw;
+    width: 60vw;
+    margin: 3vh;
   }
 }
 
@@ -415,39 +457,25 @@ input:focus, button:focus {
   .large-icon {
     background-size: 140px;
   }
-  #wrapper > #pieChartDiv {
-    overflow-y: scroll;
-  }
+
   #pieChartDiv h4 {
     margin: 15px 0;
     font-size: 30px;
-    font-weight: 600;
   }
+
   #pieChartDiv p {
     margin: 5px 0;
     font-size: 20px;
   }
-  #pieChartDiv hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 5px 0;
-    padding: 0; 
-  }
-  #pieChartDiv table {
-    border-spacing: 5px;
-  }
+
   #pieChartDiv table td {
     font-size: 22px;
     height: 40px;
   }
+
   #pieChartDiv canvas {
     height: 250px;
     width: 250px;
     margin: 15px 0;
-  }
-  #pieChartDiv table#pieChartList {
-    border-spacing: 5px;
   }
 }
