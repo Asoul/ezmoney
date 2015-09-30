@@ -386,14 +386,16 @@ function ActivityController() {
   }
 
   this.updatePieChart = function(target, days) {
-    if (target) {
-      var tds = document.querySelector('#pieChartDiv table').querySelectorAll('td')
-      
-      ;[].forEach.call(tds, function(td){
-        td.classList.remove('active')
-      })
-      target.classList.add('active')
+    if (typeof target === 'undefined') {
+      target = document.querySelector('#pieChartDiv table td')
     }
+    /* Remove old active states */
+    var tds = document.querySelector('#pieChartDiv table').querySelectorAll('td')
+    
+    ;[].forEach.call(tds, function(td){
+      td.classList.remove('active')
+    })
+    target.classList.add('active')
     
     days = typeof days !== 'undefined' ? days : 7
 
@@ -439,7 +441,7 @@ function Drawer() {
 
     DEFAULT_COLOR = [
       '#E34D4C',
-      '#E8EA4F',
+      '#DADE3A',
       '#9DCE3F',
       '#4292CA',
       '#BF66EA',
