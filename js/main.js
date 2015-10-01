@@ -320,38 +320,29 @@ function ActivityController() {
     start = typeof start !== 'undefined' ? start : new Date(2000, 1, 1)
     end = typeof end !== 'undefined' ? end : new Date(2100, 1, 1)
 
-    function dataLoaded (response) {
-      
-      /* Sort by price */
-      var sortedTypes = Object.keys(response.data).sort(function(a, b) {
-        return response.data[b] - response.data[a]
-      })
-      var data = sortedTypes.map(function(type){
-        return response.data[type]
-      })
-
-      /* Draw PieChart */
-      drawer.loadPieChart(data)
-
-      /* Update Table*/
-      document.getElementById("pieChartList").innerHTML = ''
-
-      sortedTypes.forEach(function(type, index) {
-        table.appendRow(document.getElementById("pieChartList"), [
-          index + 1 + '.',
-          (response.data[type]/response.sum * 100).toFixed(1) + '%',
-          type,
-          response.data[type]
-        ])
-      })
-
-    }
     /* Set time period */
     var timeSpans = document.querySelectorAll('#pieChartDiv h4 span')
     timeSpans[0].innerHTML = formatter.formatYYYYMMDD(start)
     timeSpans[1].innerHTML = formatter.formatYYYYMMDD(end)
 
-    db.getTypeSum(start, end, dataLoaded)
+    db.getTypeSum(start, end, function (response) {
+      /* Draw PieChart */
+      drawer.loadPieChart(response.data.map(function(datum){
+        return datum.price
+      }))
+
+      /* Update Table*/
+      document.getElementById("pieChartList").innerHTML = ''
+
+      response.data.forEach(function(data, index) {
+        table.appendRow(document.getElementById("pieChartList"), [
+          index + 1 + '.',
+          (data.price/response.sum * 100).toFixed(1) + '%',
+          data.type,
+          data.price
+        ])
+      })
+    })
   }
 
   this.updatePieChart = function(target, days) {
@@ -377,7 +368,9 @@ function ActivityController() {
   }
 
   this.updateRecordList = function() {
-    function dataLoaded(records) {
+    document.getElementById("recordTable").innerHTML = ""
+    document.getElementById("recordTableLoadingMessage").style.display = 'block'
+    db.getRecords(function (records) {
       document.getElementById("recordTableLoadingMessage").style.display = 'none'
 
       records.forEach(function (record) {
@@ -388,10 +381,7 @@ function ActivityController() {
           record.get('price')
         ])
       })
-    }
-    document.getElementById("recordTable").innerHTML = ""
-    document.getElementById("recordTableLoadingMessage").style.display = 'block'
-    db.getRecords(dataLoaded)
+    })
   }
 
   this.sendPrice = function() {
@@ -414,9 +404,6 @@ function Drawer() {
     '#35A8A6'
   ]
 
-  var toRadians = function(degree) {
-    return degree * Math.PI / 180
-  }
   this.loadPieChart = function(data) {
 
     function drawSector(x, y, radius, startDegree, endDegree, color) {
@@ -459,11 +446,11 @@ function Drawer() {
     drawSector(radius, radius, radius * 0.6, 0, 2 * Math.PI, 'white')
     
     /* Write Word at center */
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.font = radius * 0.3 + "px arial";
-    ctx.fillStyle = "black";
-    ctx.fillText(formatter.formatPrice(sum), radius, radius);
+    ctx.textBaseline = "middle"
+    ctx.textAlign = "center"
+    ctx.font = radius * 0.3 + "px arial"
+    ctx.fillStyle = "black"
+    ctx.fillText(formatter.formatPrice(sum), radius, radius)
   }
 }
 
@@ -524,7 +511,7 @@ function Formatter () {
   }
   this.formatPrice = function(string) {
     return "$" + string.toFixed(0).replace(/./g, function(character, index, string) {
-      return index > 0 && character !== "." && (string.length - index) % 3 === 0 ? "," + character : character;
+      return index > 0 && character !== "." && (string.length - index) % 3 === 0 ? "," + character : character
     })
   }
   this.formatYYYYMMDD = function(date) {

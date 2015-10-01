@@ -11,6 +11,7 @@
 - error code translation
 - 可以插入註解
 - 可以刪除打錯的
+- 可以自訂選擇日期
 
 ## Improvement
 
