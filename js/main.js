@@ -261,7 +261,7 @@ function Display (dom) {
   }
   this.backspace = function() {
     if (isSending || isZero()) return
-    else if (isResult || length == 1) {
+    else if (isResult || length() == 1) {
       this.erase()
       isResult = false
     } else set(this.dom.innerHTML.slice(0, -1))
