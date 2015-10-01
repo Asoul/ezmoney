@@ -373,8 +373,6 @@ function ActivityController() {
     var startDate = new Date()
     startDate.setDate(endDate.getDate() - days)
 
-    /* Set td active */
-
     this.generatePieChartData(startDate, endDate)
   }
 
@@ -403,6 +401,19 @@ function ActivityController() {
 
 /* Canvas Drawer */
 function Drawer() {
+
+  DEFAULT_COLOR = [
+    '#E34D4C',
+    '#DADE3A',
+    '#9DCE3F',
+    '#4292CA',
+    '#BF66EA',
+    '#D44985',
+    '#9997D3',
+    '#6FC4F5',
+    '#35A8A6'
+  ]
+
   var toRadians = function(degree) {
     return degree * Math.PI / 180
   }
@@ -425,18 +436,6 @@ function Drawer() {
       ctx.fillStyle = color
       ctx.fill()
     }
-
-    DEFAULT_COLOR = [
-      '#E34D4C',
-      '#DADE3A',
-      '#9DCE3F',
-      '#4292CA',
-      '#BF66EA',
-      '#D44985',
-      '#9997D3',
-      '#6FC4F5',
-      '#35A8A6'
-    ]
 
     var canvas = document.querySelector('#pieChartDiv canvas')
     var ctx = canvas.getContext('2d')

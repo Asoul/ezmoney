@@ -263,10 +263,6 @@ input:focus, button:focus {
     left: 10px;
   }
 
-  #listDiv {
-    height: calc(100% - 10vh);
-  }
-
   table {
     border-spacing: 2vh;
   }
@@ -373,6 +369,8 @@ input:focus, button:focus {
 
   #wrapper > div.no-head {
     height: calc(100% - 61px);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
   #titleBar {
@@ -394,12 +392,6 @@ input:focus, button:focus {
   #titleBar > p.left-arrow {
     font-size: 40px;
     left: 10px;
-  }
-
-  #listDiv {
-    height: 499px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
   }
 
   table {
