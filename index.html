@@ -112,19 +112,18 @@
     <div id="optionDiv" class="no-head">
       <table>
         <tr>
-          <td class="small-icon line-chart" colspan="2"></td>
-          <td class="small-icon setting" onclick="url.toSetting()"></td>
+          <td class="large-icon show-list" onclick="url.toList()" colspan="2" rowspan="2"></td>
+          <td class="small-icon line-chart"></td>
         </tr>
         <tr>
-          <td class="large-icon pie-chart" colspan="2" rowspan="2" onclick="url.toPieChart()"></td>
           <td class="small-icon feedback"></td>
         </tr>
         <tr>
-          <td class="small-icon show-list" onclick="url.toList()"></td>
+          <td class="small-icon setting" onclick="url.toSetting()"></td>
+          <td class="large-icon pie-chart" colspan="2" rowspan="2" onclick="url.toPieChart()"></td>
         </tr>
         <tr>
           <td class="small-icon logout" onclick="user.logOut()"></td>
-          <td colspan="2" onclick="window.history.back()">Cancel</td>
         </tr>
       </table>  
     </div>
