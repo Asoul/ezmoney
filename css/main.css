@@ -192,7 +192,7 @@ input:focus, button:focus {
 }
 
 .logout {
-  background-image: url("../img/logout.png");
+  background-image: url("../img/logout.svg");
 }
 
 .feedback {
@@ -200,7 +200,7 @@ input:focus, button:focus {
 }
 
 .show-list {
-  background-image: url("../img/list.png");
+  background-image: url("../img/list.svg");
 }
 
 #wrapper > #pieChartDiv {
