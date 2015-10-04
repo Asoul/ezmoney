@@ -205,6 +205,7 @@ function PageController() {
 function Router () {
   var level = 0
   this.toHome = function() {
+    level = 0
     window.location = '#price'
   }
   this.backHome = function() {
@@ -219,7 +220,7 @@ function Router () {
     window.location = '#signup'
   }
   this.toError = function() {
-    level = -1
+    level = 0
     window.location = '#error'
   }
   this.toPrice = function() {
