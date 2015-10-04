@@ -61,7 +61,7 @@
     <div id="priceDiv" class="full">
       <table class="large-table">
         <tr>
-          <td id="display" colspan="3" onclick="url.toOption()">0</td>
+          <td id="display" colspan="3" onclick="url.toOption()"><span></span><span>0</span></td>
         </tr>
         <tr>
           <td onclick="display.add(1)">1</td>
@@ -114,7 +114,7 @@
       <table class="large-table">
         <tr>
           <td class="large-icon icon-list" onclick="url.toList()" colspan="2" rowspan="2"></td>
-          <td class="small-icon icon-line-chart"></td>
+          <td class="small-icon icon-line-chart" onclick="url.toLineChart()"></td>
         </tr>
         <tr>
           <td class="small-icon icon-feedback"></td>
@@ -136,7 +136,7 @@
 
     <div id="pieChartDiv" class="no-head">
       <div>
-        <h4><span>2000/01/01</span> ~ <span>2015/09/29</span></h4>
+        <h4><span></span> ~ <span></span></h4>
         <hr />
         <table class="button-table">
           <tr>
@@ -151,6 +151,14 @@
         <hr />
         <table id="pieChartList" class="list-table small-table">
         </table>
+      </div>
+    </div>
+
+    <div id="lineChartDiv" class="no-head">
+      <div>
+        <table class="button-table">
+        </table>
+        <canvas></canvas>
       </div>
     </div>
     

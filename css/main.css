@@ -61,18 +61,9 @@ h4 {
 }
 
 #wrapper > div.show {
-  animation-name: pageShow;
+  animation-name: fadeIn;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
-}
-
-@keyframes pageShow {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .logo {
@@ -90,9 +81,8 @@ h4 {
   color: white;
   text-align: center;
   vertical-align: middle;
-  font-size: 2em;
-  padding-top: 0.5em;
-  padding-bottom: 0.4em;
+  padding-top: 1em;
+  padding-bottom: 0.8em;
 }
 
 #titleBar.show {
@@ -100,6 +90,7 @@ h4 {
 }
 
 #titleBar > p {
+  font-size: 2em;
   margin: 0;
   display: inline;
 }
@@ -163,11 +154,28 @@ td:hover {
   border-width: 1px;
   border-style: solid;
   border-color: #f0f0f0;
+
+  cursor: pointer;
 }
 
 #display:hover {
   background-image: none;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.13);
+}
+
+#display.show {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+}
+
+#display span:first-child {
+  position: absolute;
+  left: 1.2em;
+
+  font-size: 0.7em;
+  padding-top: 0.3em;
+  color: #00FF00;
 }
 
 /* Login Page */
@@ -337,7 +345,7 @@ input:focus, button:focus {
 
 /* Responsive Setting */
 
-@media (min-width: 320px) and (max-width: 768px) {
+@media (max-width: 768px) {
 
   /* Mobile View */
   #wrapper {
@@ -345,7 +353,7 @@ input:focus, button:focus {
     height: 100%;
     margin: 0 auto;
 
-    font-size: 2.3vh;
+    font-size: 3vh;
   }
 }
 
@@ -365,5 +373,16 @@ input:focus, button:focus {
     box-shadow: 0px 5px 60px #999999;
 
     font-size: 16px;
+  }
+}
+
+/* Keyframes */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

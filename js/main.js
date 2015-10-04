@@ -50,6 +50,7 @@ function UserController() {
       else if (hash == 'setting') page.showSetting()
       else if (hash == 'list') page.showList()
       else if (hash == 'piechart') page.showPieChart()
+      else if (hash == 'linechart') page.showLineChart()
       else page.showPrice()
       
     } else {
@@ -119,7 +120,8 @@ function PageController() {
     OPTION: 'optionDiv',
     LIST: 'listDiv',
     SETTING: 'settingDiv',
-    PIECHART: 'pieChartDiv'
+    PIECHART: 'pieChartDiv',
+    LINECHART: 'lineChartDiv'
   }
 
   this.status = statusMap.LOGIN
@@ -130,7 +132,7 @@ function PageController() {
   var msgCode = document.getElementById('msgCode')
   var msgContent = document.getElementById('msgContent')
 
-  var parent = this
+  var self = this
 
   var changePage = function(newStatus, newTitle) {
     // Hide all Page
@@ -149,7 +151,7 @@ function PageController() {
     // Show the page want to change
     document.getElementById(newStatus).style.display = 'block'
     document.getElementById(newStatus).classList.add('show')
-    parent.status = newStatus
+    self.status = newStatus
   }
   this.setError = function(error) {
     msgCode.innerHTML = error.code
@@ -191,6 +193,10 @@ function PageController() {
   this.showPieChart = function() {
     changePage(statusMap.PIECHART, "支出圓餅圖")
     act.updatePieChart()
+  }
+  this.showLineChart = function() {
+    changePage(statusMap.LINECHART, "支出變化圖")
+    act.updateLineChart() 
   }
 }
 
@@ -240,18 +246,25 @@ function Router () {
     level = 2
     window.location = '#piechart'
   }
+  this.toLineChart = function() {
+    level = 2
+    window.location = '#linechart' 
+  }
 }
 
 /* Display Handler */
 function Display (dom) {
+  var spans = dom.querySelectorAll("span")
   this.dom = dom
-  var parent = this
+  this.mark = spans[0]
+  this.string = spans[1]
+  var self = this
   
   /* Display status */
   var isSending = false
   var isResult = false
   var isZero = function() {
-    return parent.dom.innerHTML === '0'
+    return self.string.innerHTML === '0'
   }
   this.canSend = function() {
     return !isSending && !isResult && !isZero()
@@ -259,34 +272,41 @@ function Display (dom) {
 
   /* Display value */
   var length = function() {
-    return parent.dom.innerHTML.length
+    return self.string.innerHTML.length
   }
   this.value = function() {
-    return parseInt(this.dom.innerHTML)
+    return parseInt(this.string.innerHTML)
   }
 
   /* Display Methods */
   var set = function(string) {
-    parent.dom.innerHTML = string
+    self.string.innerHTML = string
   }
   
   this.add = function (number) {
+    console.log(number, isSending, isResult, isZero())
     if (isSending) return
     else if (isResult || isZero()) {
       set(number)
+      this.mark.classList.remove('icon-checkmark')
+      this.dom.classList.remove('show')
       isResult = false
-    } else if (length() < 7) this.dom.innerHTML += number
+    } else if (length() < 7) this.string.innerHTML += number
   }
   this.backspace = function() {
     if (isSending || isZero()) return
     else if (isResult || length() == 1) {
       this.erase()
+      this.mark.classList.remove('icon-checkmark')
+      this.dom.classList.remove('show')
       isResult = false
-    } else set(this.dom.innerHTML.slice(0, -1))
+    } else set(this.string.innerHTML.slice(0, -1))
   }
   this.erase = function () {
     if (isSending) return
     set("0")
+    this.mark.classList.remove('icon-checkmark')
+    this.dom.classList.remove('show')
     isResult = false
   }
   /* Display status methods */
@@ -295,7 +315,9 @@ function Display (dom) {
     isSending = true
   }
   this.setSuccess = function (type, price) {
-    set('✓ ' + type + ' ' + price)
+    this.mark.classList.add('icon-checkmark')
+    this.dom.classList.add('show')
+    set(type + ' ' + price)
     isSending = false
     isResult = true
   }
@@ -385,6 +407,10 @@ function ActivityController() {
     this.generatePieChartData(startDate, endDate)
   }
 
+  this.updateLineChart = function() {
+    drawer.loadLineChart()
+  }
+
   this.updateRecordList = function() {
     document.getElementById("recordTable").innerHTML = ""
     document.getElementById("recordTableLoadingMessage").style.display = 'block'
@@ -469,6 +495,10 @@ function Drawer() {
     ctx.font = radius * 0.3 + "px arial"
     ctx.fillStyle = "black"
     ctx.fillText(formatter.formatPrice(sum), radius, radius)
+  }
+
+  this.loadLineChart = function() {
+
   }
 }
 
@@ -555,7 +585,7 @@ function TableGenerator() {
 
 window.onload = function() {
   // check parse login status
-  if (window.location.toString().startsWith(document.referrer) && document.referrer) {
+  if (document.referrer && window.location.toString().startsWith(document.referrer)) {
     user.checkStatus()  
   } else {
     url.toHome()
