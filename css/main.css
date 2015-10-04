@@ -69,6 +69,7 @@ h4 {
 .logo {
   padding: 5% 0;
   height: 35%;
+  width: auto;
 }
 
 /* Title Bar */
