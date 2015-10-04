@@ -205,7 +205,7 @@ function PageController() {
 function Router () {
   var level = 0
   this.toHome = function() {
-    window.location = '#'
+    window.location = '#price'
   }
   this.backHome = function() {
     if (level == 0) {

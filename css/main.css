@@ -73,6 +73,7 @@ h4 {
 
 /* Title Bar */
 #titleBar {
+  position: relative;
   width: 100%;
   display: none;
 
