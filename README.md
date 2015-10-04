@@ -15,6 +15,7 @@
 - 可以快速顯示近幾筆的紀錄
 - 要可以快速回到首頁
 - 可以左右滑動
+- use em to unify css
 
 ## Improvement
 
