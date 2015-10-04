@@ -60,6 +60,21 @@ h4 {
   height: calc(100% - 4em - 2px);
 }
 
+#wrapper > div.show {
+  animation-name: pageShow;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pageShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .logo {
   padding: 5% 0;
   height: 35%;
@@ -82,17 +97,6 @@ h4 {
 
 #titleBar.show {
   display: block;
-  animation-name: titleBarShow;
-  animation-duration: 0.5s;
-}
-
-@keyframes titleBarShow {
-  from {
-    background-color: white;
-  }
-  to {
-    background-color: #24d3d9;
-  }
 }
 
 #titleBar > p {

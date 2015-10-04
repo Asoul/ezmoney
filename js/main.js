@@ -137,6 +137,7 @@ function PageController() {
     titleBar.classList.remove('show')
     for (key in statusMap) {
       document.getElementById(statusMap[key]).style.display = 'none'
+      document.getElementById(statusMap[key]).classList.remove('show')
     }
 
     // Set title if needed
@@ -147,6 +148,7 @@ function PageController() {
 
     // Show the page want to change
     document.getElementById(newStatus).style.display = 'block'
+    document.getElementById(newStatus).classList.add('show')
     parent.status = newStatus
   }
   this.setError = function(error) {
