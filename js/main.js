@@ -286,7 +286,6 @@ function Display (dom) {
   }
   
   this.add = function (number) {
-    console.log(number, isSending, isResult, isZero())
     if (isSending) return
     else if (isResult || isZero()) {
       set(number)
