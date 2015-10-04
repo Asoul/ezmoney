@@ -197,11 +197,11 @@ function PageController() {
 function Router () {
   var level = 0
   this.toHome = function() {
-    window.location = ''
+    window.location = '#'
   }
   this.backHome = function() {
     if (level == 0) {
-      window.location = ''   
+      this.toHome()
     } else {
       window.history.go(-level)
     }
@@ -553,7 +553,11 @@ function TableGenerator() {
 
 window.onload = function() {
   // check parse login status
-  user.checkStatus()
+  if (window.location.toString().startsWith(document.referrer) && document.referrer) {
+    user.checkStatus()  
+  } else {
+    url.toHome()
+  }
 
   // show body after loaded
   document.body.style.display = 'block'
