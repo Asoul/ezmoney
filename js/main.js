@@ -57,7 +57,8 @@ function UserController() {
 
       if (hash == 'signup') page.showSignUp()
       else if (hash == 'error') page.showError()
-      else page.showLogIn()
+      else if (hash == '') page.showLogIn()
+      else url.toHome()
     }
   }
 
@@ -206,7 +207,7 @@ function Router () {
   var level = 0
   this.toHome = function() {
     level = 0
-    window.location = '#price'
+    window.location = '#'
   }
   this.backHome = function() {
     if (level == 0) {
@@ -586,11 +587,7 @@ function TableGenerator() {
 
 window.onload = function() {
   // check parse login status
-  if (document.referrer && window.location.toString().startsWith(document.referrer)) {
-    user.checkStatus()  
-  } else {
-    url.toHome()
-  }
+  user.checkStatus()
 
   // show body after loaded
   document.body.style.display = 'block'
