@@ -73,14 +73,12 @@ h4 {
 
 /* Title Bar */
 #titleBar {
-  position: relative;
   width: 100%;
   display: none;
 
   background-color: #24d3d9;
   color: white;
   text-align: center;
-  vertical-align: middle;
   padding-top: 1em;
   padding-bottom: 0.8em;
 }
@@ -97,6 +95,8 @@ h4 {
 
 #titleBar > .icon {
   position: absolute;
+  font-size: 1.8em;
+  padding-top: 0.1em;
   cursor: pointer;
 }
 
