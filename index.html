@@ -18,8 +18,9 @@
   <div id="wrapper">
     
     <div id="titleBar">
-      <p class="left-arrow" onclick="window.history.back()">⬅</p>
+      <p class="titlebar-float-left icon icon-arrow-left" onclick="window.history.back()"></p>
       <p id="title"></p>
+      <p class="titlebar-float-right icon icon-home" onclick="url.toHome()"></p>
     </div>
 
     <div id="msgDiv" class="full">
@@ -78,9 +79,9 @@
           <td onclick="display.add(9)">9</td>
         </tr>
         <tr>
-          <td onclick="display.erase()">C</td>
+          <td class="small-icon icon-cross" onclick="display.erase()"></td>
           <td onclick="display.add(0)">0</td>
-          <td onclick="act.sendPrice()">✈</td>
+          <td class="small-icon icon-checkmark" onclick="act.sendPrice()"></td>
         </tr>
       </table>  
     </div>
@@ -112,18 +113,18 @@
     <div id="optionDiv" class="no-head">
       <table>
         <tr>
-          <td class="large-icon show-list" onclick="url.toList()" colspan="2" rowspan="2"></td>
-          <td class="small-icon line-chart"></td>
+          <td class="large-icon icon-list" onclick="url.toList()" colspan="2" rowspan="2"></td>
+          <td class="small-icon icon-line-chart"></td>
         </tr>
         <tr>
-          <td class="small-icon feedback"></td>
+          <td class="small-icon icon-feedback"></td>
         </tr>
         <tr>
-          <td class="small-icon setting" onclick="url.toSetting()"></td>
-          <td class="large-icon pie-chart" colspan="2" rowspan="2" onclick="url.toPieChart()"></td>
+          <td class="small-icon icon-setting" onclick="url.toSetting()"></td>
+          <td class="large-icon icon-pie-chart" colspan="2" rowspan="2" onclick="url.toPieChart()"></td>
         </tr>
         <tr>
-          <td class="small-icon logout" onclick="user.logOut()"></td>
+          <td class="small-icon icon-exit" onclick="user.logOut()"></td>
         </tr>
       </table>  
     </div>
