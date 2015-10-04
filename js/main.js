@@ -195,31 +195,47 @@ function PageController() {
 /* Router */
 /* route for window location */
 function Router () {
+  var level = 0
   this.toHome = function() {
     window.location = ''
   }
+  this.backHome = function() {
+    if (level == 0) {
+      window.location = ''   
+    } else {
+      window.history.go(-level)
+    }
+  }
   this.toSignUp = function() {
+    level = 1
     window.location = '#signup'
   }
   this.toError = function() {
+    level = -1
     window.location = '#error'
   }
   this.toPrice = function() {
+    level = 1
     window.location = '#price'
   }
   this.toType = function() {
+    level = 2
     window.location = '#type' 
   }
   this.toList = function() {
+    level = 2
     window.location = '#list'
   }
   this.toOption = function() {
+    level = 1
     window.location = '#option'
   }
   this.toSetting = function() {
+    level = 2
     window.location = '#setting'
   }
   this.toPieChart = function() {
+    level = 2
     window.location = '#piechart'
   }
 }

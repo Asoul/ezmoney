@@ -20,18 +20,18 @@
     <div id="titleBar">
       <p class="titlebar-float-left icon icon-arrow-left" onclick="window.history.back()"></p>
       <p id="title"></p>
-      <p class="titlebar-float-right icon icon-home" onclick="url.toHome()"></p>
+      <p class="titlebar-float-right icon icon-home" onclick="url.backHome()"></p>
     </div>
 
     <div id="msgDiv" class="full">
-      <h3>Error Q_Q</h3>
+      <h1>Error Q_Q</h1>
       <p>錯誤代碼： <span id="msgCode">?___?</span></p>
       <p id="msgContent">你好奇怪喔</p>
       <button onclick="url.toHome()">OK</button>
     </div>
 
     <div id="logInDiv" class="full">
-      <img src="img/logo.png" alt="EZMoney">
+      <img class="logo" src="img/logo.png" alt="EZMoney">
       <form onsubmit="user.logIn(event)">
         Username<br />
         <input type="text"><br />
@@ -45,7 +45,7 @@
     </div>
 
     <div id="signUpDiv" class="no-head">
-      <h4>只要簡單註冊，即可開始使用。</h4>
+      <h3>只要簡單註冊，即可開始使用。</h3>
       <form onsubmit="user.signUp(event)">
         Username<br />
         <input type="text"><br />
@@ -59,7 +59,7 @@
     </div>
     
     <div id="priceDiv" class="full">
-      <table>
+      <table class="large-table">
         <tr>
           <td id="display" colspan="3" onclick="url.toOption()">0</td>
         </tr>
@@ -87,7 +87,7 @@
     </div>
     
     <div id="typeDiv" class="full">
-      <table>
+      <table class="large-table">
         <tr>
           <td onclick="act.clickType('衣')">衣</td>
           <td onclick="act.clickType('住')">住</td>
@@ -111,7 +111,7 @@
     </div>
     
     <div id="optionDiv" class="no-head">
-      <table>
+      <table class="large-table">
         <tr>
           <td class="large-icon icon-list" onclick="url.toList()" colspan="2" rowspan="2"></td>
           <td class="small-icon icon-line-chart"></td>
@@ -131,14 +131,14 @@
 
     <div id="listDiv" class="no-head">
       <p id="recordTableLoadingMessage">Searching...</p>
-      <table id="recordTable" class="list-table"></table>
+      <table id="recordTable" class="list-table small-table"></table>
     </div>
 
     <div id="pieChartDiv" class="no-head">
       <div>
         <h4><span>2000/01/01</span> ~ <span>2015/09/29</span></h4>
         <hr />
-        <table>
+        <table class="button-table">
           <tr>
             <td onclick="act.updatePieChart(this, 7)">一週</td>
             <td onclick="act.updatePieChart(this, 30)">一個月</td>
@@ -149,7 +149,7 @@
         <hr />
         <canvas></canvas>
         <hr />
-        <table id="pieChartList" class="list-table">
+        <table id="pieChartList" class="list-table small-table">
         </table>
       </div>
     </div>

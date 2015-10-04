@@ -5,30 +5,6 @@
   font-style: normal;
 }
 
-
-/* icons */
-[class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.small-icon {
-  font-size: 2em;
-}
-
-.large-icon {
-  font-size: 4em;
-}
-
 body, html {
   height: 100%;
   width: 100%;
@@ -52,8 +28,24 @@ body {
   overflow: scroll;
 }
 
+h1 {
+  font-size: 2.5em;
+  margin: 1.5em 0;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.5em;
+  margin: 0.5em 0;
+  font-weight: bold;
+}
+
 #wrapper {
   background-color: #ffffff;
+  overflow: hidden;
 }
 
 #wrapper > div {
@@ -64,15 +56,28 @@ body {
   height: 100%;
 }
 
+#wrapper > div.no-head {
+  height: calc(100% - 4em - 2px);
+}
+
+.logo {
+  padding: 5% 0;
+  height: 35%;
+}
+
 /* Title Bar */
 #titleBar {
   position: relative;
   width: 100%;
+  display: none;
+
   background-color: #24d3d9;
   color: white;
-  text-align: left;
-  display: none;
   text-align: center;
+  vertical-align: middle;
+  font-size: 2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.4em;
 }
 
 #titleBar.show {
@@ -101,11 +106,11 @@ body {
 }
 
 #titleBar > .titlebar-float-left {
-  left: 1vw;
+  left: 10%;
 }
 
 #titleBar > .titlebar-float-right {
-  right: 2vw;
+  right: 10%;
 }
 
 /* Table */
@@ -113,6 +118,29 @@ table {
   width: 100%;
   height: 100%;
   margin: 0 auto;
+
+  border-spacing: 0.3em;
+}
+
+table.large-table {
+  font-size: 3em;
+}
+
+table.large-table td {
+  width: 33%;
+}
+
+table.small-table {
+  font-size: 1.5em;
+  line-height: 2em;
+}
+
+table.button-table {
+  font-size: 1.5em;
+}
+
+table.button-table td {
+  padding: 0.3em;
 }
 
 td {
@@ -138,10 +166,6 @@ td:hover {
 }
 
 /* Login Page */
-input {
-  border: 1px solid #999;
-  border-radius: 3px;
-}
 
 button {
   background-color:#f2f2f2;
@@ -153,6 +177,12 @@ button {
   font-weight:bold;
 }
 
+button {
+  margin-top: 1em;
+  font-size: 1.5em;
+  padding: 0.5em;
+}
+
 button:hover {
   color: black;
   border-color: #c6c6c6;
@@ -162,6 +192,12 @@ button:hover {
 }
 
 input {
+  margin-bottom: 1em;
+}
+
+input {
+  border: 1px solid #999;
+  font-size: 1.5em;
   text-align: center;
 }
 
@@ -170,7 +206,6 @@ input:focus, button:focus {
 }
 
 #version {
-  font-size: 12px;
   color: #333333;
 }
 
@@ -184,7 +219,7 @@ input:focus, button:focus {
 }
 
 .list-table {
-  border-collapse:collapse;
+  border-collapse: collapse;
 }
 
 .list-table tr:nth-child(odd) {
@@ -196,7 +231,6 @@ input:focus, button:focus {
 }
 
 .list-table td {
-  border-radius: 0;
   background-color: transparent;
   border: none;
 }
@@ -207,6 +241,33 @@ input:focus, button:focus {
 }
 
 /* Option Table */
+
+/* icons */
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.small-icon {
+  font-size: 0.9em;
+}
+
+#priceDiv .small-icon {
+  font-size: 0.7em;
+}
+
+.large-icon {
+  font-size: 2em;
+}
 
 .icon-home:before {
   content: "\e600";
@@ -246,10 +307,6 @@ input:focus, button:focus {
   overflow-y: scroll;
 }
 
-#pieChartDiv h4 {
-  font-weight: 600;
-}
-
 #pieChartDiv hr {
   display: block;
   height: 1px;
@@ -257,6 +314,12 @@ input:focus, button:focus {
   border-top: 1px solid #ccc;
   padding: 0;
   margin: 5px 0;
+}
+
+#pieChartDiv canvas {
+  height: 60%;
+  width: 60%;
+  margin: 4% 0;
 }
 
 #pieChartDiv table {
@@ -272,219 +335,26 @@ input:focus, button:focus {
 @media (min-width: 320px) and (max-width: 768px) {
 
   /* Mobile View */
-
-  body {
-    font-size: 3vh;
-  }
-
   #wrapper {
     width: 100%;
     height: 100%;
     margin: 0 auto;
-  }
-
-  #wrapper > div.no-head {
-    height: calc(100% - 10vh);
-  }
-
-  #titleBar {
-    height: 10vh;
-  }
-
-  #titleBar > p {
-    font-size: 5vh;
-    line-height: 10vh;
-    padding-left: 2.5vh;
-  }
-
-  table {
-    border-spacing: 2vh;
-  }
-
-  td {
-    font-size: 14vw;
-    height: 17vh;
-    width: 30vw;
-    border-radius: 1vw;
-  }
-
-  #display {
-    font-size: 12vw;
-  }
-
-  h3 {
-    margin: 0;
-    padding: 10vh 0;
-    font-size: 6vh;
-  }
-
-  #logInDiv > img {
-    padding: 6vh 0;
-    height: 25vh;
-  }
-
-  #logInDiv > p {
-    font-size: 4vw;
-    padding: 3vw;
-  }
-
-  form {
-    font-size: 4vw;
-  }
-
-  input {
-    margin-bottom: 4vh;
-    font-size: 5vw;
-  }
-
-  button {
-    font-size: 4vh;
-    border-radius: 1vh;
-    padding: 2vh;
-    margin-top: 3vh;
-  }
-
-  #recordTable td {
-    font-size: 5vw;
-    height: 10vw;
-  }
-  
-  #pieChartDiv h4 {
-    margin: 3vh 0;
-    font-size: 6vw;
-  }
-
-  #pieChartDiv p {
-    margin: 2vh 0;
-    font-size: 5vw;
-  }
-
-  #pieChartDiv table td {
-    font-size: 5vw;
-    height: 5vh;
-  }
-
-  #pieChartDiv canvas {
-    height: 60vw;
-    width: 60vw;
-    margin: 3vh;
   }
 }
 
 @media (min-width: 769px) {  
 
   /* PC view */
-
-  body {
-    font-size: 25px;
-  }
-
   #wrapper {
     width: 400px;
     height: 560px;
     margin: 20px auto;
 
-    border-radius: 5px;
     border-style: solid;
     border-width: 1px;
     border-top-width: 0;
     border-color: #B4B4B4;
 
     box-shadow: 0px 5px 60px #999999;
-  }
-
-  #wrapper > div.no-head {
-    height: calc(100% - 61px);
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-
-  #titleBar {
-    height: 60px;
-    border-style: solid;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-width: 0;
-    border-top-width: 1px;
-    border-color: #20BEC3;
-  }
-
-  #titleBar > p {
-    font-size: 30px;
-    line-height: 60px;
-    padding-left: 10px;
-  }
-
-  table {
-    border-spacing: 15px;
-  }
-
-  td {
-    font-size: 55px;
-    height: 90px;
-    width: 110px;
-    border-radius: 5px;
-  }
-
-  #display {
-    font-size: 50px;
-  }
-
-  h3 {
-    margin: 0;
-    padding: 50px 0;
-    font-size: 40px;
-  }
-
-  #logInDiv > img {
-    padding: 40px 0;
-    height: 160px;
-  }
-
-  #logInDiv > p {
-    font-size: 18px;
-    padding: 16px;
-  }
-
-  form {
-    font-size: 20px;
-  }
-
-  input {
-    margin-bottom: 20px;
-    font-size: 22px;
-  }
-
-  button {
-    font-size: 20px;
-    border-radius: 5px;
-    padding: 13px;
-    margin-top: 18px;
-  }
-
-  #recordTable td {
-    font-size: 25px;
-    height: 50px;
-  }
-
-  #pieChartDiv h4 {
-    margin: 15px 0;
-    font-size: 30px;
-  }
-
-  #pieChartDiv p {
-    margin: 5px 0;
-    font-size: 20px;
-  }
-
-  #pieChartDiv table td {
-    font-size: 22px;
-    height: 40px;
-  }
-
-  #pieChartDiv canvas {
-    height: 250px;
-    width: 250px;
-    margin: 15px 0;
   }
 }
