@@ -42,7 +42,7 @@ function UserController() {
     var hash = window.location.hash.slice(1)
 
     if (Parse.User.current()) {
-      if (hash == 'price') page.showPrice()
+      if (hash == '') page.showPrice()
       else if (hash == 'signup') page.showSignUp()
       else if (hash == 'error') page.showError()
       else if (hash == 'type') page.showType()
@@ -70,7 +70,7 @@ function UserController() {
 
     Parse.User.logIn(username, password, {
       success: function(user) {
-        url.toPrice()
+        url.toHome()
       },
       error: function(user, error) {
         page.setError(error)
@@ -98,7 +98,7 @@ function UserController() {
 
     user.signUp(null, {
       success: function(user) {
-        url.toPrice()
+        url.toHome()
       },
       error: function(user, error) {
         page.setError(error)
@@ -223,10 +223,6 @@ function Router () {
   this.toError = function() {
     level = 0
     window.location = '#error'
-  }
-  this.toPrice = function() {
-    level = 1
-    window.location = '#price'
   }
   this.toType = function() {
     level = 2

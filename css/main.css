@@ -152,6 +152,7 @@ td:hover {
 }
 
 #display {
+  position: relative;
   background-color: white;
   border-width: 1px;
   border-style: solid;
@@ -173,7 +174,7 @@ td:hover {
 
 #display span:first-child {
   position: absolute;
-  left: 1.2em;
+  left: 0.7em;
 
   font-size: 0.7em;
   padding-top: 0.3em;
