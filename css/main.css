@@ -346,6 +346,12 @@ input:focus, button:focus {
   background-color: #C6EABE;
 }
 
+#lineChartDiv canvas {
+  height: 60%;
+  width: 60%;
+  margin: 4% 0;
+}
+
 /* Responsive Setting */
 
 @media (max-width: 768px) {

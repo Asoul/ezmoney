@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+"use strict"
+
 Parse.initialize("xsnQLFaIBlCIfCYe9VY0Xtk3dXHaTccX8a7Eo9Ot", "AvveAFmdsVc3Il5ttxI8eKDf8P898LncIGjvHRMW")
 
 var display = new Display(document.getElementById("display"))
@@ -42,7 +44,7 @@ function UserController() {
     var hash = window.location.hash.slice(1)
 
     if (Parse.User.current()) {
-      if (hash == '') page.showPrice()
+      if (hash == 'price') page.showPrice()
       else if (hash == 'signup') page.showSignUp()
       else if (hash == 'error') page.showError()
       else if (hash == 'type') page.showType()
@@ -70,7 +72,7 @@ function UserController() {
 
     Parse.User.logIn(username, password, {
       success: function(user) {
-        url.toHome()
+        url.toPrice()
       },
       error: function(user, error) {
         page.setError(error)
@@ -98,7 +100,7 @@ function UserController() {
 
     user.signUp(null, {
       success: function(user) {
-        url.toHome()
+        url.toPrice()
       },
       error: function(user, error) {
         page.setError(error)
@@ -112,7 +114,7 @@ function UserController() {
 /* Change the page based on state */
 function PageController() {
 
-  statusMap = this.statusMap = {
+  var statusMap = this.statusMap = {
     LOGIN: 'logInDiv',
     SIGNUP: 'signUpDiv',
     MSG: 'msgDiv',
@@ -138,7 +140,7 @@ function PageController() {
   var changePage = function(newStatus, newTitle) {
     // Hide all Page
     titleBar.classList.remove('show')
-    for (key in statusMap) {
+    for (var key in statusMap) {
       document.getElementById(statusMap[key]).style.display = 'none'
       document.getElementById(statusMap[key]).classList.remove('show')
     }
@@ -215,6 +217,10 @@ function Router () {
     } else {
       window.history.go(-level)
     }
+  }
+  this.toPrice = function() {
+    level = 0
+    window.location = '#price'
   }
   this.toSignUp = function() {
     level = 1
@@ -325,7 +331,7 @@ function Display (dom) {
 function ActivityController() {
 
   this.pressKey = function (event) {
-    key = event.keyCode
+    var key = event.keyCode
 
     if (page.status == page.statusMap.LOGIN) return// use default action
     if (key == 8) event.preventDefault()
@@ -433,7 +439,7 @@ function ActivityController() {
 /* Canvas Drawer */
 function Drawer() {
 
-  DEFAULT_COLOR = [
+  var DEFAULT_COLOR = [
     '#E34D4C',
     '#DADE3A',
     '#9DCE3F',
@@ -496,6 +502,56 @@ function Drawer() {
 
   this.loadLineChart = function() {
 
+    var data = [10, 15, 30, 23, 10, 30, 24, 50, 18, 23, 34, 12, 14]
+
+    function drawLine(oldX, oldY, newX, newY) {
+      console.log(oldX, oldY, newX, newY)
+      // Create Path
+      ctx.beginPath()
+      ctx.moveTo(oldX, oldY)
+      ctx.lineTo(newX, newY)
+      ctx.closePath()
+
+      // ctx.lineWidth = '10'
+      // ctx.strokeStyle = '#ff0000'
+      ctx.stroke()
+    }
+
+    function drawDot(x, y) {
+      // Create Path
+      ctx.beginPath()
+      ctx.moveTo(x, y)
+      ctx.arc(x, y, 10, 0, 2 * Math.PI)
+      ctx.closePath()      
+    }
+
+    var canvas = document.querySelector('#lineChartDiv canvas')
+    var ctx = canvas.getContext('2d')
+    var height = 500
+    var width = 500
+
+    /* High Resolution Setting */
+    canvas.width = width
+    canvas.height = height
+
+    canvas.style.width = width / 2
+    canvas.style.height = height / 2
+    
+    /* Draw Lines */
+    var maxY = Math.max.apply(null, data)
+    var minY = Math.min.apply(null, data)
+    var stepX = width / data.length
+    var lastY = data[0]
+    data.slice(1).forEach(function(y, index) {
+      var oldX = stepX * index
+      var oldY = (1 - (lastY  - minY) / (maxY - minY)) * height
+      var newX = stepX * (index + 1)
+      var newY = (1 - (y  - minY) / (maxY - minY)) * height
+
+      drawLine(oldX, oldY, newX, newY)
+      drawDot(newX, newY)
+      lastY = y
+    })
   }
 }
 
