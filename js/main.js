@@ -523,7 +523,7 @@ function Drawer() {
       ctx.lineTo(newX, newY)
       ctx.closePath()
 
-      ctx.lineWidth = '1'
+      ctx.lineWidth = '2'
       ctx.strokeStyle = color
       ctx.stroke()
     }
@@ -549,6 +549,14 @@ function Drawer() {
       ctx.fill()
     }
 
+    function addText(x, y, text) {
+      ctx.textBaseline = "top"
+      ctx.textAlign = "center"
+      ctx.font = "30px arial"
+      ctx.fillStyle = "black"
+      ctx.fillText(text, x, y)
+    }
+
     function drawSeries(data, color) {
 
     }
@@ -557,17 +565,17 @@ function Drawer() {
     var ctx = canvas.getContext('2d')
 
     var condenseRatio = 9 // how many dots width per height
-    
-    var height = 600
+
+    var height = 500
     var width = data.length * (height / condenseRatio)
 
     /* High Resolution Setting */
-    canvas.height = height
+    canvas.height = height + 200
     canvas.width = width
     canvas.style.height = '100%'
     canvas.style.width = data.length * (100 / condenseRatio - 2) + '%'
 
-    var margin = 20
+    var margin = 40
     var stepX = height / condenseRatio // width between dots
 
     /* Get Positions */
@@ -580,6 +588,11 @@ function Drawer() {
       }
     })
 
+    /* Draw Reference Lines */
+    pos.forEach(function(p) {
+      drawLine(p.x, 0, p.x, height, "#DDDDDD")
+    })
+
     /* Draw Lines */
     for (var i = 1; i < pos.length; i++) {
       drawLine(pos[i - 1].x, pos[i - 1].y, pos[i].x, pos[i].y, "black")
@@ -590,7 +603,12 @@ function Drawer() {
       drawDot(p.x, p.y, "blue")
     })
     
-
+    /* Add Text */
+    var lineHeight = margin * 0.85
+    pos.forEach(function(p, index) {
+      addText(p.x, height, index+1)
+      addText(p.x, height + lineHeight, "日")
+    })
 
   }
 }

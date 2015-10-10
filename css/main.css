@@ -323,7 +323,7 @@ input:focus, button:focus {
   overflow-y: scroll;
 }
 
-#pieChartDiv hr {
+hr {
   display: block;
   height: 1px;
   border: 0;
@@ -335,7 +335,7 @@ input:focus, button:focus {
 #pieChartDiv canvas {
   height: 60%;
   width: 60%;
-  margin: 0 auto;
+  margin: 6% auto;
 }
 
 #pieChartDiv table {
@@ -348,8 +348,8 @@ input:focus, button:focus {
 
 #lineChartContainer {
   height: 60%;
-  width: 90%;
-  margin: 0 auto; 
+  width: 96%;
+  margin: 6% auto; 
 }
 
 #lineChartDiv canvas {
