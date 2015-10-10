@@ -451,6 +451,10 @@ function Drawer() {
     '#35A8A6'
   ]
 
+  var randomColor = function() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16)
+  }
+
   this.loadPieChart = function(data) {
 
     function drawSector(x, y, radius, startDegree, endDegree, color) {
@@ -463,7 +467,7 @@ function Drawer() {
 
       // if not given color, use random color
       if (typeof color === 'undefined') {
-        color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+        color = randomColor()
       }
 
       // Fill Space
@@ -502,9 +506,16 @@ function Drawer() {
 
   this.loadLineChart = function() {
 
-    var data = [10, 15, 30, 23, 10, 30, 24, 50, 18, 23, 34, 12, 14]
+    var data = [10, 15, 30, 23, 10, 30, 24, 50, 10, 15, 30, 23, 10, 30, 24, 50]
+    var data2 = [20, 30, 40, 10, 20, 30, 10]
 
-    function drawLine(oldX, oldY, newX, newY) {
+    function drawLine(oldX, oldY, newX, newY, color) {
+
+      // if not given color, use random color
+      if (typeof color === 'undefined') {
+        color = randomColor()
+      }
+
       console.log(oldX, oldY, newX, newY)
       // Create Path
       ctx.beginPath()
@@ -512,46 +523,75 @@ function Drawer() {
       ctx.lineTo(newX, newY)
       ctx.closePath()
 
-      // ctx.lineWidth = '10'
-      // ctx.strokeStyle = '#ff0000'
+      ctx.lineWidth = '1'
+      ctx.strokeStyle = color
       ctx.stroke()
     }
 
-    function drawDot(x, y) {
-      // Create Path
+    function drawDot(x, y, color) {
+
+      // if not given color, use random color
+      if (typeof color === 'undefined') {
+        color = randomColor()
+      }
+
+      // Draw Border
       ctx.beginPath()
       ctx.moveTo(x, y)
       ctx.arc(x, y, 10, 0, 2 * Math.PI)
-      ctx.closePath()      
+      ctx.closePath()
+
+      ctx.lineWidth = '4'
+      ctx.strokeStyle = color
+      ctx.stroke()
+
+      ctx.fillStyle = "#FFFFFF"
+      ctx.fill()
+    }
+
+    function drawSeries(data, color) {
+
     }
 
     var canvas = document.querySelector('#lineChartDiv canvas')
     var ctx = canvas.getContext('2d')
-    var height = 500
-    var width = 500
+
+    var condenseRatio = 9 // how many dots width per height
+    
+    var height = 600
+    var width = data.length * (height / condenseRatio)
 
     /* High Resolution Setting */
-    canvas.width = width
     canvas.height = height
+    canvas.width = width
+    canvas.style.height = '100%'
+    canvas.style.width = data.length * (100 / condenseRatio - 2) + '%'
 
-    canvas.style.width = width / 2
-    canvas.style.height = height / 2
-    
-    /* Draw Lines */
+    var margin = 20
+    var stepX = height / condenseRatio // width between dots
+
+    /* Get Positions */
     var maxY = Math.max.apply(null, data)
-    var minY = Math.min.apply(null, data)
-    var stepX = width / data.length
-    var lastY = data[0]
-    data.slice(1).forEach(function(y, index) {
-      var oldX = stepX * index
-      var oldY = (1 - (lastY  - minY) / (maxY - minY)) * height
-      var newX = stepX * (index + 1)
-      var newY = (1 - (y  - minY) / (maxY - minY)) * height
-
-      drawLine(oldX, oldY, newX, newY)
-      drawDot(newX, newY)
-      lastY = y
+    
+    var pos = data.map(function(d, index) {
+      return {
+        'x': Math.round(stepX * index) + margin,
+        'y': Math.round((1 - d / maxY) * height) + margin
+      }
     })
+
+    /* Draw Lines */
+    for (var i = 1; i < pos.length; i++) {
+      drawLine(pos[i - 1].x, pos[i - 1].y, pos[i].x, pos[i].y, "black")
+    }
+
+    /* Draw Points */
+    pos.forEach(function(p) {
+      drawDot(p.x, p.y, "blue")
+    })
+    
+
+
   }
 }
 

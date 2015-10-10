@@ -335,7 +335,7 @@ input:focus, button:focus {
 #pieChartDiv canvas {
   height: 60%;
   width: 60%;
-  margin: 4% 0;
+  margin: 0 auto;
 }
 
 #pieChartDiv table {
@@ -346,10 +346,19 @@ input:focus, button:focus {
   background-color: #C6EABE;
 }
 
-#lineChartDiv canvas {
+#lineChartContainer {
   height: 60%;
-  width: 60%;
-  margin: 4% 0;
+  width: 90%;
+  margin: 0 auto; 
+}
+
+#lineChartDiv canvas {
+  margin: 0 auto;
+}
+
+#lineChartContainer {
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 /* Responsive Setting */
