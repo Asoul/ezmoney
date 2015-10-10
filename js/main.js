@@ -566,16 +566,16 @@ function Drawer() {
 
     var condenseRatio = 9 // how many dots width per height
 
-    var height = 500
-    var width = data.length * (height / condenseRatio)
+    var margin = 30
+    var height = 500 + 2 * margin
+    var width = (data.length - 1) * (height / condenseRatio) + 2 * margin
 
     /* High Resolution Setting */
     canvas.height = height + 200
     canvas.width = width
     canvas.style.height = '100%'
     canvas.style.width = data.length * (100 / condenseRatio - 2) + '%'
-
-    var margin = 40
+    
     var stepX = height / condenseRatio // width between dots
 
     /* Get Positions */
@@ -604,10 +604,10 @@ function Drawer() {
     })
     
     /* Add Text */
-    var lineHeight = margin * 0.85
+    var lineHeight = margin * 1.3
     pos.forEach(function(p, index) {
-      addText(p.x, height, index+1)
-      addText(p.x, height + lineHeight, "日")
+      addText(p.x, height + margin * 0.5, '九')
+      addText(p.x, height + margin * 0.5 + lineHeight, index+1)
     })
 
   }
