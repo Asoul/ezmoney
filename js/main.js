@@ -359,7 +359,7 @@ function ActivityController() {
     window.history.back()
   }
 
-  this.generatePieChartData = function(start, end) {
+  this.generatePieChart = function(start, end) {
     start = typeof start !== 'undefined' ? start : new Date(2000, 1, 1)
     end = typeof end !== 'undefined' ? end : new Date(2100, 1, 1)
 
@@ -407,11 +407,13 @@ function ActivityController() {
     var startDate = new Date()
     startDate.setDate(endDate.getDate() - days)
 
-    this.generatePieChartData(startDate, endDate)
+    this.generatePieChart(startDate, endDate)
   }
 
   this.updateLineChart = function() {
-    drawer.loadLineChart()
+    db.getDailySum(function(records) {
+      drawer.loadLineChart(records.data)
+    })
   }
 
   this.updateRecordList = function() {
@@ -504,10 +506,14 @@ function Drawer() {
     ctx.fillText(formatter.formatPrice(sum), radius, radius)
   }
 
-  this.loadLineChart = function() {
+  this.loadLineChart = function(records) {
 
-    var data = [10, 15, 30, 23, 10, 30, 24, 50, 10, 15, 30, 23, 10, 30, 24, 50]
-    var data2 = [20, 30, 40, 10, 20, 30, 10]
+    var data = records.map(function(record) {
+      return record.price
+    })
+    var dates = records.map(function(record) {
+      return record.time
+    })
 
     function drawLine(oldX, oldY, newX, newY, color) {
 
@@ -516,7 +522,6 @@ function Drawer() {
         color = randomColor()
       }
 
-      console.log(oldX, oldY, newX, newY)
       // Create Path
       ctx.beginPath()
       ctx.moveTo(oldX, oldY)
@@ -557,10 +562,6 @@ function Drawer() {
       ctx.fillText(text, x, y)
     }
 
-    function drawSeries(data, color) {
-
-    }
-
     var canvas = document.querySelector('#lineChartDiv canvas')
     var ctx = canvas.getContext('2d')
 
@@ -582,15 +583,18 @@ function Drawer() {
     var maxY = Math.max.apply(null, data)
     
     var pos = data.map(function(d, index) {
+      var date = new Date(dates[index])
       return {
         'x': Math.round(stepX * index) + margin,
-        'y': Math.round((1 - d / maxY) * height) + margin
+        'y': Math.round((1 - d / maxY) * height) + margin,
+        'month': date.getMonth() + 1,
+        'day': date.getDate()
       }
     })
 
     /* Draw Reference Lines */
     pos.forEach(function(p) {
-      drawLine(p.x, 0, p.x, height, "#DDDDDD")
+      drawLine(p.x, 0, p.x, height + 2 * margin, "#DDDDDD")
     })
 
     /* Draw Lines */
@@ -606,8 +610,8 @@ function Drawer() {
     /* Add Text */
     var lineHeight = margin * 1.3
     pos.forEach(function(p, index) {
-      addText(p.x, height + margin * 0.5, '九')
-      addText(p.x, height + margin * 0.5 + lineHeight, index+1)
+      addText(p.x, height + margin * 2, formatter.formatMonthName(p.month))
+      addText(p.x, height + margin * 2 + lineHeight, p.day)
     })
 
   }
@@ -662,6 +666,14 @@ function ParseController () {
       callback(response)
     })
   }
+  this.getDailySum = function(callback) {
+    Parse.Cloud.run('getDailySum', {
+      // the start of day timestamp fot this time zome
+      'timeStamp': new Date(Math.floor(new Date()/86400000) * 86400000 + (new Date()).getTimezoneOffset() * 60 * 1000)
+    }, function(response) {
+      callback(response)
+    }) 
+  }
 }
 
 function Formatter () {
@@ -681,6 +693,12 @@ function Formatter () {
   }
   this.formatHHMM = function(date) {
     return to2Digit(date.getHours()) + ':' + to2Digit(date.getMinutes())
+  }
+  this.formatMonthName = function(number) {
+    var chineseMonthMapping = [
+      0, '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '子', '丑'
+    ]
+    return chineseMonthMapping[number]
   }
 }
 
