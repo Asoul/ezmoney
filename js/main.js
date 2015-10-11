@@ -696,7 +696,7 @@ function Formatter () {
   }
   this.formatMonthName = function(number) {
     var chineseMonthMapping = [
-      0, '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '子', '丑'
+      0, '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '葭', '臘'
     ]
     return chineseMonthMapping[number]
   }
