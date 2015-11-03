@@ -18,7 +18,7 @@
   <div id="wrapper">
     
     <div id="titleBar">
-      <p class="titlebar-float-left icon icon-arrow-left" onclick="window.history.back()"></p>
+      <p class="titlebar-float-left icon icon-arrow-left" onclick="url.goBack()"></p>
       <p id="title"></p>
       <p class="titlebar-float-right icon icon-home" onclick="url.backHome()"></p>
     </div>
@@ -27,7 +27,7 @@
       <h1>Error Q_Q</h1>
       <p>錯誤代碼： <span id="msgCode">?___?</span></p>
       <p id="msgContent">你好奇怪喔</p>
-      <button onclick="url.toHome()">OK</button>
+      <button onclick="act.closeMsgPage()">OK</button>
     </div>
 
     <div id="logInDiv" class="full">

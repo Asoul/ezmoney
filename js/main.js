@@ -207,9 +207,15 @@ function PageController() {
 /* route for window location */
 function Router () {
   var level = 0
-  this.toHome = function() {
-    level = 0
-    window.location = '#'
+  
+  this.goBack = function() {
+    var hash = window.location.hash
+    
+    if (hash in ['#list', '#setting', '#piechart', '#linechart']) {
+      this.toOption()
+    } else if (hash == '#option') {
+      this.toHome()
+    }
   }
   this.backHome = function() {
     if (level == 0) {
@@ -217,6 +223,10 @@ function Router () {
     } else {
       window.history.go(-level)
     }
+  }
+  this.toHome = function() {
+    level = 0
+    window.location = '#'
   }
   this.toPrice = function() {
     level = 0
@@ -306,11 +316,11 @@ function Display (dom) {
     } else set(this.string.innerHTML.slice(0, -1))
   }
   this.erase = function () {
-    if (isSending) return
     set("0")
     this.mark.classList.remove('icon-checkmark')
     this.dom.classList.remove('show')
     isResult = false
+    isSending = false
   }
   /* Display status methods */
   this.setSending = function() {
@@ -318,11 +328,13 @@ function Display (dom) {
     isSending = true
   }
   this.setSuccess = function (type, price) {
-    this.mark.classList.add('icon-checkmark')
-    this.dom.classList.add('show')
-    set(type + ' ' + price)
-    isSending = false
-    isResult = true
+    if (isSending) {
+      this.mark.classList.add('icon-checkmark')
+      this.dom.classList.add('show')
+      set(type + ' ' + price)
+      isSending = false
+      isResult = true  
+    }
   }
 }
 
@@ -435,6 +447,15 @@ function ActivityController() {
 
   this.sendPrice = function() {
     if (display.canSend()) url.toType()
+  }
+
+  this.closeMsgPage = function() {
+    url.toHome()
+    display.erase()
+  }
+
+  this.goBack = function() {
+    window.history.back()
   }
 }
 
