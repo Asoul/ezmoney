@@ -206,62 +206,46 @@ function PageController() {
 /* Router */
 /* route for window location */
 function Router () {
-  var level = 0
   
   this.goBack = function() {
     var hash = window.location.hash
-    
-    if (hash in ['#list', '#setting', '#piechart', '#linechart']) {
+    if (['#list', '#setting', '#piechart', '#linechart'].indexOf(hash) > -1) {
       this.toOption()
     } else if (hash == '#option') {
       this.toHome()
     }
   }
   this.backHome = function() {
-    if (level == 0) {
-      this.toHome()
-    } else {
-      window.history.go(-level)
-    }
+    this.toHome()
   }
   this.toHome = function() {
-    level = 0
     window.location = '#'
   }
   this.toPrice = function() {
-    level = 0
     window.location = '#price'
   }
   this.toSignUp = function() {
-    level = 1
     window.location = '#signup'
   }
   this.toError = function() {
-    level = 0
     window.location = '#error'
   }
   this.toType = function() {
-    level = 2
     window.location = '#type' 
   }
   this.toList = function() {
-    level = 2
     window.location = '#list'
   }
   this.toOption = function() {
-    level = 1
     window.location = '#option'
   }
   this.toSetting = function() {
-    level = 2
     window.location = '#setting'
   }
   this.toPieChart = function() {
-    level = 2
     window.location = '#piechart'
   }
   this.toLineChart = function() {
-    level = 2
     window.location = '#linechart' 
   }
 }
