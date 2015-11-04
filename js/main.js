@@ -463,17 +463,16 @@ function ActivityController() {
 function Drawer() {
 
   var DEFAULT_COLOR = [
-    '#E34D4C',
-    '#DADE3A',
-    '#9DCE3F',
-    '#4292CA',
-    '#BF66EA',
-    '#D44985',
-    '#9997D3',
-    '#6FC4F5',
-    '#35A8A6'
+    'rgb(227, 77, 76)',
+    'rgb(218, 224, 32)',
+    'rgb(157, 206, 63)',
+    'rgb(66, 146, 152)',
+    'rgb(153, 151, 211)',
+    'rgb(111, 196, 245)',
+    'rgb(131, 215, 250)',
+    'rgb(201, 231, 253)',
+    'rgb(246, 255, 255)',
   ]
-
   var randomColor = function() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
   }
